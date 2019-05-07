@@ -1,0 +1,170 @@
+﻿@model EcheancierDotNet.Models.Supplier
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Supplier</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.SAPAccountNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SAPAccountNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Invoices)
+        </dt>
+        <dd>
+            <table class="table" id="invoicesTable">
+                <tr>
+                    <th>Invoice Reference</th>
+                    <th>Due Date</th>
+                    <th>Amount</th>
+                </tr>
+                @foreach (var item in Model.Invoices)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DocumentReference)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DueDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DueAmount)
+                        </td>
+                    </tr>
+                }
+            </table>
+        </dd>
+
+        <dt>
+            Total Due invoices
+        </dt>
+
+        <dd>
+            <span id="val"></span>
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SAPMainAccountNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SAPMainAccountNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Bank)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Bank)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BankCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BankCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Guichet)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Guichet)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AccountNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AccountNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BankKey)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BankKey)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BankAddress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BankAddress)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BIC)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BIC)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IBAN)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IBAN)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BankCountry)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BankCountry)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PaymentDelay)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PaymentDelay)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+
+<script>
+
+    var table = document.getElementById("invoicesTable"), sumVal = 0;
+
+    for (var i = 1; i < table.rows.length; i++) {
+        sumVal = sumVal + parseInt(table.rows[i].cells[2].innerHTML);
+    }
+
+    document.getElementById("val").innerHTML = sumVal + " €";
+    console.log(sumVal);
+
+</script>

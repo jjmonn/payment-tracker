@@ -1,0 +1,105 @@
+﻿@model IEnumerable<EcheancierDotNet.Models.Supplier>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.SAPAccountNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SAPMainAccountNumber)
+        </th>
+        <th>
+            @Html.ActionLink("Name", "Index", new { sortOrder = ViewBag.NameSortParm })
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Bank)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BankCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Guichet)
+        </th>
+        <th>
+            @Html.ActionLink("Account Number", "Index", new { sortOrder = ViewBag.AccountNumberSortParm })
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BankKey)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BankAddress)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BIC)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IBAN)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BankCountry)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PaymentDelay)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.SAPAccountNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SAPMainAccountNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Bank)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BankCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Guichet)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AccountNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BankKey)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BankAddress)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BIC)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IBAN)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BankCountry)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PaymentDelay)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>

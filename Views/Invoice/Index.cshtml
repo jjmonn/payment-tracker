@@ -1,0 +1,53 @@
+﻿@section scripts {
+    @Scripts.Render("~/bundles/app")
+}
+
+@model IEnumerable<EcheancierDotNet.Models.Invoice>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<div class="panel-body">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Prepare</th>
+                <th>Paid</th>
+                <th data-bind="sort: { arr: Records, prop: 'SupplierName' }">Supplier's name</th>
+                <th data-bind="sort: { arr: Records, prop: 'DueDate' }">Due date</th>
+                <th data-bind="sort: { arr: Records, prop: 'DueAmount' }">Amount</th>
+                <th data-bind="sort: { arr: Records, prop: 'Currency' }">Currency</th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: invoices">
+            <tr>
+                <td>
+                    <input type="checkbox" data-bind="checked: ToBePaid, event: { change: $parent.updateInvoice}" />
+                </td>
+                <td>
+                    <input type="checkbox" data-bind="checked: Paid" disabled="disabled" />
+                </td>
+                <td data-bind="text: SupplierName"></td>
+                <td data-bind="text: moment(DueDate).format('MMM Do YY')"></td>
+                <td data-bind="text: DueAmount"></td>
+                <td data-bind="text: Currency"></td>
+            </tr>
+        </tbody>
+    </table>
+    <!--<button class="btn btn-primary" data-bind="click: $root.showForm">New</button>-->
+    <div class="alert alert-danger" data-bind="visible: error"><p data-bind="text: error"></p></div>
+</div>
+
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+
+<p>Amount to be paid in EUR: <span data-bind="text: toBePaidEUR.formatted"></span></p>
+<p>Amount to be paid in USD: <span data-bind="text: toBePaidUSD.formatted"></span></p>
+<p>Amount to be paid in GBP: <span data-bind="text: toBePaidGBP.formatted"></span></p>
+
