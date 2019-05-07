@@ -9,6 +9,13 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+
+@using (Html.BeginForm("Index", "Supplier", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <input type="file" name="file" />
+    <input type="submit" value="Submit" class="btn btn-primary" />
+}
+
 <table class="table">
     <tr>
         <th>
@@ -53,53 +60,54 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.SAPAccountNumber)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SAPMainAccountNumber)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Bank)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BankCode)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Guichet)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AccountNumber)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BankKey)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BankAddress)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BIC)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IBAN)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BankCountry)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PaymentDelay)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SAPAccountNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SAPMainAccountNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Bank)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BankCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Guichet)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AccountNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BankKey)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BankAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BIC)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IBAN)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BankCountry)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PaymentDelay)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+            </td>
+        </tr>
+    }
 
 </table>

@@ -9,7 +9,17 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Invoices list</h2>
+
+
+@if (ViewBag.Message != null)
+{
+    <script type="text/javascript">
+            window.onload = function () {
+                alert("@ViewBag.Message");
+            };
+    </script>
+}
 
 <div class="panel-body">
     <table class="table table-striped">

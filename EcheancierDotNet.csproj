@@ -197,6 +197,8 @@
     </Compile>
     <Compile Include="Models\Invoice.cs" />
     <Compile Include="Models\Supplier.cs" />
+    <Compile Include="Models\InvoiceUploader.cs" />
+    <Compile Include="Models\SupplierUploader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\InvoiceWrapper.cs" />

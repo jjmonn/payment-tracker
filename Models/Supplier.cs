@@ -8,7 +8,7 @@ namespace EcheancierDotNet.Models
 {
     public class Supplier
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        //[DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int ID { get; set; }
         public int SAPAccountNumber { get; set; }
         public int SAPMainAccountNumber { get; set; }
