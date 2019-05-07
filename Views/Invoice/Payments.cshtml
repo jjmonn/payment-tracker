@@ -1,9 +1,8 @@
 ﻿@section scripts {
     @Scripts.Render("~/bundles/app")
-    @Scripts.Render("~/bundles/invoices")
+    @Scripts.Render("~/bundles/payments")
 }
 
-@model IEnumerable<EcheancierDotNet.Models.Invoice>
 
 @{
     ViewBag.Title = "Index";
@@ -12,6 +11,21 @@
 <h2>Index</h2>
 
 <div class="panel-body">
+
+    <h2>Payments to be prepared</h2>
+    
+    <div class="container">
+        <div class="row">
+            <p>Amount to be paid in EUR: <span data-bind="text: toBePaidEUR.formatted"></span></p>
+            <p>Amount to be paid in USD: <span data-bind="text: toBePaidUSD.formatted"></span></p>
+            <p>Amount to be paid in GBP: <span data-bind="text: toBePaidGBP.formatted"></span></p>
+        </div>
+        <div class="row">
+            <button type="button" class="btn btn-success">Pay all</button>
+            <hr>
+        </div>
+    </div>
+            
     <table class="table table-striped">
         <thead>
             <tr>
@@ -29,7 +43,7 @@
                     <input type="checkbox" data-bind="checked: ToBePaid, event: { change: $parent.updateInvoice}" />
                 </td>
                 <td>
-                    <input type="checkbox" data-bind="checked: Paid" disabled="disabled" />
+                    <input type="checkbox" data-bind="checked: Paid, event: { change: $parent.payInvoices}" />
                 </td>
                 <td data-bind="text: SupplierName"></td>
                 <td data-bind="text: moment(DueDate).format('MMM Do YY')"></td>
@@ -43,13 +57,5 @@
 </div>
 
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-    <!--<button class="btn btn-primary" data-bind="click: $root.showForm">New</button>-->
-</p>
 
-
-<p>Amount to be paid in EUR: <span data-bind="text: toBePaidEUR.formatted"></span></p>
-<p>Amount to be paid in USD: <span data-bind="text: toBePaidUSD.formatted"></span></p>
-<p>Amount to be paid in GBP: <span data-bind="text: toBePaidGBP.formatted"></span></p>
 

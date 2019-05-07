@@ -50,6 +50,21 @@ namespace EcheancierDotNet.Controllers
             return l_wrappersList;
         }
 
+        [Route("api/invoices/tobepaids")]
+        [HttpGet]
+        public IEnumerable<InvoiceWrapper> GetToBePaidInvoices()
+        {
+            List<InvoiceWrapper> l_wrappersList = new List<InvoiceWrapper>();
+            List<Invoice> l_invoicesList = db.Invoices.Where(i => (i.Paid == false) && (i.ToBePaid == true)).ToList();
+            if (l_invoicesList == null)
+                return (null);
+
+            foreach (Invoice c in l_invoicesList)
+            {
+                l_wrappersList.Add(new InvoiceWrapper(c));
+            }
+            return l_wrappersList;
+        }
 
         // GET: api/Invoices/5
         [ResponseType(typeof(Invoice))]

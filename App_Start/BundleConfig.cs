@@ -14,8 +14,13 @@ namespace EcheancierDotNet
             bundles.Add(new ScriptBundle("~/bundles/app").Include(
                         "~/Scripts/knockout-{version}.js",
                         "~/Scripts/moment.js",
-                        "~/Scripts/util.js",
-                        "~/Scripts/app.js"));
+                        "~/Scripts/util.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/invoices").Include(
+                        "~/Scripts/invoices.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/payments").Include(
+                        "~/Scripts/payments.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));

@@ -19,37 +19,47 @@ namespace EcheancierDotNet.Controllers
         // GET: Invoice
         public ActionResult Index(string sortOrder)
         {
-            ViewBag.SupplierNameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
-            ViewBag.AmountSortParm = String.IsNullOrEmpty(sortOrder) ? "amount_desc" : "";
+            //ViewBag.SupplierNameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            //ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+            //ViewBag.AmountSortParm = String.IsNullOrEmpty(sortOrder) ? "amount_desc" : "";
 
-            var invoices = from s in db.Invoices
-                           select s;
-        
-            switch (sortOrder)
-            {
-                case "name_desc":
-                    invoices = invoices.OrderByDescending(s => s.Supplier.Name);
-                    break;
-                case "Date":
-                    invoices = invoices.OrderBy(s => s.DueDate);
-                    break;
-                case "date_desc":
-                    invoices = invoices.OrderByDescending(s => s.DueDate);
-                    break;
-                case "amount":
-                    invoices = invoices.OrderBy(s => s.DueAmount);
-                    break;
-                case "amount_desc":
-                    invoices = invoices.OrderByDescending(s => s.DueAmount);
-                    break;
-                default:
-                    invoices = invoices.OrderBy(s => s.Supplier.Name);
-                    break;
-            }
-            
-            return View(invoices.ToList());
+            //var invoices = from s in db.Invoices
+            //               select s;
+
+            //switch (sortOrder)
+            //{
+            //    case "name_desc":
+            //        invoices = invoices.OrderByDescending(s => s.Supplier.Name);
+            //        break;
+            //    case "Date":
+            //        invoices = invoices.OrderBy(s => s.DueDate);
+            //        break;
+            //    case "date_desc":
+            //        invoices = invoices.OrderByDescending(s => s.DueDate);
+            //        break;
+            //    case "amount":
+            //        invoices = invoices.OrderBy(s => s.DueAmount);
+            //        break;
+            //    case "amount_desc":
+            //        invoices = invoices.OrderByDescending(s => s.DueAmount);
+            //        break;
+            //    default:
+            //        invoices = invoices.OrderBy(s => s.Supplier.Name);
+            //        break;
+            //}
+
+            //return View(invoices.ToList());
+
+            return View();
         }
+
+
+        // GET: Payments
+        public ActionResult Payments()
+        {
+            return View();
+        }
+
 
         // GET: Invoice/Details/5
         public ActionResult Details(int? id)

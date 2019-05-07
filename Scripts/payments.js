@@ -1,8 +1,4 @@
-﻿
-
-
-
-var ViewModel = function () {
+﻿var ViewModel = function () {
     var self = this;
     self.invoices = ko.observableArray();
     self.error = ko.observable();
@@ -14,7 +10,7 @@ var ViewModel = function () {
 
 
     var invoicesUri = '/api/invoices/';
-    
+
 
     function ajaxHelper(uri, method, data) {
         self.error(''); // Clear error message
@@ -29,8 +25,8 @@ var ViewModel = function () {
         });
     }
 
-    function getNonPaidInvoices() {
-        ajaxHelper(invoicesUri + '/nonpaids/', 'GET').done(function (data) {
+    function getToBePaidInvoices() {
+        ajaxHelper(invoicesUri + '/tobepaids/', 'GET').done(function (data) {
             self.invoices(data);
             self.computeAmountsToBePaid(data);
         });
@@ -40,8 +36,8 @@ var ViewModel = function () {
     // update the users IsConfirmed status
     self.updateInvoice = function (invoice) {
         ajaxHelper(invoicesUri + '/' + invoice.InvoiceID, 'PUT', invoice).done(function (data) {
-            getNonPaidInvoices();
-       });
+            getToBePaidInvoices();
+        });
         //$.ajax({ type: "PUT", url: invoicesUri + '/' + invoice.InvoiceId, data: invoice });
     }
 
@@ -55,13 +51,13 @@ var ViewModel = function () {
             if (item.Paid === false && item.ToBePaid === true) {
                 switch (item.Currency) {
                     case "EUR": amountEUR += item.DueAmount;
-                    break;
+                        break;
 
                     case "USD": amountUSD += item.DueAmount;
-                    break;
+                        break;
 
                     case "GBP": amountGBP += item.DueAmount;
-                    break;
+                        break;
                 }
             }
         });
@@ -70,10 +66,10 @@ var ViewModel = function () {
         this.toBePaidUSD(amountUSD);
         this.toBePaidGBP(amountGBP);
     }
-    
+
 
     // Fetch the initial data.
-    getNonPaidInvoices();
+    getToBePaidInvoices();
 };
 
 ko.applyBindings(new ViewModel());

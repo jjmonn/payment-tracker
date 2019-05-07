@@ -83,3 +83,44 @@ ko.bindingHandlers.sort = {
         return result;
     };
 })();
+
+
+var uri = 'api/invoices';
+
+$(document).ready(function () {
+    // Send an AJAX request
+    $.getJSON(uri)
+        .done(function (data) {
+            // On success, 'data' contains a list of products.
+            total_amount_EUR = 0;
+            total_amount_USD = 0;
+            total_amount_GBP = 0;
+
+            $.each(data, function (key, item) {
+                // Add a list item for the product.
+                _date = new Date(item.DueDate);
+                if (_date <= Date.now() && item.Paid === false) {
+                    $('<li>', { text: formatItem(item) }).appendTo($('#invoices'));
+                    switch (item.Currency) {
+                        case "EUR": total_amount_EUR += item.DueAmount;
+                            break;
+
+                        case "USD": total_amount_USD += item.DueAmount;
+                            break;
+
+                        case "GBP": total_amount_GBP += item.DueAmount;
+                            break;
+                    }
+                }
+            });
+            $('<p>', { text: '' }).appendTo($('#invoices'));
+            $('<li>', { text: 'Total overdue EUR: € ' + total_amount_EUR }).appendTo($('#invoices'));
+            $('<li>', { text: 'Total overdue USD: $ ' + total_amount_USD }).appendTo($('#invoices'));
+            $('<li>', { text: 'Total overdue GBP: £ ' + total_amount_GBP }).appendTo($('#invoices'));
+
+        });
+});
+
+function formatItem(item) {
+    return item.SupplierName + ' - ' + item.Currency + ' ' + item.DueAmount + ': - ' + moment(item.DueDate).format('MMM Do YY');
+}
