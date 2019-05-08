@@ -1,4 +1,6 @@
 ﻿
+
+
 // ko sorting columns (add to <th)
 ko.bindingHandlers.sort = {
     init: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
@@ -85,42 +87,23 @@ ko.bindingHandlers.sort = {
 })();
 
 
-var uri = 'api/invoices';
 
-$(document).ready(function () {
-    // Send an AJAX request
-    $.getJSON(uri)
-        .done(function (data) {
-            // On success, 'data' contains a list of products.
-            total_amount_EUR = 0;
-            total_amount_USD = 0;
-            total_amount_GBP = 0;
 
-            $.each(data, function (key, item) {
-                // Add a list item for the product.
-                _date = new Date(item.DueDate);
-                if (_date <= Date.now() && item.Paid === false) {
-                    $('<li>', { text: formatItem(item) }).appendTo($('#invoices'));
-                    switch (item.Currency) {
-                        case "EUR": total_amount_EUR += item.DueAmount;
-                            break;
-
-                        case "USD": total_amount_USD += item.DueAmount;
-                            break;
-
-                        case "GBP": total_amount_GBP += item.DueAmount;
-                            break;
-                    }
-                }
-            });
-            $('<p>', { text: '' }).appendTo($('#invoices'));
-            $('<li>', { text: 'Total overdue EUR: € ' + total_amount_EUR }).appendTo($('#invoices'));
-            $('<li>', { text: 'Total overdue USD: $ ' + total_amount_USD }).appendTo($('#invoices'));
-            $('<li>', { text: 'Total overdue GBP: £ ' + total_amount_GBP }).appendTo($('#invoices'));
-
-        });
-});
-
-function formatItem(item) {
-    return item.SupplierName + ' - ' + item.Currency + ' ' + item.DueAmount + ': - ' + moment(item.DueDate).format('MMM Do YY');
+//success notice
+function successNotice(p_title, p_text, p_time, p_icon) {
+    $.gritter.add({
+        // (string | mandatory) the heading of the notification
+        title: p_title,
+        // (string | mandatory) the text inside the notification
+        text: p_text,
+        // (int | optional) the time you want it to be alive for before fading out
+        time: p_time,
+        // (string) specify font-face icon  class for close message
+        close_icon: 'l-arrows-remove s16',
+        // (string) specify font-face icon class for big icon in left. if are specify image this will not show up.
+        icon: p_icon,
+        // (string | optional) the class name you want to apply to that specific message
+        class_name: 'success-notice'
+    });
 }
+

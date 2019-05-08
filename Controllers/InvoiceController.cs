@@ -50,7 +50,6 @@ namespace EcheancierDotNet.Controllers
             //}
 
             //return View(invoices.ToList());
-
             return View();
         }
 
@@ -62,58 +61,44 @@ namespace EcheancierDotNet.Controllers
         }
 
 
-        // This action handles the form POST and the upload
-        [HttpPost]
-        public ActionResult Index(HttpPostedFileBase file)
+        public string UploadInvoices(string path)
         {
-            // Verify that the user selected a file
-            if (file != null && file.ContentLength > 0)
+            var l_suppliers = db.Suppliers.ToList();
+            var l_existing_doc_numbers = db.Invoices.Select(i => i.DocumentNumber).ToList();
+
+            InvoiceUploader l_uploader = new InvoiceUploader(l_suppliers, l_existing_doc_numbers);
+
+            bool upload_result = l_uploader.ImportCSV(path);
+            if (upload_result == false)
             {
-                // extract only the filename
-                var fileName = Path.GetFileName(file.FileName);
-                var p_path = Path.GetFullPath(file.FileName);
-
-                // store the file inside ~/App_Data/uploads folder
-                // avoid to store upload 
-                var path = Path.Combine(Server.MapPath("~/"), fileName);
-                file.SaveAs(path);
-
-                var l_suppliers = db.Suppliers.ToList();
-                var l_existing_doc_numbers = db.Invoices.Select(i => i.DocumentNumber).ToList();
-
-                InvoiceUploader l_uploader = new InvoiceUploader(l_suppliers, l_existing_doc_numbers);
-
-                bool upload_result = l_uploader.ImportCSV(path);
-                if (upload_result == false)
-                {
-                    ViewBag.Message = "Error during invoices upload, some suppliers are not in the list";
-                }
-                else
-                {
-                    try
-                    {
-                        foreach (Invoice l_invoice in l_uploader.m_invoices_to_create)
-                        {
-                            if (ModelState.IsValid)
-                            {
-                                db.Invoices.Add(l_invoice);
-                            }
-                            db.SaveChanges();
-                        }
-                    }
-                    catch (DataException /* dex */)
-                    {
-                        //Log the error (uncomment dex variable name and add a line here to write a log.
-                        ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
-                    }
-                    ViewBag.Message = "Invoices upload succeeded";
-                }
-
+                return "Error during invoices upload, some suppliers are not in the list";
             }
-            // send back to index page with message : success ; error ; ok duplicates 
-            return RedirectToAction("Index");
+            else if (l_uploader.m_invoices_to_create.Count == 0)
+            {
+                return "No new invoice detected in the file.";
+            }
+            else
+            {
+                try
+                {
+                    foreach (Invoice l_invoice in l_uploader.m_invoices_to_create)
+                    {
+                        if (ModelState.IsValid)
+                        {
+                            db.Invoices.Add(l_invoice);
+                        }
+                        db.SaveChanges();
+                    }
+                }
+                catch (DataException /* dex */)
+                {
+                    //Log the error (uncomment dex variable name and add a line here to write a log.
+                    ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
+                    return "Error in updating the database. The uplaoad failed.";
+                }
+                return "";
+            }
         }
-
 
         // GET: Invoice/Details/5
         public ActionResult Details(int? id)

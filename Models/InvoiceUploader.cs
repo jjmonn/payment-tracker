@@ -47,7 +47,7 @@ namespace EcheancierDotNet.Models
             {
                 if (!string.IsNullOrEmpty(l_row))
                 {
-                    if (i == 0){
+                    if (i == 0) {
                         if (CheckFileHeaders(l_row) == false)
                         {
                             return false;
@@ -57,12 +57,16 @@ namespace EcheancierDotNet.Models
                     {
                         string l_row2 = l_row.Replace("\r", "");
                         string[] l_str = l_row2.Split(';');
-                        string l_doc_number = l_str[8];
 
-                        if (! m_existing_doc_number_list.Contains(l_doc_number))
+                        if (l_str[8] != "")
                         {
-                            bool l_creation_result = AddInvoiceToList(l_str);
-                            if (l_creation_result == false) { l_result = false; }
+                            string l_doc_number = l_str[8];
+
+                            if (!m_existing_doc_number_list.Contains(l_doc_number))
+                            {
+                                bool l_creation_result = AddInvoiceToList(l_str);
+                                if (l_creation_result == false) { l_result = false; }
+                            }
                         }
                     }
                 }

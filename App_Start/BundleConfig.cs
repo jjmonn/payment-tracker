@@ -9,12 +9,16 @@ namespace EcheancierDotNet
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js"));
+                        "~/Scripts/jquery-{version}.js",
+                        "~/Scripts/jquery.gritter.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/app").Include(
                         "~/Scripts/knockout-{version}.js",
                         "~/Scripts/moment.js",
                         "~/Scripts/util.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/home").Include(
+            "~/Scripts/home.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/invoices").Include(
                         "~/Scripts/invoices.js"));
@@ -35,7 +39,8 @@ namespace EcheancierDotNet
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/site.css",
+                      "~/Content/jquery.gritter.css"));
 
         }
     }
