@@ -27,7 +27,7 @@
     function getNonPaidInvoices() {
         ajaxHelper(invoicesUri + '/nonpaids/', 'GET').done(function (data) {
             self.invoices(data);
-            self.computeAmountsToBePaid(data);
+            //self.computeAmountsToBePaid(data); => compute once and then adjust with each invoice updated 
         });
     }
 

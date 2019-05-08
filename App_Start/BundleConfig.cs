@@ -18,7 +18,10 @@ namespace EcheancierDotNet
                         "~/Scripts/util.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/home").Include(
-            "~/Scripts/home.js"));
+                        "~/Scripts/home.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/suppliers").Include(
+                        "~/Scripts/suppliers.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/invoices").Include(
                         "~/Scripts/invoices.js"));
