@@ -71,7 +71,21 @@ namespace EcheancierDotNet.Controllers
             bool upload_result = l_uploader.ImportCSV(path);
             if (upload_result == false)
             {
-                return "Error during invoices upload, some suppliers are not in the list";
+                string l_error_message = "";
+
+                if (l_uploader.l_error_header == true)
+                {
+                    l_error_message = "Error in the columns of your upload file. Please contact Julien Monnereau, ALA France.";
+                }
+                else
+                {
+                    l_error_message = "Error during invoices upload, some suppliers are not in the list: ";
+                    foreach (string l_supplier in l_uploader.m_suppliers_to_be_added)
+                    {
+                        l_error_message += " ; " + l_supplier;
+                    }
+                }
+                return l_error_message;
             }
             else if (l_uploader.m_invoices_to_create.Count == 0)
             {

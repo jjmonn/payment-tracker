@@ -22,6 +22,7 @@ namespace EcheancierDotNet.ViewModels
         public double DueAmount { get; set; }
         public bool ToBePaid { get; set; }
         public bool Paid { get; set; }
+        public bool IsSupplierInterco { get; set; }
         public bool ProForma { get; set; }
         public string Comment { get; set; }
 
@@ -42,6 +43,7 @@ namespace EcheancierDotNet.ViewModels
             this.DueAmount = p_invoice.DueAmount;
             this.ToBePaid = p_invoice.ToBePaid;
             this.Paid = p_invoice.Paid;
+            this.IsSupplierInterco = p_invoice.Supplier.IsInterco;
             this.ProForma = p_invoice.ProForma;
             this.Comment = p_invoice.Comment;
         }

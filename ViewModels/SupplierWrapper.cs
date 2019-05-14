@@ -21,6 +21,9 @@ namespace EcheancierDotNet.ViewModels
          public string BIC { get; set; }
          public string IBAN { get; set; }
          public string BankCountry { get; set; }
+         public string Currency { get; set; }
+         public Boolean IsProforma { get; set; }
+         public Boolean IsInterco { get; set; }
          public int PaymentDelay { get; set; }
 
 
@@ -42,6 +45,9 @@ namespace EcheancierDotNet.ViewModels
             this.BIC = l_supplier.BIC;
             this.IBAN = l_supplier.IBAN;
             this.BankCountry = l_supplier.BankCountry;
+            this.Currency = l_supplier.Currency;
+            this.IsProforma = l_supplier.IsProForma;
+            this.IsInterco = l_supplier.IsInterco;
             this.PaymentDelay = l_supplier.PaymentDelay;
 
             this.Invoices = new List<InvoiceWrapper>();

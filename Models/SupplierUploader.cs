@@ -51,6 +51,9 @@ namespace EcheancierDotNet.Models
                             l_supplier.BIC = "";
                             l_supplier.IBAN = "";
                             l_supplier.BankCountry = "";
+                            l_supplier.Currency = "";
+                            l_supplier.IsProForma = (l_str[2] == "1");
+                            l_supplier.IsInterco = (l_str[3] == "1");
                             l_supplier.PaymentDelay = 0;
 
                             m_suppliers_to_create.Add(l_supplier);

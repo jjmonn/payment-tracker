@@ -2,6 +2,8 @@
     var self = this;
     self.invoices = ko.observableArray();
     self.error = ko.observable();
+    self.intercoFilter = ko.observable(); 
+
 
     // Amounts to be paid
     this.toBePaidEUR = ko.observable(0).money('€');
@@ -30,7 +32,6 @@
             //self.computeAmountsToBePaid(data); => compute once and then adjust with each invoice updated 
         });
     }
-
 
     // update the users IsConfirmed status
     self.updateInvoice = function (invoice) {
@@ -65,9 +66,26 @@
         this.toBePaidUSD(amountUSD);
         this.toBePaidGBP(amountGBP);
     }
-    
 
+    // Interco Filter
+    self.filterInvoices = ko.computed(function () {
+        if (!self.intercoFilter()) {
+            return self.invoices();
+        } else {
+            return ko.utils.arrayFilter(self.invoices(), function (l_invoice) {
+                return l_invoice.IsSupplierInterco != self.intercoFilter();
+            });
+        }
+        test = 0;
+    });
+
+  
+    this.toggleInterco = function() {
+        self.intercoFilter(!self.intercoFilter());
+    }
+  
     // Fetch the initial data.
+    self.intercoFilter(true);
     getNonPaidInvoices();
 };
 

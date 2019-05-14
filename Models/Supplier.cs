@@ -22,7 +22,11 @@ namespace EcheancierDotNet.Models
         public string BIC { get; set; }
         public string IBAN { get; set; }
         public string BankCountry { get; set; }
+        public string Currency { get; set; }
+        public bool IsProForma { get; set; }
+        public Boolean IsInterco { get; set; }
         public int PaymentDelay { get; set; }
+
 
 
         public virtual ICollection<Invoice> Invoices { get; set; }

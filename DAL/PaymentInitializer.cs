@@ -11,16 +11,16 @@ namespace EcheancierDotNet.DAL
     {
         protected override void Seed(PaymentContext context)
         {
-            var suppliers = new List<Supplier>
-            {
-            new Supplier{SAPAccountNumber=401002474,SAPMainAccountNumber=401000000,Name="ANODIGRAV", Bank="SOCIETE GENERALE", BankCode=30003, Guichet=3620, AccountNumber=20013510, BankKey=14, BankAddress="", BIC="SOGEFRPP", IBAN="FR7630003036200002001351014", BankCountry="FR", PaymentDelay=30},
-            new Supplier{SAPAccountNumber=401002474,SAPMainAccountNumber=401000000,Name="Plastifrance", Bank="BPACA", BankCode=30003, Guichet=3620, AccountNumber=20013510, BankKey=14, BankAddress="", BIC="SOGEFRPP", IBAN="FR7630003036200002001351014", BankCountry="FR", PaymentDelay=30},
-            new Supplier{SAPAccountNumber=401002474,SAPMainAccountNumber=401000000,Name="BOLOFF", Bank="BNP", BankCode=30003, Guichet=3620, AccountNumber=20013510, BankKey=14, BankAddress="", BIC="SOGEFRPP", IBAN="FR7630003036200002001351014", BankCountry="FR", PaymentDelay=30},
-            new Supplier{SAPAccountNumber=401002474,SAPMainAccountNumber=401000000,Name="AEDS", Bank="BNP", BankCode=30003, Guichet=3620, AccountNumber=20013510, BankKey=14, BankAddress="", BIC="SOGEFRPP", IBAN="FR7630003036200002001351014", BankCountry="FR", PaymentDelay=30}
-            };
+            //var suppliers = new List<Supplier>
+            //{
+            //new Supplier{SAPAccountNumber=401002474,SAPMainAccountNumber=401000000,Name="ANODIGRAV", Bank="SOCIETE GENERALE", BankCode=30003, Guichet=3620, AccountNumber=20013510, BankKey=14, BankAddress="", BIC="SOGEFRPP", IBAN="FR7630003036200002001351014", BankCountry="FR", PaymentDelay=30},
+            //new Supplier{SAPAccountNumber=401002474,SAPMainAccountNumber=401000000,Name="Plastifrance", Bank="BPACA", BankCode=30003, Guichet=3620, AccountNumber=20013510, BankKey=14, BankAddress="", BIC="SOGEFRPP", IBAN="FR7630003036200002001351014", BankCountry="FR", PaymentDelay=30},
+            //new Supplier{SAPAccountNumber=401002474,SAPMainAccountNumber=401000000,Name="BOLOFF", Bank="BNP", BankCode=30003, Guichet=3620, AccountNumber=20013510, BankKey=14, BankAddress="", BIC="SOGEFRPP", IBAN="FR7630003036200002001351014", BankCountry="FR", PaymentDelay=30},
+            //new Supplier{SAPAccountNumber=401002474,SAPMainAccountNumber=401000000,Name="AEDS", Bank="BNP", BankCode=30003, Guichet=3620, AccountNumber=20013510, BankKey=14, BankAddress="", BIC="SOGEFRPP", IBAN="FR7630003036200002001351014", BankCountry="FR", PaymentDelay=30}
+            //};
 
-            suppliers.ForEach(s => context.Suppliers.Add(s));
-            context.SaveChanges();
+            //suppliers.ForEach(s => context.Suppliers.Add(s));
+            //context.SaveChanges();
 
 
             //var invoices = new List<Invoice>
@@ -42,7 +42,7 @@ namespace EcheancierDotNet.DAL
             //new Invoice{SupplierID=0,Currency="EUR",DocumentNumber="21531015",DocumentReference="2019FACT00068",DocumentHeader="X21531",DocumentDate=DateTime.Parse("15-01-2019"),DueDate=DateTime.Parse("02-07-2019"),RawAmount=0,VAT=0,DueAmount= 102444, ToBePaid=false, Paid=false, ProForma=false, Comment=""}
             //};
             //invoices.ForEach(s => context.Invoices.Add(s));
-            context.SaveChanges();
+            //context.SaveChanges();
 
         }
 

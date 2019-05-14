@@ -19,6 +19,7 @@ namespace EcheancierDotNet.Models
         public List<Invoice> m_invoices_to_create { get; }
         private List<string> m_existing_doc_number_list;
         public List<string> m_suppliers_to_be_added;
+        public bool l_error_header = false;
 
         public InvoiceUploader(List<Supplier> p_suppliersList, List<string> p_doc_number_list)
         {
@@ -50,6 +51,7 @@ namespace EcheancierDotNet.Models
                     if (i == 0) {
                         if (CheckFileHeaders(l_row) == false)
                         {
+                            l_error_header = true;
                             return false;
                         }
                     }
@@ -99,31 +101,20 @@ namespace EcheancierDotNet.Models
 
         private bool AddInvoiceToList(string[] p_str)
         {
+            Boolean l_result = true;
+
             if (p_str[0] != "")
             {
                 int l_sap_code = Convert.ToInt32(p_str[0]);
-                Invoice l_invoice = new Invoice();
+             
                 Supplier l_supplier = GetSupplierBySAPCode(l_sap_code);
 
                 if (l_supplier != null)
                 {
-                    l_invoice.SupplierID = l_supplier.ID; //    l_row[1]   // retreive Supplier's ID from Name
-                    l_invoice.Currency = p_str[5];
-                    l_invoice.DocumentNumber = p_str[8];
-                    l_invoice.DocumentReference = p_str[3];
-                    l_invoice.DocumentHeader = p_str[10];
-                    l_invoice.DocumentDate = DateTime.Parse(p_str[4].Replace('/', '-'));
-                    l_invoice.DueDate = DateTime.Parse(p_str[11].Replace('/', '-'));
-                    l_invoice.GoodsReceptionDate = null;
-                    l_invoice.RawAmount = 0;
-                    l_invoice.VAT = 0;
-                    l_invoice.DueAmount = -Convert.ToDouble(p_str[6]);
-                    l_invoice.ToBePaid = false;
-                    l_invoice.Paid = false;
-                    l_invoice.ProForma = false;
-                    l_invoice.Comment = "";
-
-                    m_invoices_to_create.Add(l_invoice);
+                    if (l_supplier.IsProForma == false)
+                    {
+                        m_invoices_to_create.Add(GetNewInvoice(l_supplier, p_str));
+                    }
                 }
                 else
                 {
@@ -131,10 +122,33 @@ namespace EcheancierDotNet.Models
                     {
                         m_suppliers_to_be_added.Add(l_sap_code.ToString());
                     }
-                    return false;
+                    l_result = false;
                 }
             }
-            return true;
+            return l_result;
+        }
+
+        private Invoice GetNewInvoice(Supplier l_supplier, string[] p_str)
+        {
+            Invoice l_invoice = new Invoice();
+
+            l_invoice.SupplierID = l_supplier.ID; //    l_row[1]   // retreive Supplier's ID from Name
+            l_invoice.Currency = p_str[5];
+            l_invoice.DocumentNumber = p_str[8];
+            l_invoice.DocumentReference = p_str[3];
+            l_invoice.DocumentHeader = p_str[10];
+            l_invoice.DocumentDate = DateTime.Parse(p_str[4].Replace('/', '-'));
+            l_invoice.DueDate = DateTime.Parse(p_str[11].Replace('/', '-'));
+            l_invoice.GoodsReceptionDate = null;
+            l_invoice.RawAmount = 0;
+            l_invoice.VAT = 0;
+            l_invoice.DueAmount = -Convert.ToDouble(p_str[6]);
+            l_invoice.ToBePaid = false;
+            l_invoice.Paid = false;
+            l_invoice.ProForma = false;
+            l_invoice.Comment = "";
+
+            return l_invoice;
         }
 
 

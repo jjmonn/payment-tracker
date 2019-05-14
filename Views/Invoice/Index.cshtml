@@ -21,6 +21,14 @@
     </script>
 }
 
+
+<p>Interco Filter</p>
+<!--<div class="checkbox" data-bind="click: toggleInterco">
+        <input data-bind="checked: intercoFilter" type="checkbox" data-toggle="toggle">
+</div>-->
+<input data-bind="event:{ change: toggleInterco}" type="checkbox" checked data-toggle="toggle">
+
+
 <div class="panel-body">
     <table class="table table-striped">
         <thead>
@@ -33,7 +41,7 @@
                 <th data-bind="sort: { arr: Records, prop: 'Currency' }">Currency</th>
             </tr>
         </thead>
-        <tbody data-bind="foreach: invoices">
+        <tbody data-bind="foreach: filterInvoices">
             <tr>
                 <td>
                     <input type="checkbox" data-bind="checked: ToBePaid, event: { change: $parent.updateInvoice}" />
