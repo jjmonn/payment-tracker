@@ -34,12 +34,22 @@ namespace EcheancierDotNet.Controllers
             return l_wrappersList;
         }
 
-        [Route("api/invoices/nonpaids")]
+        [Route("api/invoices/nonpaids/{p_currency_filter}")]
         [HttpGet]
-        public IEnumerable<InvoiceWrapper> GetNonPaidInvoices()
+        public IEnumerable<InvoiceWrapper> GetNonPaidInvoices(string p_currency_filter)
         {
             List<InvoiceWrapper> l_wrappersList = new List<InvoiceWrapper>();
-            List<Invoice> l_invoicesList = db.Invoices.Where(i => i.Paid == false).ToList();
+            List<Invoice> l_invoicesList;
+
+            if (p_currency_filter == "All")
+            {
+                l_invoicesList = db.Invoices.Where(i => i.Paid == false).OrderBy(i => i.DueDate).ToList();
+            }
+            else
+            {
+                l_invoicesList = db.Invoices.Where(i => i.Paid == false && i.Currency == p_currency_filter && i.DueDate.Year > 2017).OrderBy(i => i.DueDate).ToList();
+            }
+            
             if (l_invoicesList == null)
                 return (null);
 

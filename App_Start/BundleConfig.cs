@@ -29,6 +29,9 @@ namespace EcheancierDotNet
             bundles.Add(new ScriptBundle("~/bundles/payments").Include(
                         "~/Scripts/payments.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/layout").Include(
+                        "~/Scripts/layout.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
 

@@ -107,3 +107,10 @@ function successNotice(p_title, p_text, p_time, p_icon) {
     });
 }
 
+
+function endOfWeek(date) {
+
+    var lastday = date.getDate() - (date.getDay() - 1) + 6;
+    return new Date(date.setDate(lastday));
+
+}

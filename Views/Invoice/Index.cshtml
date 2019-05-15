@@ -22,14 +22,39 @@
 }
 
 
-<p>Interco Filter</p>
-<!--<div class="checkbox" data-bind="click: toggleInterco">
-        <input data-bind="checked: intercoFilter" type="checkbox" data-toggle="toggle">
-</div>-->
-<input data-bind="event:{ change: toggleInterco}" type="checkbox" checked data-toggle="toggle">
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            <p>Interco Filter</p>
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            Currency
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            <input data-bind="event:{ change: toggleInterco}" type="checkbox" checked data-toggle="toggle">
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            <button data-bind="click: setAllOverDueToBePaid" type="button" class="btn btn-primary">Set all overdue to be paid</button>
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            <p>
+              <select data-bind="value: currencyFilter, options: availableCurrencies, event:{ change: filterCurrencies}"></select>
+            </p>
+        </div>
+    </div>
+</div>
 
 
 <div class="panel-body">
+    <p>Invoices overdue</p>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -41,7 +66,7 @@
                 <th data-bind="sort: { arr: Records, prop: 'Currency' }">Currency</th>
             </tr>
         </thead>
-        <tbody data-bind="foreach: filterInvoices">
+        <tbody data-bind="foreach: overdueInvoices">
             <tr>
                 <td>
                     <input type="checkbox" data-bind="checked: ToBePaid, event: { change: $parent.updateInvoice}" />
@@ -50,15 +75,20 @@
                     <input type="checkbox" data-bind="checked: Paid" disabled="disabled" />
                 </td>
                 <td data-bind="text: SupplierName"></td>
-                <td data-bind="text: moment(DueDate).format('MMM Do YY')"></td>
-                <td data-bind="text: DueAmount"></td>
+                <td data-bind="text: moment(DueDate).format('MMM Do YYYY')"></td>
+                <td data-bind="text: $root.formatNumber(DueAmount)"></td>
                 <td data-bind="text: Currency"></td>
             </tr>
         </tbody>
     </table>
     <!--<button class="btn btn-primary" data-bind="click: $root.showForm">New</button>-->
     <div class="alert alert-danger" data-bind="visible: error"><p data-bind="text: error"></p></div>
+    <p>Overdue amount EUR: <span data-bind="text: overdueAmountEUR.formatted"></span></p>
+    <p>Overdue amount USD: <span data-bind="text: overdueAmountUSD.formatted"></span></p>
+    <p>Overdue amount GBP: <span data-bind="text: overdueAmountGBP.formatted"></span></p>
 </div>
+
+
 
 
 <p>
@@ -67,7 +97,7 @@
 </p>
 
 
-<p>Amount to be paid in EUR: <span data-bind="text: toBePaidEUR.formatted"></span></p>
-<p>Amount to be paid in USD: <span data-bind="text: toBePaidUSD.formatted"></span></p>
-<p>Amount to be paid in GBP: <span data-bind="text: toBePaidGBP.formatted"></span></p>
+<p>Amount to be paid in EUR: <span data-bind="text: toBePaidEUR.formatted"></span>  - Bank total EUR amount:  XX €</p>
+<p>Amount to be paid in USD: <span data-bind="text: toBePaidUSD.formatted"></span>  - Bank total USD amount: YY $</p>
+<p>Amount to be paid in GBP: <span data-bind="text: toBePaidGBP.formatted"></span>  - Bank GBP amount: ZZ £</p>
 
