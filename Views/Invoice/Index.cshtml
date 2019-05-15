@@ -123,6 +123,40 @@
     <p>Due from today to the end of the week GBP: <span data-bind="text: weekAmountGBP.formatted"></span></p>
 </div>
 
+<div class="panel-body">
+    <p>Invoices due next week</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Prepare</th>
+                <th>Paid</th>
+                <th data-bind="sort: { arr: Records, prop: 'SupplierName' }">Supplier's name</th>
+                <th data-bind="sort: { arr: Records, prop: 'DueDate' }">Due date</th>
+                <th data-bind="sort: { arr: Records, prop: 'DueAmount' }">Amount</th>
+                <th data-bind="sort: { arr: Records, prop: 'Currency' }">Currency</th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: nextWeekDueInvoices">
+            <tr>
+                <td>
+                    <input type="checkbox" data-bind="checked: ToBePaid, event: { change: $parent.updateInvoice}" />
+                </td>
+                <td>
+                    <input type="checkbox" data-bind="checked: Paid" disabled="disabled" />
+                </td>
+                <td data-bind="text: SupplierName"></td>
+                <td data-bind="text: moment(DueDate).format('MMM Do YYYY')"></td>
+                <td data-bind="text: $root.formatNumber(DueAmount)"></td>
+                <td data-bind="text: Currency"></td>
+            </tr>
+        </tbody>
+    </table>
+    <!--<button class="btn btn-primary" data-bind="click: $root.showForm">New</button>-->
+    <div class="alert alert-danger" data-bind="visible: error"><p data-bind="text: error"></p></div>
+    <p>Due next week EUR: <span data-bind="text: nextWeekAmountEUR.formatted"></span></p>
+    <p>Due next week USD: <span data-bind="text: nextWeekAmountUSD.formatted"></span></p>
+    <p>Due next week GBP: <span data-bind="text: nextWeekAmountGBP.formatted"></span></p>
+</div>
 
 <p>
     @Html.ActionLink("Create New", "Create")

@@ -117,3 +117,14 @@ function endOfWeek() {
     return new Date(_today.setDate(lastday));
 
 }
+
+
+function endOfNextWeek() {
+
+    var _today = new Date(Date.now());
+    var d = _today.getDate();
+    var _day = _today.getDay();
+    var lastday = d - (_day - 1) + 6;
+    return new Date(_today.setDate(lastday + 7));
+
+}

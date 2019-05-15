@@ -16,6 +16,11 @@
     this.weekAmountUSD = ko.observable(0).money('$');
     this.weekAmountGBP = ko.observable(0).money('£');
 
+    // Next week due amounts
+    this.nextWeekAmountEUR = ko.observable(0).money('€');
+    this.nextWeekAmountUSD = ko.observable(0).money('$');
+    this.nextWeekAmountGBP = ko.observable(0).money('£');
+
     // Amounts to be paid
     this.toBePaidEUR = ko.observable(0).money('€');
     this.toBePaidUSD = ko.observable(0).money('$');
@@ -55,29 +60,9 @@
     }
 
     self.computeAmountsToBePaid = function (data) {
-
-        amountEUR = 0;
-        amountUSD = 0;
-        amountGBP = 0;
-
-        data.forEach(function (item) {
-            if (item.Paid === false && item.ToBePaid === true) {
-                switch (item.Currency) {
-                    case "EUR": amountEUR += item.DueAmount;
-                    break;
-
-                    case "USD": amountUSD += item.DueAmount;
-                    break;
-
-                    case "GBP": amountGBP += item.DueAmount;
-                    break;
-                }
-            }
-        });
-
-        this.toBePaidEUR(amountEUR);
-        this.toBePaidUSD(amountUSD);
-        this.toBePaidGBP(amountGBP);
+        this.toBePaidEUR(computeAmount(data,'EUR'));
+        this.toBePaidUSD(computeAmount(data,'USD'));
+        this.toBePaidGBP(computeAmount(data,'GBP'));
     }
 
     function computeAmount(data, currency) {
@@ -149,11 +134,39 @@
         }
 
         self.weekAmountEUR(computeAmount(l_result, 'EUR'));
-        self.weekAmountEUR(computeAmount(l_result, 'USD'));
-        self.weekAmountEUR(computeAmount(l_result, 'GBP'));
+        self.weekAmountUSD(computeAmount(l_result, 'USD'));
+        self.weekAmountGBP(computeAmount(l_result, 'GBP'));
         return l_result;
     });
 
+    // Due next week
+    self.nextWeekDueInvoices = ko.computed(function () {
+        var _endOfThisWeek = endOfWeek();
+        var _endOfNextWeek = endOfNextWeek();
+
+        l_result = [];
+
+        if (!self.intercoFilter()) {
+            self.invoices().forEach(function (_item) {
+                if (Date.parse(_item.DueDate) > _endOfThisWeek && Date.parse(_item.DueDate) <= _endOfNextWeek) {
+                    l_result.push(_item);
+                }
+            });
+        } else {
+            self.invoices().forEach(function (_item) {
+                if (_item.IsSupplierInterco != self.intercoFilter()) {
+                    if (Date.parse(_item.DueDate) > _endOfThisWeek && Date.parse(_item.DueDate) <= _endOfNextWeek) {
+                        l_result.push(_item);
+                    }
+                }
+            });
+        }
+
+        self.nextWeekAmountEUR(computeAmount(l_result, 'EUR'));
+        self.nextWeekAmountUSD(computeAmount(l_result, 'USD'));
+        self.nextWeekAmountGBP(computeAmount(l_result, 'GBP'));
+        return l_result;
+    });
 
     self.formatNumber = function (_str) {
         return _str.toFixed(0);
