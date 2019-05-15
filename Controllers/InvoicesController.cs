@@ -43,7 +43,7 @@ namespace EcheancierDotNet.Controllers
 
             if (p_currency_filter == "All")
             {
-                l_invoicesList = db.Invoices.Where(i => i.Paid == false).OrderBy(i => i.DueDate).ToList();
+                l_invoicesList = db.Invoices.Where(i => i.Paid == false && i.DueDate.Year > 2017).OrderBy(i => i.DueDate).ToList();
             }
             else
             {

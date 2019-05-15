@@ -155,7 +155,6 @@
     });
 
 
-
     self.formatNumber = function (_str) {
         return _str.toFixed(0);
     }
@@ -167,8 +166,10 @@
     };
      
     self.setAllOverDueToBePaid = function () {
-
-
+        self.overdueInvoices().forEach(function (l_invoice) {
+            l_invoice.ToBePaid = true;
+            self.updateInvoice(l_invoice);
+        });
 
     }
 
