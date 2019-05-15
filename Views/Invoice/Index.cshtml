@@ -55,7 +55,8 @@
 
 <div class="panel-body">
     <p>Invoices overdue</p>
-    <table class="table table-striped">
+    <input data-bind="event:{ change: togglediplayOverdue}" type="checkbox" checked data-toggle="toggle" data-on="Hide" data-off="Show">
+    <table data-bind="if: diplayOverdue" class="table table-striped">
         <thead>
             <tr>
                 <th>Prepare</th>
@@ -90,7 +91,8 @@
 
 <div class="panel-body">
     <p>Invoices due this week</p>
-    <table class="table table-striped">
+    <input data-bind="event:{ change: togglediplayWeek}" type="checkbox" checked data-toggle="toggle"  data-on="Hide" data-off="Show">
+    <table data-bind="if: diplayThisWeek" class="table table-striped">
         <thead>
             <tr>
                 <th>Prepare</th>
@@ -125,7 +127,8 @@
 
 <div class="panel-body">
     <p>Invoices due next week</p>
-    <table class="table table-striped">
+    <input data-bind="event:{ change: togglediplayNextWeek}" type="checkbox" data-toggle="toggle"  data-on="Hide" data-off="Show">
+    <table data-bind="if: diplayNextWeek" class="table table-striped">
         <thead>
             <tr>
                 <th>Prepare</th>
@@ -160,7 +163,8 @@
 
 <div class="panel-body">
     <p>Due after next week</p>
-    <table class="table table-striped">
+    <input data-bind="event:{ change: togglediplayAfterNextWeek}" type="checkbox" data-toggle="toggle"  data-on="Hide" data-off="Show">
+    <table data-bind="if: diplayAfterNextWeek" class="table table-striped">
         <thead>
             <tr>
                 <th>Prepare</th>

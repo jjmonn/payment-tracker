@@ -6,6 +6,11 @@
     self.currencyFilter = ko.observable('All');
     self.intercoFilter = ko.observable();
 
+    self.diplayOverdue = ko.observable(true)
+    self.diplayThisWeek = ko.observable(true)
+    self.diplayNextWeek = ko.observable(false)
+    self.diplayAfterNextWeek = ko.observable(false)
+
     // overdue amounts
     this.overdueAmountEUR = ko.observable(0).money('€');
     this.overdueAmountUSD = ko.observable(0).money('$');
@@ -223,7 +228,24 @@
     this.toggleInterco = function() {
         self.intercoFilter(!self.intercoFilter());
     }
-  
+
+    this.togglediplayOverdue = function () {
+        self.diplayOverdue(!self.diplayOverdue());
+    }
+
+    this.togglediplayWeek = function () {
+        self.diplayThisWeek(!self.diplayThisWeek());
+    }
+
+    this.togglediplayNextWeek = function () {
+        self.diplayNextWeek(!self.diplayNextWeek());
+    }
+
+    this.togglediplayAfterNextWeek = function () {
+        self.diplayAfterNextWeek(!self.diplayAfterNextWeek());
+    }
+
+
     // Fetch the initial data.
     self.intercoFilter(true);
     self.currencyFilter = ko.observable('All');
@@ -233,3 +255,5 @@
 };
 
 ko.applyBindings(new ViewModel());
+
+
