@@ -3,6 +3,7 @@
     @Scripts.Render("~/bundles/home")
 }
 
+
 @{
     ViewBag.Title = "Home Page";
 }
@@ -28,23 +29,22 @@
 
 
 <div class="text-danger">
-    @ViewBag.Alert    
+    @ViewBag.Alert
 </div>
 <div class="text-success">
     @ViewBag.Message
 </div>
+<hr />
 
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<div id="chart_div"></div>
+<hr />
 
 <div>
     <h3>Total overdue</h3>
     <ul id="total_overdue" />
 </div>
 
-
-<div>
-    <h3>Search</h3>
-    <input type="text" id="invoiceId" size="5" />
-    <input type="button" value="Search" onclick="find();" />
-    <p id="invoice" />
-</div>
-
+<p>Amount to be paid in EUR: <span data-bind="text: toBePaidEUR.formatted"></span>  - Bank total EUR amount:  XX €</p>
+<p>Amount to be paid in USD: <span data-bind="text: toBePaidUSD.formatted"></span>  - Bank total USD amount: YY $</p>
+<p>Amount to be paid in GBP: <span data-bind="text: toBePaidGBP.formatted"></span>  - Bank GBP amount: ZZ £</p>
