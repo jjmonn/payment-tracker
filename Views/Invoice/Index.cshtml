@@ -28,7 +28,7 @@
             <p>Interco Filter</p>
         </div>
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-            
+
         </div>
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
             Currency
@@ -46,7 +46,7 @@
         </div>
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
             <p>
-              <select data-bind="value: currencyFilter, options: availableCurrencies, event:{ change: filterCurrencies}"></select>
+                <select data-bind="value: currencyFilter, options: availableCurrencies, event:{ change: filterCurrencies}"></select>
             </p>
         </div>
     </div>
@@ -65,6 +65,9 @@
                 <th data-bind="sort: { arr: Records, prop: 'DueDate' }">Due date</th>
                 <th data-bind="sort: { arr: Records, prop: 'DueAmount' }">Amount</th>
                 <th data-bind="sort: { arr: Records, prop: 'Currency' }">Currency</th>
+                <th>Detail</th>
+                <th>Comment</th>
+                <th></th>
             </tr>
         </thead>
         <tbody data-bind="foreach: overdueInvoices">
@@ -79,6 +82,9 @@
                 <td data-bind="text: moment(DueDate).format('MMM Do YYYY')"></td>
                 <td data-bind="text: $root.formatNumber(DueAmount)"></td>
                 <td data-bind="text: Currency"></td>
+                <td><a href="#"><p data-bind="text: DocumentReference,click: $parent.showInvoice" class="text-ellipsis"></p></a></td>
+                <td data-bind="text: Comment"></td>
+                <td> <a href="#" data-bind="click: $root.remove"> Delete</a></td>
             </tr>
         </tbody>
     </table>
@@ -91,7 +97,7 @@
 
 <div class="panel-body">
     <p>Invoices due this week</p>
-    <input data-bind="event:{ change: togglediplayWeek}" type="checkbox" checked data-toggle="toggle"  data-on="Hide" data-off="Show">
+    <input data-bind="event:{ change: togglediplayWeek}" type="checkbox" checked data-toggle="toggle" data-on="Hide" data-off="Show">
     <table data-bind="if: diplayThisWeek" class="table table-striped">
         <thead>
             <tr>
@@ -127,7 +133,7 @@
 
 <div class="panel-body">
     <p>Invoices due next week</p>
-    <input data-bind="event:{ change: togglediplayNextWeek}" type="checkbox" data-toggle="toggle"  data-on="Hide" data-off="Show">
+    <input data-bind="event:{ change: togglediplayNextWeek}" type="checkbox" data-toggle="toggle" data-on="Hide" data-off="Show">
     <table data-bind="if: diplayNextWeek" class="table table-striped">
         <thead>
             <tr>
@@ -163,7 +169,7 @@
 
 <div class="panel-body">
     <p>Due after next week</p>
-    <input data-bind="event:{ change: togglediplayAfterNextWeek}" type="checkbox" data-toggle="toggle"  data-on="Hide" data-off="Show">
+    <input data-bind="event:{ change: togglediplayAfterNextWeek}" type="checkbox" data-toggle="toggle" data-on="Hide" data-off="Show">
     <table data-bind="if: diplayAfterNextWeek" class="table table-striped">
         <thead>
             <tr>
@@ -208,3 +214,18 @@
 <p>Amount to be paid in USD: <span data-bind="text: toBePaidUSD.formatted"></span>  - Bank total USD amount: YY $</p>
 <p>Amount to be paid in GBP: <span data-bind="text: toBePaidGBP.formatted"></span>  - Bank GBP amount: ZZ £</p>
 
+<!--<div class="modal" id="myModal" data-bind="with: currentInvoice">
+    <h1 data-bind="text: Currency"></h1>
+    <h1 data-bind="text: SupplierName"></h1>
+    <h1 data-bind="text: DocumentNumber"></h1>
+    <h1 data-bind="text: DocumentReference"></h1>
+    <h1 data-bind="text: DueDate"></h1>
+    <h1 data-bind="text: DueAmount"></h1>
+</div>  -->
+<!--<div class="modal" id="myModal" data-bind="with: currentEmployee">
+    <h1 data-bind="text: fullName"></h1>
+</div> -->
+<!-- Modal -->
+
+
+@Html.Partial("_EditPartial")

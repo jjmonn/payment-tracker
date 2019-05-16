@@ -261,6 +261,7 @@
     <Content Include="Scripts\perpetuum.knockout.js" />
     <Content Include="Scripts\suppliers.js" />
     <Content Include="Scripts\util.js" />
+    <Content Include="Views\Invoice\_EditPartial.cshtml" />
     <None Include="Views\Shared\_ToBePaidPartial.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">

@@ -1,11 +1,11 @@
 ﻿var ViewModel = function () {
     var self = this;
     self.invoices = ko.observableArray();
+    self.currentInvoice = ko.observable(null);
     self.error = ko.observable(); 
     self.availableCurrencies = ko.observableArray(['All', 'EUR', 'USD', 'GBP']);
     self.currencyFilter = ko.observable('All');
     self.intercoFilter = ko.observable();
-
     self.diplayOverdue = ko.observable(true)
     self.diplayThisWeek = ko.observable(true)
     self.diplayNextWeek = ko.observable(false)
@@ -244,6 +244,22 @@
     this.togglediplayAfterNextWeek = function () {
         self.diplayAfterNextWeek(!self.diplayAfterNextWeek());
     }
+
+
+    self.remove = function (l_invoice) {
+        // First remove from the server, then from the view-model.
+        ajaxHelper(invoicesUri + l_invoice.InvoiceID, 'DELETE').done(function (data) {
+            successNotice('Invoice edition', 'Invoice successfuly deleted', '', 'glyphicon glyphicon-trash');
+            self.invoices.remove(l_invoice);
+            //self.unselect();
+        });
+    }
+
+    self.showInvoice = function (l_invoice) {
+        self.currentInvoice(l_invoice);
+        $('#myModal').modal('show');
+    };
+
 
 
     // Fetch the initial data.
