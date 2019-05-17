@@ -44,9 +44,27 @@ namespace EcheancierDotNet.DAL
             //invoices.ForEach(s => context.Invoices.Add(s));
             //context.SaveChanges();
 
-        }
+            var l_bankAccounts = new List<BankAccount>
+            {
+                new BankAccount { Name = "BNP EUR", BankCode = 0, AgencyCode = 0, AccountNumber = 0, RIBKey = 0, BIC = "", IBAN = "", Currency = "EUR", BankAddress = "", BankCountry = "" },
+                new BankAccount { Name = "BNP GBP", BankCode = 0, AgencyCode = 0, AccountNumber = 0, RIBKey = 0, BIC = "", IBAN = "", Currency = "GBP", BankAddress = "", BankCountry = "" },
+                new BankAccount { Name = "SG EUR", BankCode = 0, AgencyCode = 0, AccountNumber = 0, RIBKey = 0, BIC = "", IBAN = "", Currency = "EUR", BankAddress = "", BankCountry = "" },
+                new BankAccount { Name = "SG USD", BankCode = 0, AgencyCode = 0, AccountNumber = 0, RIBKey = 0, BIC = "", IBAN = "", Currency = "USD", BankAddress = "", BankCountry = "" },
+                new BankAccount { Name = "BPACA", BankCode = 0, AgencyCode = 0, AccountNumber = 0, RIBKey = 0, BIC = "", IBAN = "", Currency = "EUR", BankAddress = "", BankCountry = "" },
+                new BankAccount { Name = "CE", BankCode = 0, AgencyCode = 0, AccountNumber = 0, RIBKey = 0, BIC = "", IBAN = "", Currency = "EUR", BankAddress = "", BankCountry = "" },
+                new BankAccount { Name = "HSBC", BankCode = 0, AgencyCode = 0, AccountNumber = 0, RIBKey = 0, BIC = "", IBAN = "", Currency = "EUR", BankAddress = "", BankCountry = "" },
+                new BankAccount { Name = "CIC", BankCode = 0, AgencyCode = 0, AccountNumber = 0, RIBKey = 0, BIC = "", IBAN = "", Currency = "EUR", BankAddress = "", BankCountry = "" },
+                new BankAccount { Name = "Pouyanne", BankCode = 0, AgencyCode = 0, AccountNumber = 0, RIBKey = 0, BIC = "", IBAN = "", Currency = "EUR", BankAddress = "", BankCountry = "" },
+            };
 
-        }
+
+        l_bankAccounts.ForEach(s => context.BankAccount.Add(s));
+        context.SaveChanges();
+
+
+    }
+
+}
 
 
 }

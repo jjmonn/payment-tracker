@@ -13,21 +13,6 @@
 
 
 
-@using (Html.BeginForm("Index", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-    <div class="container">
-        <div class="col-md-8 col-md-offset-2">
-            <h3>Upload from SAP</h3>
-            <div class="form-group">
-                <input type="file" name="file" />
-                <input type="submit" value="Submit" class="btn btn-primary" />
-
-            </div>
-        </div>
-    </div>
-}
-
-
 <div class="text-danger">
     @ViewBag.Alert
 </div>

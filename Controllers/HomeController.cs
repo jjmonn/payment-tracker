@@ -55,6 +55,13 @@ namespace EcheancierDotNet.Controllers
             return View();
         }
 
+        public ActionResult Upload()
+        {
+            ViewBag.Message = "Uploads functionalities";
+
+            return View();
+        }
+
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";

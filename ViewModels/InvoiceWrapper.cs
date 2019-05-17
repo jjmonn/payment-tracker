@@ -26,6 +26,8 @@ namespace EcheancierDotNet.ViewModels
         public bool ProForma { get; set; }
         public string Comment { get; set; }
 
+        public string BankAccountName { get; set; }
+        public int BankAccountID { get; set; }
 
         public InvoiceWrapper(Invoice p_invoice)
         {
@@ -46,6 +48,8 @@ namespace EcheancierDotNet.ViewModels
             this.IsSupplierInterco = p_invoice.Supplier.IsInterco;
             this.ProForma = p_invoice.ProForma;
             this.Comment = p_invoice.Comment;
+            //this.BankAccountID = p_invoice.BankID;
+            //this.BankAccountName = p_invoice.BankAccount.Name;
         }
 
     }
