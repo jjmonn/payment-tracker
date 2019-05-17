@@ -60,14 +60,27 @@
         });
     }
 
-    // update the users IsConfirmed status
+    // update invoice
     self.updateInvoice = function (invoice) {
         ajaxHelper(invoicesUri + '/' + invoice.InvoiceID, 'PUT', invoice).done(function (data) {
             self.computeAmountsToBePaid(self.invoices());
             // getNonPaidInvoices();
-       });
+        });
+        self.computeAmountsToBePaid(self.invoices());
         //$.ajax({ type: "PUT", url: invoicesUri + '/' + invoice.InvoiceId, data: invoice });
+        //getNonPaidInvoices();
     }
+
+    // Set invoice to status "paid"
+    self.updatePaidInvoice = function (invoice) {
+        invoice.ToBePaid = false;
+        ajaxHelper(invoicesUri + '/' + invoice.InvoiceID, 'PUT', invoice).done(function (data) {
+            //getNonPaidInvoices(); 
+            self.invoices.remove(invoice);
+            self.computeAmountsToBePaid(self.invoices());
+        });
+    }
+
 
     self.computeAmountsToBePaid = function (data) {
         this.toBePaidEUR(computeAmount(data,'EUR'));

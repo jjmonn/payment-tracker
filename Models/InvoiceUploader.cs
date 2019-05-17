@@ -20,6 +20,7 @@ namespace EcheancierDotNet.Models
         private List<string> m_existing_doc_number_list;
         public List<string> m_suppliers_to_be_added;
         public bool l_error_header = false;
+        public string l_data_error = "";
 
         public InvoiceUploader(List<Supplier> p_suppliersList, List<string> p_doc_number_list)
         {
@@ -113,7 +114,15 @@ namespace EcheancierDotNet.Models
                 {
                     if (l_supplier.IsProForma == false)
                     {
-                        m_invoices_to_create.Add(GetNewInvoice(l_supplier, p_str));
+                        Invoice l_newInvoice = GetNewInvoice(l_supplier, p_str);
+                        if (l_newInvoice != null)
+                        {
+                            m_invoices_to_create.Add(l_newInvoice);
+                        }
+                        else
+                        {
+                            return false;
+                        }
                     }
                 }
                 else
@@ -132,22 +141,30 @@ namespace EcheancierDotNet.Models
         {
             Invoice l_invoice = new Invoice();
 
-            l_invoice.SupplierID = l_supplier.ID; //    l_row[1]   // retreive Supplier's ID from Name
-            l_invoice.Currency = p_str[5];
-            l_invoice.DocumentNumber = p_str[8];
-            l_invoice.DocumentReference = p_str[3];
-            l_invoice.DocumentHeader = p_str[10];
-            l_invoice.DocumentDate = DateTime.Parse(p_str[4].Replace('/', '-'));
-            l_invoice.DueDate = DateTime.Parse(p_str[11].Replace('/', '-'));
-            l_invoice.GoodsReceptionDate = null;
-            l_invoice.RawAmount = 0;
-            l_invoice.VAT = 0;
-            l_invoice.DueAmount = -Convert.ToDouble(p_str[6]);
-            l_invoice.ToBePaid = false;
-            l_invoice.Paid = false;
-            l_invoice.ProForma = false;
-            l_invoice.Comment = "";
+            try
+            {
+                l_invoice.SupplierID = l_supplier.ID; //    l_row[1]   // retreive Supplier's ID from Name
+                l_invoice.Currency = p_str[5];
+                l_invoice.DocumentNumber = p_str[8];
+                l_invoice.DocumentReference = p_str[3];
+                l_invoice.DocumentHeader = p_str[10];
+                l_invoice.DocumentDate = DateTime.Parse(p_str[4].Replace('/', '-'));
+                l_invoice.DueDate = DateTime.Parse(p_str[11].Replace('/', '-'));
+                l_invoice.GoodsReceptionDate = null;
+                l_invoice.RawAmount = 0;
+                l_invoice.VAT = 0;
+                l_invoice.DueAmount = -Convert.ToDouble(p_str[6]);
+                l_invoice.ToBePaid = false;
+                l_invoice.Paid = false;
+                l_invoice.ProForma = false;
+                l_invoice.Comment = "";
 
+            }
+            catch (Exception e)
+            {
+                l_data_error = "Error in the format of your data, please check " + e.Message;
+            }
+            
             return l_invoice;
         }
 

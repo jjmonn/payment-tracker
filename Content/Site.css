@@ -32,3 +32,9 @@ textarea {
     color: black;
     background-color: transparent;
 }
+
+.text-primary {
+    color: #f8f9fa !important;
+    background-color: #343a40 !important;
+}
+

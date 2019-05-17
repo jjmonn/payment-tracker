@@ -31,34 +31,57 @@
         <dd>
             <table class="table" id="invoicesTable">
                 <tr>
+                    <th>Currency</th>
                     <th>Invoice Reference</th>
                     <th>Due Date</th>
                     <th>Amount</th>
+                    <th>Document Number</th>
+                    <th>Document Header</th>
                 </tr>
-                @foreach (var item in Model.Invoices)
+                @foreach (var item in Model.Invoices.OrderBy(i => i.DueDate))
                 {
                     <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Currency)
+                        </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.DocumentReference)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.DueDate)
+                            @item.DueDate.ToString("yyyy/MM/dd")
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.DueAmount)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DocumentNumber)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DocumentHeader)
                         </td>
                     </tr>
                 }
             </table>
         </dd>
 
-        <dt>
-            Total Due invoices
-        </dt>
+        <dt>Total EUR invoices: </dt>
+        <dd>Overdue: <span id="overdueEUR"></span> €</dd>
+        <dd>This week: <span id="weekdueEUR"></span>  €</dd>
+        <dd>Next week: <span id="nextWeekdueEUR"></span>  €</dd>
+        <dd>After next week: <span id="afterNextWeekdueEUR"> €</span></dd>
 
-        <dd>
-            <span id="val"></span>
-        </dd>
+        <dt>Total USD invoices: </dt>
+        <dd>Overdue: <span id="overdueUSD"></span></dd>
+        <dd>This week: <span id="weekdueUSD"></span></dd>
+        <dd>Next week: <span id="nextWeekdueUSD"></span></dd>
+        <dd>After next week: <span id="afterNextWeekdueUSD"></span></dd>
+
+        <dt>Total GBP invoices: </dt>
+        <dd>Overdue: <span id="overdueGBP"></span></dd>
+        <dd>This week: <span id="weekdueGBP"></span></dd>
+        <dd>Next week: <span id="nextWeekdueGBP"></span></dd>
+        <dd>After next week: <span id="afterNextWeekdueGBP"></span></dd>
+
 
         <dt>
             @Html.DisplayNameFor(model => model.SAPMainAccountNumber)
@@ -156,15 +179,7 @@
 </p>
 
 
-<script>
-
-    var table = document.getElementById("invoicesTable"), sumVal = 0;
-
-    for (var i = 1; i < table.rows.length; i++) {
-        sumVal = sumVal + parseInt(table.rows[i].cells[2].innerHTML);
-    }
-
-    document.getElementById("val").innerHTML = sumVal + " €";
-    console.log(sumVal);
-
-</script>
+@section scripts {
+    @Scripts.Render("~/bundles/app")
+    @Scripts.Render("~/bundles/supplierDetails")
+}

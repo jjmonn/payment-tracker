@@ -78,6 +78,9 @@ namespace EcheancierDotNet.Controllers
                     l_error_message = "Error in the columns of your upload file. Please contact Julien Monnereau, ALA France.";
                 }
                 else
+                if (l_uploader.l_data_error != "") {
+                    l_error_message = l_uploader.l_data_error;
+                }
                 {
                     l_error_message = "Error during invoices upload, some suppliers are not in the list: ";
                     foreach (string l_supplier in l_uploader.m_suppliers_to_be_added)

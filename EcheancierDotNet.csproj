@@ -265,7 +265,9 @@
     <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\payments.js" />
     <Content Include="Scripts\perpetuum.knockout.js" />
+    <Content Include="Scripts\supplierDetails.js" />
     <Content Include="Scripts\suppliers.js" />
+    <Content Include="Scripts\upload.js" />
     <Content Include="Scripts\util.js" />
     <Content Include="Views\Invoice\_EditPartial.cshtml" />
     <Content Include="Views\BankAccounts\Create.cshtml" />

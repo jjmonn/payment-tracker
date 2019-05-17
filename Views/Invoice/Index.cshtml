@@ -73,10 +73,10 @@
         <tbody data-bind="foreach: overdueInvoices">
             <tr>
                 <td>
-                    <input type="checkbox" data-bind="checked: ToBePaid, event: { change: $parent.updateInvoice}" />
+                    <input type="checkbox" data-bind="checked: ToBePaid, event: { change: $parent.updateInvoice}"/>
                 </td>
                 <td>
-                    <input type="checkbox" data-bind="checked: Paid" disabled="disabled" />
+                    <input type="checkbox" data-bind="checked: Paid, event: { change: $parent.updatePaidInvoice}"/>
                 </td>
                 <td data-bind="text: SupplierName"></td>
                 <td data-bind="text: moment(DueDate).format('MMM Do YYYY')"></td>
@@ -107,6 +107,9 @@
                 <th data-bind="sort: { arr: Records, prop: 'DueDate' }">Due date</th>
                 <th data-bind="sort: { arr: Records, prop: 'DueAmount' }">Amount</th>
                 <th data-bind="sort: { arr: Records, prop: 'Currency' }">Currency</th>
+                <th>Detail</th>
+                <th>Comment</th>
+                <th></th>
             </tr>
         </thead>
         <tbody data-bind="foreach: weekDueInvoices">
@@ -115,12 +118,15 @@
                     <input type="checkbox" data-bind="checked: ToBePaid, event: { change: $parent.updateInvoice}" />
                 </td>
                 <td>
-                    <input type="checkbox" data-bind="checked: Paid" disabled="disabled" />
+                    <input type="checkbox" data-bind="checked: Paid, event: { change: $parent.updatePaidInvoice}" />
                 </td>
                 <td data-bind="text: SupplierName"></td>
                 <td data-bind="text: moment(DueDate).format('MMM Do YYYY')"></td>
                 <td data-bind="text: $root.formatNumber(DueAmount)"></td>
                 <td data-bind="text: Currency"></td>
+                <td><a href="#"><p data-bind="text: DocumentReference,click: $parent.showInvoice" class="text-ellipsis"></p></a></td>
+                <td data-bind="text: Comment"></td>
+                <td> <a href="#" data-bind="click: $root.remove"> Delete</a></td>
             </tr>
         </tbody>
     </table>
@@ -143,6 +149,9 @@
                 <th data-bind="sort: { arr: Records, prop: 'DueDate' }">Due date</th>
                 <th data-bind="sort: { arr: Records, prop: 'DueAmount' }">Amount</th>
                 <th data-bind="sort: { arr: Records, prop: 'Currency' }">Currency</th>
+                <th>Detail</th>
+                <th>Comment</th>
+                <th></th>
             </tr>
         </thead>
         <tbody data-bind="foreach: nextWeekDueInvoices">
@@ -151,12 +160,15 @@
                     <input type="checkbox" data-bind="checked: ToBePaid, event: { change: $parent.updateInvoice}" />
                 </td>
                 <td>
-                    <input type="checkbox" data-bind="checked: Paid" disabled="disabled" />
+                    <input type="checkbox" data-bind="checked: Paid, event: { change: $parent.updatePaidInvoice}" />
                 </td>
                 <td data-bind="text: SupplierName"></td>
                 <td data-bind="text: moment(DueDate).format('MMM Do YYYY')"></td>
                 <td data-bind="text: $root.formatNumber(DueAmount)"></td>
                 <td data-bind="text: Currency"></td>
+                <td><a href="#"><p data-bind="text: DocumentReference,click: $parent.showInvoice" class="text-ellipsis"></p></a></td>
+                <td data-bind="text: Comment"></td>
+                <td> <a href="#" data-bind="click: $root.remove"> Delete</a></td>
             </tr>
         </tbody>
     </table>
@@ -179,6 +191,9 @@
                 <th data-bind="sort: { arr: Records, prop: 'DueDate' }">Due date</th>
                 <th data-bind="sort: { arr: Records, prop: 'DueAmount' }">Amount</th>
                 <th data-bind="sort: { arr: Records, prop: 'Currency' }">Currency</th>
+                <th>Detail</th>
+                <th>Comment</th>
+                <th></th>
             </tr>
         </thead>
         <tbody data-bind="foreach: afternextWeek">
@@ -187,12 +202,15 @@
                     <input type="checkbox" data-bind="checked: ToBePaid, event: { change: $parent.updateInvoice}" />
                 </td>
                 <td>
-                    <input type="checkbox" data-bind="checked: Paid" disabled="disabled" />
+                    <input type="checkbox" data-bind="checked: Paid, event: { change: $parent.updatePaidInvoice}" />
                 </td>
                 <td data-bind="text: SupplierName"></td>
                 <td data-bind="text: moment(DueDate).format('MMM Do YYYY')"></td>
                 <td data-bind="text: $root.formatNumber(DueAmount)"></td>
                 <td data-bind="text: Currency"></td>
+                <td><a href="#"><p data-bind="text: DocumentReference,click: $parent.showInvoice" class="text-ellipsis"></p></a></td>
+                <td data-bind="text: Comment"></td>
+                <td> <a href="#" data-bind="click: $root.remove"> Delete</a></td>
             </tr>
         </tbody>
     </table>
@@ -213,19 +231,6 @@
 <p>Amount to be paid in EUR: <span data-bind="text: toBePaidEUR.formatted"></span>  - Bank total EUR amount:  XX €</p>
 <p>Amount to be paid in USD: <span data-bind="text: toBePaidUSD.formatted"></span>  - Bank total USD amount: YY $</p>
 <p>Amount to be paid in GBP: <span data-bind="text: toBePaidGBP.formatted"></span>  - Bank GBP amount: ZZ £</p>
-
-<!--<div class="modal" id="myModal" data-bind="with: currentInvoice">
-    <h1 data-bind="text: Currency"></h1>
-    <h1 data-bind="text: SupplierName"></h1>
-    <h1 data-bind="text: DocumentNumber"></h1>
-    <h1 data-bind="text: DocumentReference"></h1>
-    <h1 data-bind="text: DueDate"></h1>
-    <h1 data-bind="text: DueAmount"></h1>
-</div>  -->
-<!--<div class="modal" id="myModal" data-bind="with: currentEmployee">
-    <h1 data-bind="text: fullName"></h1>
-</div> -->
-<!-- Modal -->
 
 
 @Html.Partial("_EditPartial")

@@ -57,7 +57,7 @@ namespace EcheancierDotNet.Controllers
 
         public ActionResult Upload()
         {
-            ViewBag.Message = "Uploads functionalities";
+            ViewBag.Message = "Upload functionalities";
 
             return View();
         }

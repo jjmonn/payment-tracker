@@ -23,6 +23,9 @@ namespace EcheancierDotNet
             bundles.Add(new ScriptBundle("~/bundles/suppliers").Include(
                         "~/Scripts/suppliers.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/supplierDetails").Include(
+                    "~/Scripts/supplierDetails.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/invoices").Include(
                         "~/Scripts/invoices.js"));
 
