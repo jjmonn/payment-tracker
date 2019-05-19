@@ -22,12 +22,6 @@
     function getPaymentsBySupplier() {
         ajaxHelper(suppliersUri + '/tobepaid/', 'GET').done(function (data) {
             self.suppliers(data);
-
-            data.forEach(function (item) {
-                test = item.Name;
-                test1 = item.Invoices;
-            });
-
         });
     }
 
@@ -42,9 +36,18 @@
     self.updateInvoice = function (invoice) {
         ajaxHelper(invoicesUri + '/' + invoice.InvoiceID, 'PUT', invoice).done(function (data) {
             getPaymentsBySupplier();
+            // => if set to not to be paid => self.invoices.remove(invoice); ?
         });
     }
 
+    // Set invoice to status "paid"
+    self.updatePaidInvoice = function (invoice) {
+        invoice.ToBePaid = false;
+        ajaxHelper(invoicesUri + '/' + invoice.InvoiceID, 'PUT', invoice).done(function (data) {
+            getPaymentsBySupplier();
+
+        });
+    }
 
     // Fetch the initial data.
     getPaymentsBySupplier();

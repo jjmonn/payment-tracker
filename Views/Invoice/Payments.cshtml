@@ -46,7 +46,7 @@
                             <input type="checkbox" data-bind="checked: ToBePaid, event: { change: $root.updateInvoice}" />
                         </td>
                         <td>
-                            <input type="checkbox" data-bind="checked: Paid, event: { change: $root.updateInvoice}" />
+                            <input type="checkbox" data-bind="checked: Paid, event: { change: $root.updatePaidInvoice}" />
                         </td>
                         <td data-bind="text: moment(DueDate).format('MMM Do YY')"></td>
                         <td data-bind="text: DueAmount"></td>

@@ -41,6 +41,16 @@
         //$.ajax({ type: "PUT", url: invoicesUri + '/' + invoice.InvoiceId, data: invoice });
     }
 
+    // Set invoice to status "paid"
+    self.updatePaidInvoice = function (invoice) {
+        invoice.ToBePaid = false;
+        ajaxHelper(invoicesUri + '/' + invoice.InvoiceID, 'PUT', invoice).done(function (data) {
+            //getNonPaidInvoices(); 
+            self.invoices.remove(invoice);
+            self.computeAmountsToBePaid(self.invoices());
+        });
+    }
+
     self.computeAmountsToBePaid = function (data) {
 
         amountEUR = 0;

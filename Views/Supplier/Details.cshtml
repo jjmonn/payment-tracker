@@ -38,7 +38,7 @@
                     <th>Document Number</th>
                     <th>Document Header</th>
                 </tr>
-                @foreach (var item in Model.Invoices.OrderBy(i => i.DueDate))
+                @foreach (var item in Model.Invoices.Where(i => i.Paid == false).OrderBy(i => i.DueDate))
                 {
                     <tr>
                         <td>
@@ -69,6 +69,7 @@
         <dd>This week: <span id="weekdueEUR"></span>  €</dd>
         <dd>Next week: <span id="nextWeekdueEUR"></span>  €</dd>
         <dd>After next week: <span id="afterNextWeekdueEUR"> €</span></dd>
+        <dd>Total: <span id="totalEUR"> €</span></dd>
 
         <dt>Total USD invoices: </dt>
         <dd>Overdue: <span id="overdueUSD"></span></dd>

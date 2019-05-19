@@ -54,6 +54,8 @@ for (var i = 1; i < table.rows.length; i++) {
 document.getElementById("overdueEUR").innerHTML = overdueInvoices['EUR'].toFixed(2);
 document.getElementById("overdueUSD").innerHTML = overdueInvoices['USD'].toFixed(2);
 document.getElementById("overdueGBP").innerHTML = overdueInvoices['GBP'].toFixed(2);
+var totalEUR = overdueInvoices['EUR'] + weekdueInvoices['EUR'] + nextWeekDueInvoices['EUR'] + afterNextWeekdueInvoices['EUR'];
+document.getElementById("totalEUR").innerHTML = totalEUR.toFixed(2);
 
 document.getElementById("weekdueEUR").innerHTML = weekdueInvoices['EUR'].toFixed(2);
 document.getElementById("weekdueUSD").innerHTML = weekdueInvoices['USD'].toFixed(2);
