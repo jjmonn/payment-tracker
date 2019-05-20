@@ -2,46 +2,6 @@
 
 var invoices;
 
-// Put this in view model - simplify
-$(document).ready(function () {
-
-    // Send an AJAX request
-    $.getJSON(uri)
-        .done(function (data) {
-            // On success, 'data' contains a list of invoices.
-            total_amount_EUR = 0;
-            total_amount_USD = 0;
-            total_amount_GBP = 0;
-
-            invoices = [];
-
-            $.each(data, function (key, item) {
-                if (item.IsSupplierInterco == false) {
-                    invoices.push(item);
-
-                    var _date = new Date(item.DueDate);
-                    if (_date <= Date.now() && item.Paid === false) {
-                        $('<li>', { text: formatItem(item) }).appendTo($('#invoices'));
-                        switch (item.Currency) {
-                            case "EUR": total_amount_EUR += item.DueAmount;
-                                break;
-
-                            case "USD": total_amount_USD += item.DueAmount;
-                                break;
-
-                            case "GBP": total_amount_GBP += item.DueAmount;
-                                break;
-                        }
-                    }
-                }
-            });
-
-            $('<li>', { text: 'Total overdue EUR: € ' + Math.round(total_amount_EUR).toString() }).appendTo($('#total_overdue'));
-            $('<li>', { text: 'Total overdue USD: $ ' + Math.round(total_amount_USD).toString() }).appendTo($('#total_overdue'));
-            $('<li>', { text: 'Total overdue GBP: £ ' + Math.round(total_amount_GBP).toString() }).appendTo($('#total_overdue'));
-            $('<p>', { text: '' }).appendTo($('#total_overdue'));
-        });
-});
 
 
 function formatItem(item) {
@@ -49,10 +9,15 @@ function formatItem(item) {
 }
 
 
+
+
+
 var ViewModel = function () {
     var self = this;
     self.invoices = ko.observableArray();
     self.error = ko.observable();
+
+
 
     // Amounts to be paid
     this.toBePaidEUR = ko.observable(0).money('€');
@@ -110,83 +75,96 @@ var ViewModel = function () {
     }
 
 
+    function drawAnnotations() {
+ 
+        var data = new google.visualization.DataTable();
+        data.addColumn('date', 'date');
+        data.addColumn('number', 'Due invoices');
+        data.addColumn({ type: 'number', role: 'annotation' });
+
+        var _today = new Date();
+
+        self.invoices().forEach(function (l_invoice) {
+            var _date = new Date(l_invoice.DueDate);
+            if (_date.getFullYear() >= _today.getFullYear()) {
+                data.addRow([new Date(l_invoice.DueDate), l_invoice.DueAmount, l_invoice.DueAmount]);
+            }
+        });
+
+        var result = google.visualization.data.group(
+            data,
+            [{ column: 0, modifier: getWeeks, type: 'date' }],
+            [{ 'column': 1, 'aggregation': google.visualization.data.sum, 'type': 'number' }]
+        );
+
+        function getWeeks(someDate) {
+            //d = new Date(someDate);
+            var day = someDate.getDay(),
+                diff = someDate.getDate() - day + (day == 0 ? -6 : 1) + 2; // adjust when day is sunday
+            var _wednesday = new Date(someDate.setDate(diff));
+            return { v: new Date(_wednesday), f: _wednesday.toDateString() };
+        }
+
+        function getMonths(someDate) {
+            var month = someDate.getMonth();
+            var year = someDate.getFullYear();
+            return { v: new Date(year, month), f: (month + 1) + '/' + year };
+        }
+
+        var options = {
+            title: 'Due Invoices Planning',
+            'height': 400,
+            annotations: {
+                alwaysOutside: true,
+                textStyle: {
+                    fontSize: 12,
+                    color: '#000',
+                    auraColor: 'none'
+                }
+            },
+            hAxis: {
+                title: 'Date',
+                //format: 'h:mm a',
+                //viewWindow: {
+                //    min: [7, 30, 0],
+                //    max: [17, 30, 0]
+                //},
+                gridlines: {
+                    color: 'transparent'
+                }
+            },
+            vAxis: {
+                title: '€'
+            }
+        };
+
+        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+        chart.draw(result, options);
+    }
 
     // Fetch the initial data.
-    //getNonPaidInvoices();
+    getNonPaidInvoices();
+    //drawAnnotations();
+
+    wait(1500);
+    google.charts.load('current', { packages: ['corechart', 'bar'] });
+    google.charts.setOnLoadCallback(drawAnnotations);
+
 };
+
 
 
 ko.applyBindings(new ViewModel());
 
-google.charts.load('current', { packages: ['corechart', 'bar'] });
-google.charts.setOnLoadCallback(drawAnnotations);
-
-function drawAnnotations() {
-    var data = new google.visualization.DataTable();
-    data.addColumn('date', 'date');
-    data.addColumn('number', 'Due invoices');
-    data.addColumn({ type: 'number', role: 'annotation' });
-
-    var _today = new Date();
-
-    invoices.forEach(function (l_invoice) {
-        var _date = new Date(l_invoice.DueDate);
-        if (_date.getFullYear() >= _today.getFullYear()) {
-            data.addRow([new Date(l_invoice.DueDate), l_invoice.DueAmount, l_invoice.DueAmount]);
-        }
-    });
-
-
-    var result = google.visualization.data.group(
-        data,
-        [{ column: 0, modifier: getWeeks, type: 'date' }],
-        [{ 'column': 1, 'aggregation': google.visualization.data.sum, 'type': 'number' }]
-    );
-
-    function getWeeks(someDate) {
-        //d = new Date(someDate);
-        var day = someDate.getDay(),
-            diff = someDate.getDate() - day + (day == 0 ? -6 : 1) +2; // adjust when day is sunday
-        var _wednesday = new Date(someDate.setDate(diff));
-        return { v: new Date(_wednesday), f: _wednesday.toDateString() };
-    }
-
-    function getMonths(someDate) {
-        var month = someDate.getMonth();
-        var year = someDate.getFullYear();
-        return { v: new Date(year, month), f: (month + 1) + '/' + year };
-    }
-
-    var options = {
-        title: 'Due Invoices Planning',
-        'height': 400,
-        annotations: {
-            alwaysOutside: true,
-            textStyle: {
-                fontSize: 12,
-                color: '#000',
-                auraColor: 'none'
-            }
-        },
-        hAxis: {
-            title: 'Date',
-            //format: 'h:mm a',
-            //viewWindow: {
-            //    min: [7, 30, 0],
-            //    max: [17, 30, 0]
-            //},
-            gridlines: {
-                color: 'transparent'
-            }
-        },
-        vAxis: {
-            title: '€'
-        }
-    };
-
-    var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
-    chart.draw(result, options);
+function wait(ms) {
+    var d = new Date();
+    var d2 = null;
+    do { d2 = new Date(); }
+    while (d2 - d < ms);
 }
+
+
+
 
 function getMonday(d) {
     d = new Date(d);
