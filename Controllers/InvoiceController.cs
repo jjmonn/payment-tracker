@@ -15,6 +15,8 @@ namespace EcheancierDotNet.Controllers
 {
     public class InvoiceController : KnockoutController
     {
+        public string m_message = "";
+
         private PaymentContext db = new PaymentContext();
 
         // GET: Invoice
@@ -61,14 +63,20 @@ namespace EcheancierDotNet.Controllers
         }
 
 
-        public string UploadInvoices(string path)
+        public string UploadInvoices(string path, string p_uploadName)
         {
             var l_suppliers = db.Suppliers.ToList();
             var l_existing_doc_numbers = db.Invoices.Select(i => i.DocumentNumber).ToList();
+            var l_existing_uploads_names = db.Upload.Select(i => i.Name).ToList();
+            int l_nb_invoices_uploaded = 0;
+            double l_total_amount_uploadedEUR = 0;
+            double l_total_amount_uploadedUSD = 0;
+            double l_total_amount_uploadedGBP = 0;
 
+            Upload l_upload = new Upload(p_uploadName);
             InvoiceUploader l_uploader = new InvoiceUploader(l_suppliers, l_existing_doc_numbers);
 
-            bool upload_result = l_uploader.ImportCSV(path);
+            bool upload_result = l_uploader.ImportCSV(path, l_upload.UploadID);
             if (upload_result == false)
             {
                 string l_error_message = "";
@@ -96,6 +104,70 @@ namespace EcheancierDotNet.Controllers
             }
             else
             {
+                l_nb_invoices_uploaded = l_uploader.m_invoices_to_create.Count;
+                try
+                {
+                    foreach (Invoice l_invoice in l_uploader.m_invoices_to_create)
+                    {
+                        if (ModelState.IsValid)
+                        {
+                            db.Invoices.Add(l_invoice);
+                            switch (l_invoice.Currency)
+                            {
+                                case "EUR": l_total_amount_uploadedEUR += l_invoice.DueAmount ;
+                                    break;
+                                case "USD": l_total_amount_uploadedUSD += l_invoice.DueAmount;
+                                    break;
+                                case "GBP": l_total_amount_uploadedGBP += l_invoice.DueAmount;
+                                    break;
+                            }
+                        }
+                    }
+                    db.Upload.Add(l_upload);
+                    db.SaveChanges();
+                    m_message = "Upload success, number of invoices uploaded: " + l_nb_invoices_uploaded.ToString();
+                }
+                catch (DataException /* dex */)
+                {
+                    //Log the error (uncomment dex variable name and add a line here to write a log.
+                    ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
+                    return "Error in updating the database. The uplaoad failed.";
+                }
+                return "";
+            }
+        }
+
+        public string UploadInvoiceTable(string path)
+        {
+            var l_suppliers = db.Suppliers.ToList();
+            var l_existing_doc_numbers = db.Invoices.Select(i => i.DocumentNumber).ToList();
+         
+            InvoiceUploader l_uploader = new InvoiceUploader(l_suppliers, l_existing_doc_numbers);
+
+            bool upload_result = l_uploader.ImportCSVTable(path);
+            if (upload_result == false)
+            {
+                string l_error_message = "";
+
+                if (l_uploader.l_data_error != "")
+                {
+                    l_error_message = l_uploader.l_data_error;
+                }
+                {
+                    l_error_message = "Error during invoices upload, some suppliers are not in the list: ";
+                    foreach (string l_supplier in l_uploader.m_suppliers_to_be_added)
+                    {
+                        l_error_message += " ; " + l_supplier;
+                    }
+                }
+                return l_error_message;
+            }
+            else if (l_uploader.m_invoices_to_create.Count == 0)
+            {
+                return "No new invoice detected in the file.";
+            }
+            else
+            {
                 try
                 {
                     foreach (Invoice l_invoice in l_uploader.m_invoices_to_create)
@@ -104,8 +176,8 @@ namespace EcheancierDotNet.Controllers
                         {
                             db.Invoices.Add(l_invoice);
                         }
-                        db.SaveChanges();
                     }
+                    db.SaveChanges();
                 }
                 catch (DataException /* dex */)
                 {

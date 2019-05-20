@@ -66,9 +66,7 @@ namespace EcheancierDotNet.ViewModels
             {
                 if (l_toBePaid_filter == true)
                 {
-                    
-
-                    if (l_invoice.ToBePaid == true)
+                    if (l_invoice.ToBePaid == true && l_invoice.Paid == false)
                     {
                         Invoices.Add(new InvoiceWrapper(l_invoice));
 

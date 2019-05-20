@@ -62,9 +62,17 @@ namespace EcheancierDotNet.DAL
         context.SaveChanges();
 
 
-    }
+            var l_uploads = new List<Upload>
+            {
+                new Upload { UploadDate = DateTime.Parse("15-05-2019"), Name = "Upload initial 15/05/2019" }
+            };
+            l_uploads.ForEach(s => context.Upload.Add(s));
+            context.SaveChanges();
 
-}
+
+        }
+
+    }
 
 
 }

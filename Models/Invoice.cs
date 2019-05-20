@@ -32,10 +32,15 @@ namespace EcheancierDotNet.Models
         public bool ProForma { get; set; }
         public string Comment { get; set; }
         public int BankID { get; set; }
+        public Nullable<DateTime>PaymentDate { get; set; }
+        public int UploadID { get; set; }
+        public int PaymentMethod { get; set; }
 
 
         public virtual Supplier Supplier { get; set; }
 
         public virtual BankAccount BankAccount { get; set; }
+
+        public virtual Upload Upload { get; set; }
     }
 }

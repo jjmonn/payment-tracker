@@ -193,6 +193,7 @@
     <Compile Include="Controllers\InvoicesController.cs" />
     <Compile Include="Controllers\SupplierController.cs" />
     <Compile Include="Controllers\SuppliersController.cs" />
+    <Compile Include="Controllers\UploadsController.cs" />
     <Compile Include="DAL\PaymentContext.cs" />
     <Compile Include="DAL\PaymentInitializer.cs" />
     <Compile Include="Global.asax.cs">
@@ -205,12 +206,14 @@
     <Compile Include="Models\InvoiceUploader.cs" />
     <Compile Include="Models\SupplierUploader.cs" />
     <Compile Include="Models\Total.cs" />
+    <Compile Include="Models\Upload.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\BankAccountWrapper.cs" />
     <Compile Include="ViewModels\FlowWrapper.cs" />
     <Compile Include="ViewModels\InvoiceWrapper.cs" />
     <Compile Include="ViewModels\SupplierWrapper.cs" />
+    <Compile Include="ViewModels\UploadWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\ala_logo.png" />
@@ -303,6 +306,11 @@
     <Content Include="Views\Invoice\Edit.cshtml" />
     <Content Include="Views\Invoice\Index.cshtml" />
     <Content Include="Views\Invoice\Payments.cshtml" />
+    <Content Include="Views\Uploads\Create.cshtml" />
+    <Content Include="Views\Uploads\Delete.cshtml" />
+    <Content Include="Views\Uploads\Details.cshtml" />
+    <Content Include="Views\Uploads\Edit.cshtml" />
+    <Content Include="Views\Uploads\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
