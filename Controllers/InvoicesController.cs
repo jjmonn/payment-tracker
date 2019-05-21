@@ -90,7 +90,9 @@ namespace EcheancierDotNet.Controllers
         }
 
         // PUT: api/Invoices/5
+        [Route("api/invoices/{id}")]
         [ResponseType(typeof(void))]
+        [HttpPut]
         public async Task<IHttpActionResult> PutInvoice(int id, Invoice invoice)
         {
             if (!ModelState.IsValid)

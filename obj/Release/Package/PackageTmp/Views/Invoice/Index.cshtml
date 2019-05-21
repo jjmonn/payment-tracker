@@ -1,0 +1,236 @@
+﻿@section scripts {
+    @Scripts.Render("~/bundles/app")
+    @Scripts.Render("~/bundles/invoices")
+}
+
+@model IEnumerable<EcheancierDotNet.Models.Invoice>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Invoices list</h2>
+
+
+@if (ViewBag.Message != null)
+{
+    <script type="text/javascript">
+            window.onload = function () {
+                alert("@ViewBag.Message");
+            };
+    </script>
+}
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            <p>Interco Filter</p>
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            Currency
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            <input data-bind="event:{ change: toggleInterco}" type="checkbox" checked data-toggle="toggle">
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            <button data-bind="click: setAllOverDueToBePaid" type="button" class="btn btn-primary">Set all overdue to be paid</button>
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            <p>
+                <select data-bind="value: currencyFilter, options: availableCurrencies, event:{ change: filterCurrencies}"></select>
+            </p>
+        </div>
+    </div>
+</div>
+
+
+<div class="panel-body">
+    <p>Invoices overdue</p>
+    <input data-bind="event:{ change: togglediplayOverdue}" type="checkbox" checked data-toggle="toggle" data-on="Hide" data-off="Show">
+    <table data-bind="if: diplayOverdue" class="table table-striped">
+        <thead>
+            <tr>
+                <th>Prepare</th>
+                <th>Paid</th>
+                <th data-bind="sort: { arr: Records, prop: 'SupplierName' }">Supplier's name</th>
+                <th data-bind="sort: { arr: Records, prop: 'DueDate' }">Due date</th>
+                <th data-bind="sort: { arr: Records, prop: 'DueAmount' }">Amount</th>
+                <th data-bind="sort: { arr: Records, prop: 'Currency' }">Currency</th>
+                <th>Detail</th>
+                <th>Comment</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: overdueInvoices">
+            <tr>
+                <td>
+                    <input type="checkbox" data-bind="checked: ToBePaid, event: { change: $parent.updateInvoice}"/>
+                </td>
+                <td>
+                    <input type="checkbox" data-bind="checked: Paid, event: { change: $parent.updatePaidInvoice}"/>
+                </td>
+                <td data-bind="text: SupplierName"></td>
+                <td data-bind="text: moment(DueDate).format('MMM Do YYYY')"></td>
+                <td data-bind="text: $root.formatNumber(DueAmount)"></td>
+                <td data-bind="text: Currency"></td>
+                <td><a href="#"><p data-bind="text: DocumentReference,click: $parent.showInvoice" class="text-ellipsis"></p></a></td>
+                <td data-bind="text: Comment"></td>
+                <td> <a href="#" data-bind="click: $root.remove"> Delete</a></td>
+            </tr>
+        </tbody>
+    </table>
+    <!--<button class="btn btn-primary" data-bind="click: $root.showForm">New</button>-->
+    <div class="alert alert-danger" data-bind="visible: error"><p data-bind="text: error"></p></div>
+    <p>Overdue amount EUR: <span data-bind="text: overdueAmountEUR.formatted"></span>  - Bank available €: </p>
+    <p>Overdue amount USD: <span data-bind="text: overdueAmountUSD.formatted"></span>  - Bank available $: </p>
+    <p>Overdue amount GBP: <span data-bind="text: overdueAmountGBP.formatted"></span>  - Bank available £: </p>
+</div>
+
+<div class="panel-body">
+    <p>Invoices due this week</p>
+    <input data-bind="event:{ change: togglediplayWeek}" type="checkbox" checked data-toggle="toggle" data-on="Hide" data-off="Show">
+    <table data-bind="if: diplayThisWeek" class="table table-striped">
+        <thead>
+            <tr>
+                <th>Prepare</th>
+                <th>Paid</th>
+                <th data-bind="sort: { arr: Records, prop: 'SupplierName' }">Supplier's name</th>
+                <th data-bind="sort: { arr: Records, prop: 'DueDate' }">Due date</th>
+                <th data-bind="sort: { arr: Records, prop: 'DueAmount' }">Amount</th>
+                <th data-bind="sort: { arr: Records, prop: 'Currency' }">Currency</th>
+                <th>Detail</th>
+                <th>Comment</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: weekDueInvoices">
+            <tr>
+                <td>
+                    <input type="checkbox" data-bind="checked: ToBePaid, event: { change: $parent.updateInvoice}" />
+                </td>
+                <td>
+                    <input type="checkbox" data-bind="checked: Paid, event: { change: $parent.updatePaidInvoice}" />
+                </td>
+                <td data-bind="text: SupplierName"></td>
+                <td data-bind="text: moment(DueDate).format('MMM Do YYYY')"></td>
+                <td data-bind="text: $root.formatNumber(DueAmount)"></td>
+                <td data-bind="text: Currency"></td>
+                <td><a href="#"><p data-bind="text: DocumentReference,click: $parent.showInvoice" class="text-ellipsis"></p></a></td>
+                <td data-bind="text: Comment"></td>
+                <td> <a href="#" data-bind="click: $root.remove"> Delete</a></td>
+            </tr>
+        </tbody>
+    </table>
+    <!--<button class="btn btn-primary" data-bind="click: $root.showForm">New</button>-->
+    <div class="alert alert-danger" data-bind="visible: error"><p data-bind="text: error"></p></div>
+    <p>Due from today to the end of the week EUR: <span data-bind="text: weekAmountEUR.formatted"></span></p>
+    <p>Due from today to the end of the week USD: <span data-bind="text: weekAmountUSD.formatted"></span></p>
+    <p>Due from today to the end of the week GBP: <span data-bind="text: weekAmountGBP.formatted"></span></p>
+</div>
+
+<div class="panel-body">
+    <p>Invoices due next week</p>
+    <input data-bind="event:{ change: togglediplayNextWeek}" type="checkbox" data-toggle="toggle" data-on="Hide" data-off="Show">
+    <table data-bind="if: diplayNextWeek" class="table table-striped">
+        <thead>
+            <tr>
+                <th>Prepare</th>
+                <th>Paid</th>
+                <th data-bind="sort: { arr: Records, prop: 'SupplierName' }">Supplier's name</th>
+                <th data-bind="sort: { arr: Records, prop: 'DueDate' }">Due date</th>
+                <th data-bind="sort: { arr: Records, prop: 'DueAmount' }">Amount</th>
+                <th data-bind="sort: { arr: Records, prop: 'Currency' }">Currency</th>
+                <th>Detail</th>
+                <th>Comment</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: nextWeekDueInvoices">
+            <tr>
+                <td>
+                    <input type="checkbox" data-bind="checked: ToBePaid, event: { change: $parent.updateInvoice}" />
+                </td>
+                <td>
+                    <input type="checkbox" data-bind="checked: Paid, event: { change: $parent.updatePaidInvoice}" />
+                </td>
+                <td data-bind="text: SupplierName"></td>
+                <td data-bind="text: moment(DueDate).format('MMM Do YYYY')"></td>
+                <td data-bind="text: $root.formatNumber(DueAmount)"></td>
+                <td data-bind="text: Currency"></td>
+                <td><a href="#"><p data-bind="text: DocumentReference,click: $parent.showInvoice" class="text-ellipsis"></p></a></td>
+                <td data-bind="text: Comment"></td>
+                <td> <a href="#" data-bind="click: $root.remove"> Delete</a></td>
+            </tr>
+        </tbody>
+    </table>
+    <!--<button class="btn btn-primary" data-bind="click: $root.showForm">New</button>-->
+    <div class="alert alert-danger" data-bind="visible: error"><p data-bind="text: error"></p></div>
+    <p>Due next week EUR: <span data-bind="text: nextWeekAmountEUR.formatted"></span></p>
+    <p>Due next week USD: <span data-bind="text: nextWeekAmountUSD.formatted"></span></p>
+    <p>Due next week GBP: <span data-bind="text: nextWeekAmountGBP.formatted"></span></p>
+</div>
+
+<div class="panel-body">
+    <p>Due after next week</p>
+    <input data-bind="event:{ change: togglediplayAfterNextWeek}" type="checkbox" data-toggle="toggle" data-on="Hide" data-off="Show">
+    <table data-bind="if: diplayAfterNextWeek" class="table table-striped">
+        <thead>
+            <tr>
+                <th>Prepare</th>
+                <th>Paid</th>
+                <th data-bind="sort: { arr: Records, prop: 'SupplierName' }">Supplier's name</th>
+                <th data-bind="sort: { arr: Records, prop: 'DueDate' }">Due date</th>
+                <th data-bind="sort: { arr: Records, prop: 'DueAmount' }">Amount</th>
+                <th data-bind="sort: { arr: Records, prop: 'Currency' }">Currency</th>
+                <th>Detail</th>
+                <th>Comment</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: afternextWeek">
+            <tr>
+                <td>
+                    <input type="checkbox" data-bind="checked: ToBePaid, event: { change: $parent.updateInvoice}" />
+                </td>
+                <td>
+                    <input type="checkbox" data-bind="checked: Paid, event: { change: $parent.updatePaidInvoice}" />
+                </td>
+                <td data-bind="text: SupplierName"></td>
+                <td data-bind="text: moment(DueDate).format('MMM Do YYYY')"></td>
+                <td data-bind="text: $root.formatNumber(DueAmount)"></td>
+                <td data-bind="text: Currency"></td>
+                <td><a href="#"><p data-bind="text: DocumentReference,click: $parent.showInvoice" class="text-ellipsis"></p></a></td>
+                <td data-bind="text: Comment"></td>
+                <td> <a href="#" data-bind="click: $root.remove"> Delete</a></td>
+            </tr>
+        </tbody>
+    </table>
+    <!--<button class="btn btn-primary" data-bind="click: $root.showForm">New</button>-->
+    <div class="alert alert-danger" data-bind="visible: error"><p data-bind="text: error"></p></div>
+    <p>Due after next week EUR: <span data-bind="text: afterNextWeekAmountEUR.formatted"></span></p>
+    <p>Due after week USD: <span data-bind="text: afterNextWeekAmountUSD.formatted"></span></p>
+    <p>Due after week GBP: <span data-bind="text: afterNextWeekAmountGBP.formatted"></span></p>
+</div>
+
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+    <!--<button class="btn btn-primary" data-bind="click: $root.showForm">New</button>-->
+</p>
+
+
+<p>Amount to be paid in EUR: <span data-bind="text: toBePaidEUR.formatted"></span>  - Bank total EUR amount:  XX €</p>
+<p>Amount to be paid in USD: <span data-bind="text: toBePaidUSD.formatted"></span>  - Bank total USD amount: YY $</p>
+<p>Amount to be paid in GBP: <span data-bind="text: toBePaidGBP.formatted"></span>  - Bank GBP amount: ZZ £</p>
+
+
+@Html.Partial("_EditPartial")

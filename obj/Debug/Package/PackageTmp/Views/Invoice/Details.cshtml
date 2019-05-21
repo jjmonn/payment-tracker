@@ -1,0 +1,122 @@
+﻿@model EcheancierDotNet.Models.Invoice
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Invoice</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Supplier.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Supplier.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DocumentNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DocumentNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DocumentReference)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DocumentReference)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DocumentDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DocumentDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DueDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DueDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GoodsReceptionDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GoodsReceptionDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RawAmount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RawAmount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VAT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VAT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DueAmount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DueAmount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ToBePaid)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ToBePaid)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Paid)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Paid)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProForma)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProForma)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Comment)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Comment)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.InvoiceID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
