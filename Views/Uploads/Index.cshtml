@@ -5,11 +5,46 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Uploads</h2>
 
-<p>
+
+@using (Html.BeginForm("Index", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="container">
+        <div class="col-md-8 col-md-offset-2">
+            <h3>Upload invoices from SAP</h3>
+            <div class="form-group">
+                <input type="text" name="uploadName" class="form-control" id="inputName" placeholder="Enter a name for the input">
+                <input type="file" name="file" />
+                <input type="submit" value="Submit" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+
+
+<hr />
+
+@using (Html.BeginForm("UploadTable", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="container">
+        <div class="col-md-8 col-md-offset-2">
+            <h3>Upload table : reinitialization of database</h3>
+            <div class="form-group">
+                <input type="file" name="file" />
+                <input type="submit" value="Submit" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+
+<hr />
+
+<!--<p>
     @Html.ActionLink("Create New", "Create")
-</p>
+</p>-->
+
+
 <table class="table">
     <tr>
         <th>
@@ -21,20 +56,21 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UploadDate)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.UploadID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.UploadID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.UploadID })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UploadDate)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.UploadID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.UploadID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.UploadID })
+            </td>
+        </tr>
+    }
 
 </table>

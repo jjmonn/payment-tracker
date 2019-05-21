@@ -51,7 +51,7 @@ namespace EcheancierDotNet.Controllers
             if (file != null && file.ContentLength > 0)
             {
                 // extract only the filename
-                var fileName = Path.GetFileName(file.FileName);
+                var fileName = "upload.csv";    //Path.GetFileName(file.FileName);
                 var file_path = Path.GetDirectoryName(file.FileName);
 
                 // avoid to store upload 

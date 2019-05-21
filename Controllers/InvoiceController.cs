@@ -63,7 +63,7 @@ namespace EcheancierDotNet.Controllers
         }
 
 
-        public string UploadInvoices(string path, string p_uploadName)
+        public string UploadInvoices(string p_csv_str, string p_uploadName)
         {
             var l_suppliers = db.Suppliers.ToList();
             var l_existing_doc_numbers = db.Invoices.Select(i => i.DocumentNumber).ToList();
@@ -76,7 +76,7 @@ namespace EcheancierDotNet.Controllers
             Upload l_upload = new Upload(p_uploadName);
             InvoiceUploader l_uploader = new InvoiceUploader(l_suppliers, l_existing_doc_numbers);
 
-            bool upload_result = l_uploader.ImportCSV(path, l_upload.UploadID);
+            bool upload_result = l_uploader.ImportCSV(p_csv_str, l_upload.UploadID);
             if (upload_result == false)
             {
                 string l_error_message = "";
@@ -86,14 +86,18 @@ namespace EcheancierDotNet.Controllers
                     l_error_message = "Error in the columns of your upload file. Please contact Julien Monnereau, ALA France.";
                 }
                 else
-                if (l_uploader.l_data_error != "") {
-                    l_error_message = l_uploader.l_data_error;
-                }
                 {
-                    l_error_message = "Error during invoices upload, some suppliers are not in the list: ";
-                    foreach (string l_supplier in l_uploader.m_suppliers_to_be_added)
+                    if (l_uploader.l_data_error != "")
                     {
-                        l_error_message += " ; " + l_supplier;
+                        l_error_message = l_uploader.l_data_error;
+                    }
+                    else
+                    {
+                        l_error_message = "Error during invoices upload, some suppliers are not in the list: ";
+                        foreach (string l_supplier in l_uploader.m_suppliers_to_be_added)
+                        {
+                            l_error_message += " ; " + l_supplier;
+                        }
                     }
                 }
                 return l_error_message;
@@ -137,22 +141,22 @@ namespace EcheancierDotNet.Controllers
             }
         }
 
-        public string UploadInvoiceTable(string path)
+        public string UploadInvoiceTable(string p_csv_str)
         {
             var l_suppliers = db.Suppliers.ToList();
             var l_existing_doc_numbers = db.Invoices.Select(i => i.DocumentNumber).ToList();
          
             InvoiceUploader l_uploader = new InvoiceUploader(l_suppliers, l_existing_doc_numbers);
 
-            bool upload_result = l_uploader.ImportCSVTable(path);
+            bool upload_result = l_uploader.ImportCSVTable(p_csv_str);
             if (upload_result == false)
             {
                 string l_error_message = "";
-
                 if (l_uploader.l_data_error != "")
                 {
                     l_error_message = l_uploader.l_data_error;
                 }
+                else
                 {
                     l_error_message = "Error during invoices upload, some suppliers are not in the list: ";
                     foreach (string l_supplier in l_uploader.m_suppliers_to_be_added)

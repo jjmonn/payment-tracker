@@ -1,0 +1,3 @@
+Account;Vendor Name;Document type;Reference;Document Date;Document currency;Amount in doc. curr.;Clearing Document;Document Number;Text;Document Header Text;Net due date;Payment block;Payment Method
+200412;ALA NORTH AMERICA;KC;999996;31/12/2019;USD;-666;;999996;;FACTURE 03/10/2018;31/12/2019;;
+200412;ALA NORTH AMERICA;KC;999997;31/12/2019;USD;-666;;999997;;;31/12/2019;;

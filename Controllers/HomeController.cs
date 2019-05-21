@@ -22,10 +22,6 @@ namespace EcheancierDotNet.Controllers
             // Verify that the user selected a file
             if (file != null && file.ContentLength > 0)
             {
-                // extract only the filename
-                var fileName = Path.GetFileName(file.FileName);
-                var p_path = Path.GetFullPath(file.FileName);
-
                 if (uploadName == "")
                 {
                     ViewBag.alert = "Please enter a name for this upload";
@@ -38,7 +34,12 @@ namespace EcheancierDotNet.Controllers
                     ViewBag.alert = "Upload name already used";
                     return View();
                 }
-                // store the file inside ~/App_Data/uploads folder                      DO NOT SAVE THE FILE ON SERVER PROD
+
+                // extract only the filename
+                var fileName = "upload.csv";  // Path.GetFileName(file.FileName);
+                var p_path = Path.GetFullPath(file.FileName);
+
+                // store the file inside ~/App_Data/uploads folder
                 var path = Path.Combine(Server.MapPath("~/"), fileName);
                 file.SaveAs(path);
 
@@ -64,7 +65,7 @@ namespace EcheancierDotNet.Controllers
             if (file != null && file.ContentLength > 0)
             {
                 // extract only the filename
-                var fileName = Path.GetFileName(file.FileName);
+                var fileName = "upload.csv";// Path.GetFileName(file.FileName);
                 var p_path = Path.GetFullPath(file.FileName);
 
                 // store the file inside ~/App_Data/uploads folder
@@ -88,6 +89,33 @@ namespace EcheancierDotNet.Controllers
             }
             return RedirectToAction("Index");
         }
+
+        private string GetStrFromFile(HttpPostedFileBase file)
+        {
+            System.IO.Stream str;
+            String strmContents;
+            Int32 counter, strLen, strRead;
+
+            // Create a Stream object.
+            str = file.InputStream;
+            // Find number of bytes in stream.
+            strLen = Convert.ToInt32(str.Length);
+            // Create a byte array.
+            byte[] strArr = new byte[strLen];
+            // Read stream into byte array.
+            strRead = str.Read(strArr, 0, strLen);
+
+            // Convert byte array to a text string.
+            strmContents = "";
+            for (counter = 0; counter < strLen; counter++)
+            {
+                strmContents = strmContents + strArr[counter].ToString();
+            }
+
+            return strmContents;
+        }
+
+      
 
         public ActionResult About()
         {

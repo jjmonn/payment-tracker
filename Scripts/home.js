@@ -146,7 +146,7 @@ var ViewModel = function () {
     getNonPaidInvoices();
     //drawAnnotations();
 
-    wait(1500);
+    wait(2500);
     google.charts.load('current', { packages: ['corechart', 'bar'] });
     google.charts.setOnLoadCallback(drawAnnotations);
 
@@ -172,3 +172,45 @@ function getMonday(d) {
         diff = d.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
     return new Date(d.setDate(diff));
 }
+
+
+// Put this in view model - simplify
+//$(document).ready(function () {
+
+//    // Send an AJAX request
+//    $.getJSON(uri)
+//        .done(function (data) {
+//            // On success, 'data' contains a list of invoices.
+//            total_amount_EUR = 0;
+//            total_amount_USD = 0;
+//            total_amount_GBP = 0;
+
+//            invoices = [];
+
+//            $.each(data, function (key, item) {
+//                if (item.IsSupplierInterco == false) {
+//                    invoices.push(item);
+
+//                    var _date = new Date(item.DueDate);
+//                    if (_date <= Date.now() && item.Paid === false) {
+//                        $('<li>', { text: formatItem(item) }).appendTo($('#invoices'));
+//                        switch (item.Currency) {
+//                            case "EUR": total_amount_EUR += item.DueAmount;
+//                                break;
+
+//                            case "USD": total_amount_USD += item.DueAmount;
+//                                break;
+
+//                            case "GBP": total_amount_GBP += item.DueAmount;
+//                                break;
+//                        }
+//                    }
+//                }
+//            });
+
+//            $('<li>', { text: 'Total overdue EUR: € ' + Math.round(total_amount_EUR).toString() }).appendTo($('#total_overdue'));
+//            $('<li>', { text: 'Total overdue USD: $ ' + Math.round(total_amount_USD).toString() }).appendTo($('#total_overdue'));
+//            $('<li>', { text: 'Total overdue GBP: £ ' + Math.round(total_amount_GBP).toString() }).appendTo($('#total_overdue'));
+//            $('<p>', { text: '' }).appendTo($('#total_overdue'));
+//        });
+//});

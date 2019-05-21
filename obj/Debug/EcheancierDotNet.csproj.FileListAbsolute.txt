@@ -120,3 +120,5 @@ C:\Users\Julien\source\repos\EcheancierDotNet\bin\fr\System.Net.Http.Formatting.
 C:\Users\Julien\source\repos\EcheancierDotNet\bin\fr\System.Web.Http.resources.dll
 C:\Users\Julien\source\repos\EcheancierDotNet\bin\fr\System.Web.Http.WebHost.resources.dll
 C:\Users\Julien\source\repos\EcheancierDotNet\obj\Debug\EcheancierDotNet.csprojAssemblyReference.cache
+C:\Users\Julien\source\repos\EcheancierDotNet\obj\Debug\EcheancierDotNet.Migrations.InitialCreate.resources
+C:\Users\Julien\source\repos\EcheancierDotNet\obj\Debug\EcheancierDotNet.csproj.GenerateResource.cache
