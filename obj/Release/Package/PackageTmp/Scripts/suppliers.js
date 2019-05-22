@@ -43,7 +43,8 @@
     // Set invoice to status "paid"
     self.updatePaidInvoice = function (invoice) {
         invoice.ToBePaid = false;
-        invoice.PaymentDate = Date.now();
+        var l_date = new Date(Date.now());
+        invoice.PaymentDate = l_date; 
         ajaxHelper(invoicesUri + '/' + invoice.InvoiceID, 'PUT', invoice).done(function (data) {
             getPaymentsBySupplier();
 
