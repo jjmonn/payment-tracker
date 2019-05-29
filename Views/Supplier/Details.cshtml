@@ -26,11 +26,58 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Invoices)
+            Invoices already paid
         </dt>
         <dd>
             <table class="table" id="invoicesTable">
                 <tr>
+                    <th>Paid</th>
+                    <th>Currency</th>
+                    <th>Invoice Reference</th>
+                    <th>Due Date</th>
+                    <th>Payment Date</th>
+                    <th>Amount</th>
+                    <th>Document Number</th>
+                    <th>Document Header</th>
+                </tr>
+                @foreach (var item in Model.Invoices.Where(i => i.Paid == true).OrderBy(i => i.DueDate))
+                {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Paid)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Currency)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DocumentReference)
+                </td>
+                <td>
+                    @item.DueDate.ToString("yyyy/MM/dd")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PaymentDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DueAmount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DocumentNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DocumentHeader)
+                </td>
+            </tr>
+                }
+            </table>
+        </dd>
+        <dt>
+            Invoices to be paid
+        </dt>
+        <dd>
+            <table class="table" id="invoicesTable">
+                <tr>
+                    <th>Paid</th>
                     <th>Currency</th>
                     <th>Invoice Reference</th>
                     <th>Due Date</th>
@@ -41,6 +88,9 @@
                 @foreach (var item in Model.Invoices.Where(i => i.Paid == false).OrderBy(i => i.DueDate))
                 {
                     <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Paid)
+                        </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.Currency)
                         </td>

@@ -40,7 +40,7 @@ namespace EcheancierDotNet.Controllers
         public IEnumerable<SupplierWrapper> GetSuppliersToBePaid()
         {
             List<SupplierWrapper> l_wrappersList = new List<SupplierWrapper>();
-            List<Supplier> l_suppliersList = db.Suppliers.ToList();
+            List<Supplier> l_suppliersList = db.Suppliers.OrderBy(s => s.Name).ToList();
             if (l_suppliersList == null)
                 return (null);
 

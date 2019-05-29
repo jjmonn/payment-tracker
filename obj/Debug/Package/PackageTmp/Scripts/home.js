@@ -3,13 +3,9 @@
 var invoices;
 
 
-
 function formatItem(item) {
     return item.SupplierName + '  -  ' + item.Currency + '  -  ' + item.DueAmount + '  -  ' + moment(item.DueDate).format('MMM Do YY');
 }
-
-
-
 
 
 var ViewModel = function () {
@@ -17,12 +13,15 @@ var ViewModel = function () {
     self.invoices = ko.observableArray();
     self.error = ko.observable();
 
-
-
     // Amounts to be paid
     this.toBePaidEUR = ko.observable(0).money('€');
     this.toBePaidUSD = ko.observable(0).money('$');
     this.toBePaidGBP = ko.observable(0).money('£');
+
+    // Amounts overdue
+    this.OverdueEUR = ko.observable(0).money('€');
+    this.OverdueUSD = ko.observable(0).money('$');
+    this.OverdueGBP = ko.observable(0).money('£');
 
 
     var invoicesUri = '/api/invoices/';
@@ -54,6 +53,10 @@ var ViewModel = function () {
         amountUSD = 0;
         amountGBP = 0;
 
+        totalEUR = 0;
+        totalUSD = 0;
+        totalGBP = 0;
+
         data.forEach(function (item) {
             if (item.Paid === false && item.ToBePaid === true) {
                 switch (item.Currency) {
@@ -67,11 +70,27 @@ var ViewModel = function () {
                         break;
                 }
             }
+            if (item.IsSupplierInterco === false) {
+                switch (item.Currency) {
+                    case "EUR": totalEUR += item.DueAmount;
+                        break;
+
+                    case "USD": totalUSD += item.DueAmount;
+                        break;
+
+                    case "GBP": totalGBP += item.DueAmount;
+                        break;
+                }
+            }
         });
 
         this.toBePaidEUR(amountEUR);
         this.toBePaidUSD(amountUSD);
         this.toBePaidGBP(amountGBP);
+
+        this.OverdueEUR(totalEUR);
+        this.OverdueUSD(totalUSD);
+        this.OverdueGBP(totalGBP);
     }
 
 

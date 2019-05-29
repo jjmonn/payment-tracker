@@ -62,7 +62,7 @@ namespace EcheancierDotNet.ViewModels
 
             Totals = new List<Total>();
 
-            foreach (Invoice l_invoice in l_supplier.Invoices)
+            foreach (Invoice l_invoice in l_supplier.Invoices.OrderBy(i=> i.DueDate))
             {
                 if (l_toBePaid_filter == true)
                 {

@@ -79,15 +79,20 @@
         ajaxHelper(invoicesUri + '/' + invoice.InvoiceID, 'PUT', invoice).done(function (data) {
             //getNonPaidInvoices(); 
             self.invoices.remove(invoice);
-            self.computeAmountsToBePaid(self.invoices());
+            self.computeAmountsToBePaid(l_result);
         });
     }
 
 
     self.computeAmountsToBePaid = function (data) {
-        this.toBePaidEUR(computeAmount(data,'EUR'));
-        this.toBePaidUSD(computeAmount(data,'USD'));
-        this.toBePaidGBP(computeAmount(data,'GBP'));
+
+        l_result = ko.utils.arrayFilter(data, function (l_invoice) {
+            return l_invoice.ToBePaid === true;
+        });
+
+        this.toBePaidEUR(computeAmount(l_result,'EUR'));
+        this.toBePaidUSD(computeAmount(l_result,'USD'));
+        this.toBePaidGBP(computeAmount(l_result,'GBP'));
     }
 
     function computeAmount(data, currency) {
@@ -236,7 +241,7 @@
             l_invoice.ToBePaid = true;
             self.updateInvoice(l_invoice);
         });
-
+        self.computeAmountsToBePaid(self.invoices());  // not tested
     }
 
 
@@ -266,6 +271,7 @@
         ajaxHelper(invoicesUri + l_invoice.InvoiceID, 'DELETE').done(function (data) {
             successNotice('Invoice edition', 'Invoice successfuly deleted', '', 'glyphicon glyphicon-trash');
             self.invoices.remove(l_invoice);
+            // self => recompute amounts to be paid
             //self.unselect();
         });
     }

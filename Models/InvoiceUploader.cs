@@ -7,6 +7,12 @@ using EcheancierDotNet.Models;
 using EcheancierDotNet.Controllers;
 using System.IO;
 
+//
+// GetNewInvoice() to be cleaned / updated 
+//
+
+
+
 namespace EcheancierDotNet.Models
 {
 
@@ -21,7 +27,7 @@ namespace EcheancierDotNet.Models
         public List<string> m_suppliers_to_be_added;
         public bool l_error_header = false;
         public string l_data_error = "";
-
+       
         public InvoiceUploader(List<Supplier> p_suppliersList, List<string> p_doc_number_list)
         {
             m_invoices_to_create = new List<Invoice>();
@@ -67,8 +73,8 @@ namespace EcheancierDotNet.Models
 
                             if (!m_existing_doc_number_list.Contains(l_doc_number))
                             {
-                                bool l_creation_result = AddInvoiceToList(l_str, p_uploadID);
-                                if (l_creation_result == false) { l_result = false; }
+                                bool l_creation_result = AddInvoiceToList(l_str, p_uploadID, i);
+                                if (l_creation_result == false) { return false; }
                             }
                         }
                     }
@@ -130,7 +136,7 @@ namespace EcheancierDotNet.Models
             return true;
         }
 
-        private bool AddInvoiceToList(string[] p_str, int p_uploadID)
+        private bool AddInvoiceToList(string[] p_str, int p_uploadID, int p_line_index)
         {
             Boolean l_result = true;
 
@@ -144,7 +150,7 @@ namespace EcheancierDotNet.Models
                 {
                     if (l_supplier.IsProForma == false)
                     {
-                        Invoice l_newInvoice = GetNewInvoice(l_supplier, p_str, p_uploadID);
+                        Invoice l_newInvoice = GetNewInvoice(l_supplier, p_str, p_uploadID, p_line_index);
                         if (l_newInvoice != null)
                         {
                             m_invoices_to_create.Add(l_newInvoice);
@@ -200,35 +206,66 @@ namespace EcheancierDotNet.Models
             return l_result;
         }
 
-        private Invoice GetNewInvoice(Supplier l_supplier, string[] p_str, int p_uploadID)
+        private Invoice GetNewInvoice(Supplier l_supplier, string[] p_str, int p_uploadID, int p_line_index)
         {
             Invoice l_invoice = new Invoice();
+            int j = 1;
 
             try
             {
                 l_invoice.SupplierID = l_supplier.ID; //    l_row[1]   // retreive Supplier's ID from Name
+                j += 1;
                 l_invoice.Currency = p_str[5];
+                j += 1;
                 l_invoice.DocumentNumber = p_str[8];
+                j += 1;
                 l_invoice.DocumentReference = p_str[3];
+                j += 1;
                 l_invoice.DocumentHeader = p_str[10];
+                j += 1;
                 l_invoice.DocumentDate = DateTime.Parse(p_str[4].Replace('/', '-'));
+                j += 1;
                 l_invoice.DueDate = DateTime.Parse(p_str[11].Replace('/', '-'));
+                j += 1;
                 l_invoice.GoodsReceptionDate = null;
+                j += 1;
                 l_invoice.RawAmount = 0;
+                j += 1;
                 l_invoice.VAT = 0;
-                l_invoice.DueAmount = -Convert.ToDouble(p_str[6]);
+                j += 1;
+
+                // Due amount
+                double number;
+                if (Double.TryParse(p_str[6], out number))
+                {
+                    l_invoice.DueAmount = -Convert.ToDouble(p_str[6]);
+                }
+                else {
+                    l_invoice.DueAmount = -Convert.ToInt32(p_str[6]);
+                }
+
+                j += 1;
                 l_invoice.ToBePaid = false;
+                j += 1;
                 l_invoice.Paid = false;
+                j += 1;
                 l_invoice.ProForma = false;
+                j += 1;
                 l_invoice.Comment = "";
-                l_invoice.BankID = 0;           
-                l_invoice.PaymentDate = null;   
+                j += 1;
+                l_invoice.BankID = 0;
+                j += 1;
+                l_invoice.PaymentDate = null;
+                j += 1;
                 l_invoice.UploadID = p_uploadID;
+                j += 1;
                 l_invoice.PaymentMethod = 0;
+                j += 1;
             }
             catch (Exception e)
             {
-                l_data_error = "Error in the format of your data, please check " + e.Message;
+                l_data_error = "Error in the format of your data line " + p_line_index.ToString() + " - column issue (starting from 1): " + j.ToString() 
+                             + " Check due amount: " + l_invoice.DueAmount.ToString() + " origin: " + p_str[6] + " , server error message: " + e.Message;
             }       
             return l_invoice;
         }
