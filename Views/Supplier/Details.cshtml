@@ -1,4 +1,10 @@
-﻿@model EcheancierDotNet.Models.Supplier
+﻿@section scripts {
+    @Scripts.Render("~/bundles/app")
+    @Scripts.Render("~/bundles/supplierDetails")
+}
+
+@model EcheancierDotNet.Models.Supplier
+
 
 @{
     ViewBag.Title = "Details";
@@ -29,7 +35,7 @@
             Invoices already paid
         </dt>
         <dd>
-            <table class="table" id="invoicesTable">
+            <table class="table" id="paidInvoicesTable">
                 <tr>
                     <th>Paid</th>
                     <th>Currency</th>
@@ -42,32 +48,32 @@
                 </tr>
                 @foreach (var item in Model.Invoices.Where(i => i.Paid == true).OrderBy(i => i.DueDate))
                 {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Paid)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Currency)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DocumentReference)
-                </td>
-                <td>
-                    @item.DueDate.ToString("yyyy/MM/dd")
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PaymentDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DueAmount)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DocumentNumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DocumentHeader)
-                </td>
-            </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Paid)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Currency)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DocumentReference)
+                        </td>
+                        <td>
+                            @item.DueDate.ToString("yyyy/MM/dd")
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PaymentDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DueAmount)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DocumentNumber)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DocumentHeader)
+                        </td>
+                    </tr>
                 }
             </table>
         </dd>
@@ -119,19 +125,21 @@
         <dd>This week: <span id="weekdueEUR"></span>  €</dd>
         <dd>Next week: <span id="nextWeekdueEUR"></span>  €</dd>
         <dd>After next week: <span id="afterNextWeekdueEUR"> €</span></dd>
-        <dd>Total: <span id="totalEUR"> €</span></dd>
+        <dd>Total EUR: <span id="totalEUR"> €</span></dd>
 
         <dt>Total USD invoices: </dt>
         <dd>Overdue: <span id="overdueUSD"></span></dd>
         <dd>This week: <span id="weekdueUSD"></span></dd>
         <dd>Next week: <span id="nextWeekdueUSD"></span></dd>
         <dd>After next week: <span id="afterNextWeekdueUSD"></span></dd>
+        <dd>Total USD: <span id="totalUSD"> $</span></dd>
 
         <dt>Total GBP invoices: </dt>
         <dd>Overdue: <span id="overdueGBP"></span></dd>
         <dd>This week: <span id="weekdueGBP"></span></dd>
         <dd>Next week: <span id="nextWeekdueGBP"></span></dd>
         <dd>After next week: <span id="afterNextWeekdueGBP"></span></dd>
+        <dd>Total GBP: <span id="totalGBP"> £</span></dd>
 
 
         <dt>
@@ -224,13 +232,10 @@
 
     </dl>
 </div>
+
+
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
 
-
-@section scripts {
-    @Scripts.Render("~/bundles/app")
-    @Scripts.Render("~/bundles/supplierDetails")
-}
