@@ -16,6 +16,11 @@ namespace EcheancierDotNet.Controllers
             return View();
         }
 
+        public ActionResult Download()
+        {
+            return View();
+        }
+
         [HttpPost]
         public ActionResult Index(HttpPostedFileBase file, string uploadName)
         {

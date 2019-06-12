@@ -150,14 +150,17 @@ namespace EcheancierDotNet.Models
                 {
                     if (l_supplier.IsProForma == false)
                     {
-                        Invoice l_newInvoice = GetNewInvoice(l_supplier, p_str, p_uploadID, p_line_index);
-                        if (l_newInvoice != null)
+                        if (p_str[10].Contains("PROF") == false)
                         {
-                            m_invoices_to_create.Add(l_newInvoice);
-                        }
-                        else
-                        {
-                            return false;
+                            Invoice l_newInvoice = GetNewInvoice(l_supplier, p_str, p_uploadID, p_line_index);
+                            if (l_newInvoice != null)
+                            {
+                                m_invoices_to_create.Add(l_newInvoice);
+                            }
+                            else
+                            {
+                                return false;
+                            }
                         }
                     }
                 }
@@ -266,6 +269,7 @@ namespace EcheancierDotNet.Models
             {
                 l_data_error = "Error in the format of your data line " + p_line_index.ToString() + " - column issue (starting from 1): " + j.ToString() 
                              + " Check due amount: " + l_invoice.DueAmount.ToString() + " origin: " + p_str[6] + " , server error message: " + e.Message;
+                return null;
             }       
             return l_invoice;
         }

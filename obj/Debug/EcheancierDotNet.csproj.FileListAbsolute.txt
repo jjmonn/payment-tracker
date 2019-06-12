@@ -122,3 +122,7 @@ C:\Users\Julien\source\repos\EcheancierDotNet\bin\fr\System.Web.Http.WebHost.res
 C:\Users\Julien\source\repos\EcheancierDotNet\obj\Debug\EcheancierDotNet.csprojAssemblyReference.cache
 C:\Users\Julien\source\repos\EcheancierDotNet\obj\Debug\EcheancierDotNet.Migrations.InitialCreate.resources
 C:\Users\Julien\source\repos\EcheancierDotNet\obj\Debug\EcheancierDotNet.csproj.GenerateResource.cache
+C:\Users\Julien\source\repos\EcheancierDotNet\bin\CsvHelper.dll
+C:\Users\Julien\source\repos\EcheancierDotNet\bin\System.ValueTuple.dll
+C:\Users\Julien\source\repos\EcheancierDotNet\bin\CsvHelper.xml
+C:\Users\Julien\source\repos\EcheancierDotNet\bin\System.ValueTuple.xml

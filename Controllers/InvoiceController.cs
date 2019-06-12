@@ -7,8 +7,10 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using CsvHelper;
 using EcheancierDotNet.DAL;
 using EcheancierDotNet.Models;
+using EcheancierDotNet.ViewModels;
 using PerpetuumSoft.Knockout;
 
 namespace EcheancierDotNet.Controllers
@@ -55,6 +57,38 @@ namespace EcheancierDotNet.Controllers
             return View();
         }
 
+        [HttpPost]
+        public FileStreamResult Download()
+        {
+            List<Invoice> l_invoicesList;
+            List<InvoiceWrapper> l_wrappersList = new List<InvoiceWrapper>();
+            l_invoicesList = db.Invoices.Where(i => i.Paid == false && i.DueDate.Year > 2017 && i.Supplier.IsInterco == false).OrderBy(i => i.DueDate).ToList();
+
+            if (l_invoicesList == null)
+                return (null);
+
+            foreach (Invoice c in l_invoicesList)
+            {
+                l_wrappersList.Add(new InvoiceWrapper(c));
+            }
+
+            var result = WriteCsvToMemory(l_wrappersList);
+            var memoryStream = new MemoryStream(result);
+            return new FileStreamResult(memoryStream, "text/csv") { FileDownloadName = "export.csv" };
+
+        }
+
+        public byte[] WriteCsvToMemory(IEnumerable<InvoiceWrapper> records)
+        {
+            using (var memoryStream = new MemoryStream())
+            using (var streamWriter = new StreamWriter(memoryStream))
+            using (var csvWriter = new CsvWriter(streamWriter))
+            {
+                csvWriter.WriteRecords(records);
+                streamWriter.Flush();
+                return memoryStream.ToArray();
+            }
+        }
 
         // GET: Payments
         public ActionResult Payments()

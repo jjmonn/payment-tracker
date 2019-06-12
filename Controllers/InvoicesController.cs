@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -12,6 +13,7 @@ using System.Web.Http.Description;
 using EcheancierDotNet.DAL;
 using EcheancierDotNet.Models;
 using EcheancierDotNet.ViewModels;
+using CsvHelper;
 
 namespace EcheancierDotNet.Controllers
 {
@@ -75,6 +77,7 @@ namespace EcheancierDotNet.Controllers
             }
             return l_wrappersList;
         }
+
 
         // GET: api/Invoices/5
         [ResponseType(typeof(Invoice))]
