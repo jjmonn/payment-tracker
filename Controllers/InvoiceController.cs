@@ -61,7 +61,7 @@ namespace EcheancierDotNet.Controllers
         public FileStreamResult Download()
         {
             List<Invoice> l_invoicesList;
-            List<InvoiceWrapper> l_wrappersList = new List<InvoiceWrapper>();
+            List<InvoiceCsv> l_wrappersList = new List<InvoiceCsv>();
             l_invoicesList = db.Invoices.Where(i => i.Paid == false && i.DueDate.Year > 2017 && i.Supplier.IsInterco == false).OrderBy(i => i.DueDate).ToList();
 
             if (l_invoicesList == null)
@@ -69,7 +69,7 @@ namespace EcheancierDotNet.Controllers
 
             foreach (Invoice c in l_invoicesList)
             {
-                l_wrappersList.Add(new InvoiceWrapper(c));
+                l_wrappersList.Add(new InvoiceCsv(c));
             }
 
             var result = WriteCsvToMemory(l_wrappersList);
@@ -78,7 +78,7 @@ namespace EcheancierDotNet.Controllers
 
         }
 
-        public byte[] WriteCsvToMemory(IEnumerable<InvoiceWrapper> records)
+        public byte[] WriteCsvToMemory(IEnumerable<InvoiceCsv> records)
         {
             using (var memoryStream = new MemoryStream())
             using (var streamWriter = new StreamWriter(memoryStream))
@@ -90,6 +90,7 @@ namespace EcheancierDotNet.Controllers
             }
         }
 
+       
         // GET: Payments
         public ActionResult Payments()
         {
@@ -256,6 +257,11 @@ namespace EcheancierDotNet.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "InvoiceID,SupplierID,DocumentNumber,DocumentReference,DocumentDate,DueDate,GoodsReceptionDate,RawAmount,VAT,DueAmount,ToBePaid,Paid,ProForma,Comment")] Invoice invoice)
         {
+            if (invoice.UploadID == 0)
+            {
+                invoice.UploadID = 10; // Attention manual entry
+            }
+
             if (ModelState.IsValid)
             {
                 db.Invoices.Add(invoice);

@@ -16,14 +16,14 @@ var afterNextWeekdueInvoices = { 'EUR': 0, 'USD': 0, 'GBP': 0};
 // Attention  index [] lié à l'affichage des colonnes ! hyper dangereux 
 for (var i = 1; i < table.rows.length; i++) {
 
-    l_strDate = table.rows[i].cells[2].innerText;
+    l_strDate = table.rows[i].cells[3].innerText;
     l_strDate = l_strDate.substring(0,10);
     l_strDate = l_strDate.replace("\/", "-");
     l_strDate = l_strDate.replace("\/", "-");
     var l_date = Date.parse(l_strDate);
 
-    var l_currency = table.rows[i].cells[0].innerText;
-    var l_invoiceAmount = parseFloat(table.rows[i].cells[3].innerText.replace(",","."));
+    var l_currency = table.rows[i].cells[1].innerText;
+    var l_invoiceAmount = parseFloat(table.rows[i].cells[4].innerText.replace(",","."));
     
     var _today = Date.now();
     var _endOfThisWeek = endOfWeek();
@@ -54,8 +54,6 @@ for (var i = 1; i < table.rows.length; i++) {
 document.getElementById("overdueEUR").innerHTML = overdueInvoices['EUR'].toFixed(2);
 document.getElementById("overdueUSD").innerHTML = overdueInvoices['USD'].toFixed(2);
 document.getElementById("overdueGBP").innerHTML = overdueInvoices['GBP'].toFixed(2);
-var totalEUR = overdueInvoices['EUR'] + weekdueInvoices['EUR'] + nextWeekDueInvoices['EUR'] + afterNextWeekdueInvoices['EUR'];
-document.getElementById("totalEUR").innerHTML = totalEUR.toFixed(2);
 
 document.getElementById("weekdueEUR").innerHTML = weekdueInvoices['EUR'].toFixed(2);
 document.getElementById("weekdueUSD").innerHTML = weekdueInvoices['USD'].toFixed(2);
@@ -69,4 +67,11 @@ document.getElementById("afterNextWeekdueEUR").innerHTML = afterNextWeekdueInvoi
 document.getElementById("afterNextWeekdueUSD").innerHTML = afterNextWeekdueInvoices['USD'].toFixed(2);
 document.getElementById("afterNextWeekdueGBP").innerHTML = afterNextWeekdueInvoices['GBP'].toFixed(2);
 
+var totalEUR = overdueInvoices['EUR'] + weekdueInvoices['EUR'] + nextWeekDueInvoices['EUR'] + afterNextWeekdueInvoices['EUR'];
+document.getElementById("totalEUR").innerHTML = totalEUR.toFixed(2);
 
+var totalUSD = overdueInvoices['USD'] + weekdueInvoices['USD'] + nextWeekDueInvoices['USD'] + afterNextWeekdueInvoices['USD'];
+document.getElementById("totalUSD").innerHTML = totalUSD.toFixed(2);
+
+var totalGBP = overdueInvoices['GBP'] + weekdueInvoices['GBP'] + nextWeekDueInvoices['GBP'] + afterNextWeekdueInvoices['GBP'];
+document.getElementById("totalGBP").innerHTML = totalGBP.toFixed(2);

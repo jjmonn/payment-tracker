@@ -122,3 +122,7 @@ C:\Users\Julien\source\repos\EcheancierDotNet\obj\Release\EcheancierDotNet.cspro
 C:\Users\Julien\source\repos\EcheancierDotNet\obj\Release\EcheancierDotNet.csproj.CopyComplete
 C:\Users\Julien\source\repos\EcheancierDotNet\obj\Release\EcheancierDotNet.dll
 C:\Users\Julien\source\repos\EcheancierDotNet\obj\Release\EcheancierDotNet.pdb
+C:\Users\Julien\source\repos\EcheancierDotNet\bin\CsvHelper.dll
+C:\Users\Julien\source\repos\EcheancierDotNet\bin\System.ValueTuple.dll
+C:\Users\Julien\source\repos\EcheancierDotNet\bin\CsvHelper.xml
+C:\Users\Julien\source\repos\EcheancierDotNet\bin\System.ValueTuple.xml

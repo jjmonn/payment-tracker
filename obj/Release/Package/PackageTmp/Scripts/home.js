@@ -45,7 +45,7 @@ var ViewModel = function () {
             self.computeAmountsToBePaid(data);
         });
     }
-   
+
   // use new method in invoices.js + transfer it in util.js
     self.computeAmountsToBePaid = function (data) {
 
