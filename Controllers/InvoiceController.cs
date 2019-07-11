@@ -72,25 +72,59 @@ namespace EcheancierDotNet.Controllers
                 l_wrappersList.Add(new InvoiceCsv(c));
             }
 
-            var result = WriteCsvToMemory(l_wrappersList);
+            var result = WriteInvoiceCsvToMemory(l_wrappersList);
             var memoryStream = new MemoryStream(result);
             return new FileStreamResult(memoryStream, "text/csv") { FileDownloadName = "export.csv" };
 
         }
 
-        public byte[] WriteCsvToMemory(IEnumerable<InvoiceCsv> records)
+        [HttpPost]
+        public FileStreamResult DownloadPayments()
+        {
+            List<Invoice> l_invoicesList;
+            List<PaymentCsv> l_wrappersList = new List<PaymentCsv>();
+            l_invoicesList = db.Invoices.Where(i => i.Paid == false && i.ToBePaid == true).OrderBy(i => i.Supplier.Name).ToList();
+
+            if (l_invoicesList == null)
+                return (null);
+
+            foreach (Invoice c in l_invoicesList)
+            {
+                l_wrappersList.Add(new PaymentCsv(c));
+            }
+
+            var result = WritePaymentCsvToMemory(l_wrappersList);
+            var memoryStream = new MemoryStream(result);
+            return new FileStreamResult(memoryStream, "text/csv") { FileDownloadName = "export.csv" };
+
+        }
+
+        public byte[] WriteInvoiceCsvToMemory(IEnumerable<InvoiceCsv> records)
         {
             using (var memoryStream = new MemoryStream())
             using (var streamWriter = new StreamWriter(memoryStream))
             using (var csvWriter = new CsvWriter(streamWriter))
             {
+                csvWriter.Configuration.Delimiter = ";";
                 csvWriter.WriteRecords(records);
                 streamWriter.Flush();
                 return memoryStream.ToArray();
             }
         }
 
-       
+        public byte[] WritePaymentCsvToMemory(IEnumerable<PaymentCsv> records)
+        {
+            using (var memoryStream = new MemoryStream())
+            using (var streamWriter = new StreamWriter(memoryStream))
+            using (var csvWriter = new CsvWriter(streamWriter))
+            {
+                csvWriter.Configuration.Delimiter = ";";
+                csvWriter.WriteRecords(records);
+                streamWriter.Flush();
+                return memoryStream.ToArray();
+            }
+        }
+
         // GET: Payments
         public ActionResult Payments()
         {

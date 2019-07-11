@@ -224,6 +224,7 @@
     <Compile Include="ViewModels\FlowWrapper.cs" />
     <Compile Include="ViewModels\InvoiceCsv.cs" />
     <Compile Include="ViewModels\InvoiceWrapper.cs" />
+    <Compile Include="ViewModels\PaymentCsv.cs" />
     <Compile Include="ViewModels\SupplierWrapper.cs" />
     <Compile Include="ViewModels\UploadWrapper.cs" />
   </ItemGroup>

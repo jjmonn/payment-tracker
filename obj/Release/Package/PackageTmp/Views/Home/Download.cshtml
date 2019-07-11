@@ -12,7 +12,7 @@
 {
     <div class="container">
         <div class="col-md-8 col-md-offset-2">
-            <h3>To be paid invoices  - Date filter to be set up</h3>
+            <h3>To be paid invoices  - Date filter to be set up (> 2017 hard coded)</h3>
             <div class="form-group">
                 <input type="submit" value="Download" class="btn btn-primary" />
             </div>
@@ -20,6 +20,19 @@
     </div>
 }
 
-
 <hr />
+
+@using (Html.BeginForm("DownloadPayments", "Invoice", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="container">
+        <div class="col-md-8 col-md-offset-2">
+            <h3>Payments to be done</h3>
+            <div class="form-group">
+                <input type="submit" value="Download Payments" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+
+
 
