@@ -97,40 +97,61 @@ var ViewModel = function () {
     function drawAnnotations() {
  
         var data = new google.visualization.DataTable();
-        data.addColumn('date', 'date');
-        data.addColumn('number', 'Due invoices');
-        data.addColumn({ type: 'number', role: 'annotation' });
+        data.addColumn('string', 'date');
+        data.addColumn('number', 'Overdue');
+        data.addColumn('number', 'Due');
+        data.addColumn('number', 'No due yet');
 
         var _today = new Date();
 
         self.invoices().forEach(function (l_invoice) {
             var _date = new Date(l_invoice.DueDate);
-            if (_date.getFullYear() >= _today.getFullYear()) {
-                data.addRow([new Date(l_invoice.DueDate), l_invoice.DueAmount, l_invoice.DueAmount]);
+            var l_overdue =0;
+            var l_due= 0;
+            var l_not_due = 0;
+            if (_date.getFullYear() >= _today.getFullYear() && l_invoice.Currency === "EUR" && l_invoice.IsSupplierInterco === false) {
+                // data.addRow([new Date(l_invoice.DueDate), l_invoice.DueAmount]);
+                if (_date <= _today) {
+                    l_overdue = l_invoice.DueAmount;
+                } else if (_date > _today + 3) {
+                    l_not_due = l_invoice.DueAmount;
+                } else {
+                    l_due = l_invoice.DueAmount;
+                }
+                var yearWeek = moment(new Date(l_invoice.DueDate)).year() + '-' + moment(new Date(l_invoice.DueDate)).week();
+                data.addRow([yearWeek, l_overdue, l_due, l_not_due]);
             }
         });
 
+       
         var result = google.visualization.data.group(
             data,
-            [{ column: 0, modifier: getWeeks, type: 'date' }],
-            [{ 'column': 1, 'aggregation': google.visualization.data.sum, 'type': 'number' }]
+            [{
+                column: 0,
+                label: 'Week',
+                type: 'string'
+            }],[{
+                column: 1,
+                aggregation: google.visualization.data.sum,
+                label: 'Over due',
+                type: 'number'
+            },
+            {
+                column: 2,
+                aggregation: google.visualization.data.sum,
+                label: 'Due',
+                type: 'number'
+            },
+            {
+                column: 3,
+                aggregation: google.visualization.data.sum,
+                label: 'Not due yet',
+                type: 'number'
+            }]
         );
 
-        function getWeeks(p_date) {
-            //d = new Date(someDate);
-            var day = p_date.getDay(),
-                diff = p_date.getDate() - day + (day == 0 ? -6 : 1) + 2; // adjust when day is sunday
-            var _wednesday = new Date(p_date.setDate(diff));
-            return { v: new Date(_wednesday), f: _wednesday.toDateString() };
-        }
-
-        function getMonths(someDate) {
-            var month = someDate.getMonth();
-            var year = someDate.getFullYear();
-            return { v: new Date(year, month), f: (month + 1) + '/' + year };
-        }
-
         var options = {
+            colors: ['#DC143C', '#00BFFF', "#008000"],
             title: 'Due Invoices Planning',
             'height': 400,
             annotations: {
