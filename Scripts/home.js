@@ -116,11 +116,11 @@ var ViewModel = function () {
             [{ 'column': 1, 'aggregation': google.visualization.data.sum, 'type': 'number' }]
         );
 
-        function getWeeks(someDate) {
+        function getWeeks(p_date) {
             //d = new Date(someDate);
-            var day = someDate.getDay(),
-                diff = someDate.getDate() - day + (day == 0 ? -6 : 1) + 2; // adjust when day is sunday
-            var _wednesday = new Date(someDate.setDate(diff));
+            var day = p_date.getDay(),
+                diff = p_date.getDate() - day + (day == 0 ? -6 : 1) + 2; // adjust when day is sunday
+            var _wednesday = new Date(p_date.setDate(diff));
             return { v: new Date(_wednesday), f: _wednesday.toDateString() };
         }
 
