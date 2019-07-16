@@ -102,6 +102,18 @@ var ViewModel = function () {
         data.addColumn('number', 'Due');
         data.addColumn('number', 'No due yet');
 
+        var data_usd = new google.visualization.DataTable();
+        data_usd.addColumn('string', 'date');
+        data_usd.addColumn('number', 'Overdue');
+        data_usd.addColumn('number', 'Due');
+        data_usd.addColumn('number', 'No due yet');
+
+        var data_gbp = new google.visualization.DataTable();
+        data_gbp.addColumn('string', 'date');
+        data_gbp.addColumn('number', 'Overdue');
+        data_gbp.addColumn('number', 'Due');
+        data_gbp.addColumn('number', 'No due yet');
+
         var _today = new Date();
 
         self.invoices().forEach(function (l_invoice) {
@@ -109,7 +121,7 @@ var ViewModel = function () {
             var l_overdue =0;
             var l_due= 0;
             var l_not_due = 0;
-            if (_date.getFullYear() >= _today.getFullYear() && l_invoice.Currency === "EUR" && l_invoice.IsSupplierInterco === false) {
+            if (_date.getFullYear() >= _today.getFullYear() && l_invoice.IsSupplierInterco === false) {
                 // data.addRow([new Date(l_invoice.DueDate), l_invoice.DueAmount]);
                 if (_date <= _today) {
                     l_overdue = l_invoice.DueAmount;
@@ -119,7 +131,14 @@ var ViewModel = function () {
                     l_due = l_invoice.DueAmount;
                 }
                 var yearWeek = moment(new Date(l_invoice.DueDate)).year() + '-' + moment(new Date(l_invoice.DueDate)).week();
-                data.addRow([yearWeek, l_overdue, l_due, l_not_due]);
+                if (l_invoice.Currency === "EUR") {
+                    data.addRow([yearWeek, l_overdue, l_due, l_not_due]);
+                } else if (l_invoice.Currency === "USD") {
+                    data_usd.addRow([yearWeek, l_overdue, l_due, l_not_due]);
+                } else {
+                    data_gbp.addRow([yearWeek, l_overdue, l_due, l_not_due]);
+                }
+
             }
         });
 
@@ -130,56 +149,75 @@ var ViewModel = function () {
                 column: 0,
                 label: 'Week',
                 type: 'string'
-            }],[{
-                column: 1,
-                aggregation: google.visualization.data.sum,
-                label: 'Over due',
-                type: 'number'
-            },
-            {
-                column: 2,
-                aggregation: google.visualization.data.sum,
-                label: 'Due',
-                type: 'number'
-            },
-            {
-                column: 3,
-                aggregation: google.visualization.data.sum,
-                label: 'Not due yet',
-                type: 'number'
-            }]
+            }],[{column: 1, aggregation: google.visualization.data.sum, label: 'Over due', type: 'number'},
+            {column: 2,aggregation: google.visualization.data.sum,label: 'Due', type: 'number'},
+            {column: 3,aggregation: google.visualization.data.sum,label: 'Not due yet', type: 'number'}]
+        );
+
+        var result_usd = google.visualization.data.group(
+            data_usd,
+            [{
+                column: 0,
+                label: 'Week',
+                type: 'string'
+            }], [{ column: 1, aggregation: google.visualization.data.sum, label: 'Over due', type: 'number' },
+            { column: 2, aggregation: google.visualization.data.sum, label: 'Due', type: 'number' },
+            { column: 3, aggregation: google.visualization.data.sum, label: 'Not due yet', type: 'number' }]
+        );
+
+        var result_gbp = google.visualization.data.group(
+            data_gbp,
+            [{
+                column: 0,
+                label: 'Week',
+                type: 'string'
+            }], [{ column: 1, aggregation: google.visualization.data.sum, label: 'Over due', type: 'number' },
+            { column: 2, aggregation: google.visualization.data.sum, label: 'Due', type: 'number' },
+            { column: 3, aggregation: google.visualization.data.sum, label: 'Not due yet', type: 'number' }]
         );
 
         var options = {
             colors: ['#DC143C', '#00BFFF', "#008000"],
-            title: 'Due Invoices Planning',
+            title: 'Due Invoices EUR',
             'height': 400,
             annotations: {
                 alwaysOutside: true,
-                textStyle: {
-                    fontSize: 12,
-                    color: '#000',
-                    auraColor: 'none'
-                }
-            },
-            hAxis: {
-                title: 'Date',
-                //format: 'h:mm a',
-                //viewWindow: {
-                //    min: [7, 30, 0],
-                //    max: [17, 30, 0]
-                //},
-                gridlines: {
-                    color: 'transparent'
-                }
-            },
-            vAxis: {
-                title: '€'
-            }
+                textStyle: {fontSize: 12,color: '#000',auraColor: 'none'}
+            },hAxis: {
+                title: 'Week', gridlines: {color: 'transparent'}
+            },vAxis: {title: '€'}
+        };
+
+        var options_usd = {
+            colors: ['#DC143C', '#00BFFF', "#008000"],
+            title: 'Due Invoices USD',
+            'height': 400,
+            annotations: {
+                alwaysOutside: true,
+                textStyle: { fontSize: 12, color: '#000', auraColor: 'none' }
+            }, hAxis: {
+                title: 'Week', gridlines: { color: 'transparent' }
+            }, vAxis: { title: '$' }
+        };
+
+        var options_gbp = {
+            colors: ['#DC143C', '#00BFFF', "#008000"],
+            title: 'Due Invoices GBP',
+            'height': 400,
+            annotations: {
+                alwaysOutside: true,
+                textStyle: { fontSize: 12, color: '#000', auraColor: 'none' }
+            }, hAxis: {
+                title: 'Week', gridlines: { color: 'transparent' }
+            }, vAxis: { title: '£' }
         };
 
         var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+        var chart_usd = new google.visualization.ColumnChart(document.getElementById('chart_div_usd'));
+        var chart_gbp = new google.visualization.ColumnChart(document.getElementById('chart_div_gbp'));
         chart.draw(result, options);
+        chart_usd.draw(result_usd, options_usd);
+        chart_gbp.draw(result_gbp, options_gbp);
     }
 
     // Fetch the initial data.
