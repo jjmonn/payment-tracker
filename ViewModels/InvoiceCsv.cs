@@ -22,7 +22,7 @@ namespace EcheancierDotNet.ViewModels
         public bool ProForma { get; set; }
         public string Comment { get; set; }
         public int UploadID { get; set; }
-      
+        public string PaymentDate { get; set; }
 
 
         public InvoiceCsv(Invoice p_invoice)
@@ -41,6 +41,7 @@ namespace EcheancierDotNet.ViewModels
             this.ProForma = p_invoice.ProForma;
             this.Comment = p_invoice.Comment;
             this.UploadID = p_invoice.UploadID;
+            this.PaymentDate = p_invoice.PaymentDate.HasValue ? p_invoice.PaymentDate.Value.ToString("dd/MM/yyyy") : string.Empty;
         }
 
     }

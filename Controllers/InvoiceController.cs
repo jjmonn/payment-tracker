@@ -74,7 +74,7 @@ namespace EcheancierDotNet.Controllers
 
             var result = WriteInvoiceCsvToMemory(l_wrappersList);
             var memoryStream = new MemoryStream(result);
-            return new FileStreamResult(memoryStream, "text/csv") { FileDownloadName = "export.csv" };
+            return new FileStreamResult(memoryStream, "text/csv") { FileDownloadName = "export_echeancier.csv" };
 
         }
 
@@ -95,9 +95,31 @@ namespace EcheancierDotNet.Controllers
 
             var result = WritePaymentCsvToMemory(l_wrappersList);
             var memoryStream = new MemoryStream(result);
-            return new FileStreamResult(memoryStream, "text/csv") { FileDownloadName = "export.csv" };
+            return new FileStreamResult(memoryStream, "text/csv") { FileDownloadName = "payments.csv" };
 
         }
+
+        [HttpPost]
+        public FileStreamResult DownloadPaymentsHistory()
+        {
+            List<Invoice> l_invoicesList;
+            List<InvoiceCsv> l_wrappersList = new List<InvoiceCsv>();
+            l_invoicesList = db.Invoices.Where(i => i.Paid == true).OrderBy(i => i.Supplier.Name).ToList();
+
+            if (l_invoicesList == null)
+                return (null);
+
+            foreach (Invoice c in l_invoicesList)
+            {
+                l_wrappersList.Add(new InvoiceCsv(c));
+            }
+
+            var result = WriteInvoiceCsvToMemory(l_wrappersList);
+            var memoryStream = new MemoryStream(result);
+            return new FileStreamResult(memoryStream, "text/csv") { FileDownloadName = "payment_history.csv" };
+
+        }
+
 
         public byte[] WriteInvoiceCsvToMemory(IEnumerable<InvoiceCsv> records)
         {
