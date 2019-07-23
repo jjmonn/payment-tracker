@@ -23,6 +23,7 @@ namespace EcheancierDotNet.ViewModels
         public string Comment { get; set; }
         public int UploadID { get; set; }
         public string PaymentDate { get; set; }
+        public int SupplierSAPAccount { get; set; }
 
 
         public InvoiceCsv(Invoice p_invoice)
@@ -42,6 +43,7 @@ namespace EcheancierDotNet.ViewModels
             this.Comment = p_invoice.Comment;
             this.UploadID = p_invoice.UploadID;
             this.PaymentDate = p_invoice.PaymentDate.HasValue ? p_invoice.PaymentDate.Value.ToString("dd/MM/yyyy") : string.Empty;
+            this.SupplierSAPAccount = p_invoice.Supplier.SAPAccountNumber;
         }
 
     }

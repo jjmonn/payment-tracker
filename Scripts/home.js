@@ -115,11 +115,11 @@ var ViewModel = function () {
         data_gbp.addColumn('number', 'No due yet');
 
         var _today = new Date();
-        var l_newdate = new Date(_today);
+        var l_today_plus_four = new Date();
 
         self.invoices().forEach(function (l_invoice) {
             var _date = new Date(l_invoice.DueDate);
-            l_newdate.setDate(_today + 3)
+            l_today_plus_four.setDate(_today.getDate() + 4)
             var l_overdue =0;
             var l_due= 0;
             var l_not_due = 0;
@@ -127,7 +127,7 @@ var ViewModel = function () {
                 // data.addRow([new Date(l_invoice.DueDate), l_invoice.DueAmount]);
                 if (_date <= _today) {
                     l_overdue = l_invoice.DueAmount;
-                } else if (_date > _today) {
+                } else if (_date > l_today_plus_four) {
                     l_not_due = l_invoice.DueAmount;
                 } else {
                     l_due = l_invoice.DueAmount;
