@@ -45,7 +45,7 @@ namespace EcheancierDotNet.Controllers
 
         // This action handles the form POST and the upload
         [HttpPost]
-        public ActionResult Index(HttpPostedFileBase file)
+        public ActionResult CreateFromCsv(HttpPostedFileBase file)
         {
             // Verify that the user selected a file
             if (file != null && file.ContentLength > 0)
@@ -74,13 +74,65 @@ namespace EcheancierDotNet.Controllers
                             }
                             db.SaveChanges();
                         }
+                        ViewBag.Message = "Upload success, number of suppliers created: " + l_uploader.m_suppliers_to_create.Count.ToString();
                     }
                     catch (DataException /* dex */)
                     {
                         //Log the error (uncomment dex variable name and add a line here to write a log.
+                        ViewBag.Alert = "Unable to save changes. Try again, and if the problem persists see your system administrator.";
                         ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
                     }
                 }
+            } else
+            {
+                ViewBag.Alert = "No file selected";
+            }
+            // send back to index page with message : success ; error ; ok duplicates 
+            return RedirectToAction("Index");
+        }
+
+        // This action handles the form POST and the upload
+        [HttpPost]
+        public ActionResult UpdateFromCsv(HttpPostedFileBase file)
+        {
+            // Verify that the user selected a file
+            if (file != null && file.ContentLength > 0)
+            {
+                // extract only the filename
+                var fileName = "upload.csv";    //Path.GetFileName(file.FileName);
+                var file_path = Path.GetDirectoryName(file.FileName);
+
+                // avoid to store upload 
+                var p_path = Path.Combine(Server.MapPath("~/"), fileName);
+                file.SaveAs(p_path);
+
+                var l_suppliers = db.Suppliers.ToList();
+                SupplierUploader l_uploader = new SupplierUploader(l_suppliers);
+
+                bool upload_result = l_uploader.UpdateSuppliers(p_path);
+                if (upload_result == true)
+                {
+                    int l_current_account_number =0;
+                    try
+                    {
+                        foreach (Supplier l_supplier in l_uploader.m_suppliers_to_update)
+                        {
+                            l_current_account_number = l_supplier.SAPAccountNumber;
+                            TryUpdateModel(l_supplier);
+                        }
+                        db.SaveChanges();
+                    }
+                    catch (DataException /* dex */)
+                    {
+                        //Log the error (uncomment dex variable name and add a line here to write a log.
+                        ViewBag.Alert = "Error during update. Supplier account number in error : " + l_current_account_number.ToString();
+                        ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+                    }
+                }
+                ViewBag.Message = "Upload success, number of suppliers updated: " + l_uploader.m_suppliers_to_update.Count.ToString();
+            } else
+            {
+                ViewBag.Alert = "No file selected";
             }
             // send back to index page with message : success ; error ; ok duplicates 
             return RedirectToAction("Index");
