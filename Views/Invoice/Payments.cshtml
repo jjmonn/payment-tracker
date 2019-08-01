@@ -1,6 +1,6 @@
 ﻿@section scripts {
     @Scripts.Render("~/bundles/app")
-    @Scripts.Render("~/bundles/suppliers")
+    @Scripts.Render("~/bundles/payments")
 }
 
 
@@ -30,7 +30,7 @@
     <div class="container">
         <div class="row" data-bind="foreach: suppliers">
             <p class="text-primary" data-bind="text: Name"></p>
-            <table class="table table-striped">
+            @*<table class="table table-striped">
                 <thead class="thead-dark">
                     <tr>
                         <th>Prepare</th>
@@ -53,20 +53,24 @@
                         <td data-bind="text: Currency"></td>
                     </tr>
                 </tbody>
-            </table>
+            </table>*@
             <table class="table table-sm">
                 <thead>
                     <tr>
+                        <th>Paid</th>
                         <th>Currency</th>
-                        <th>References</th>
                         <th>Amount</th>
+                        <th>References</th>
                     </tr>
                 </thead>
                 <tbody data-bind="foreach: Totals">
                     <tr>
+                        <td>
+                            <input type="checkbox" data-bind="event: { change: $root.updatePaidSupplier}" />
+                        </td>
                         <td data-bind="text: Currency"></td>
-                        <td data-bind="text: References"></td>
                         <td data-bind="text: Amount"></td>
+                        <td data-bind="text: References"></td>
                     </tr>
                 </tbody>
             </table>

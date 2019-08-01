@@ -6,9 +6,12 @@ using EcheancierDotNet.Models;
 
 namespace EcheancierDotNet.ViewModels
 {
+
      public class SupplierWrapper
     {
-         public int ID { get; set; }
+        const string REF_SEPERATOR = " ";
+
+        public int ID { get; set; }
          public int SAPAccountNumber { get; set; }
          public int SAPMainAccountNumber { get; set; }
          public string Name { get; set; }
@@ -25,9 +28,11 @@ namespace EcheancierDotNet.ViewModels
          public Boolean IsProforma { get; set; }
          public Boolean IsInterco { get; set; }
          public int PaymentDelay { get; set; }
+         public bool ToBePaidFlag { get; } 
 
 
-         public List<InvoiceWrapper> Invoices { get; }
+         //public Dictionary<string, List<InvoiceWrapper>> InvoicesDic { get; }
+        public List<InvoiceWrapper> Invoices { get; }
          public List<Total> Totals { get; set; }
 
          public SupplierWrapper(Supplier l_supplier, bool l_toBePaid_filter = false)
@@ -49,8 +54,15 @@ namespace EcheancierDotNet.ViewModels
             this.IsProforma = l_supplier.IsProForma;
             this.IsInterco = l_supplier.IsInterco;
             this.PaymentDelay = l_supplier.PaymentDelay;
+            this.ToBePaidFlag = false;
 
             this.Invoices = new List<InvoiceWrapper>();
+            Dictionary<string, List<InvoiceWrapper>> l_invoicesDic = new Dictionary<string, List<InvoiceWrapper>>
+            {
+                { "EUR", new List<InvoiceWrapper>() },
+                { "USD", new List<InvoiceWrapper>() },
+                { "GBP", new List<InvoiceWrapper>() }
+            };
 
             double l_totalEUR = 0;
             double l_totalUSD = 0;
@@ -62,29 +74,31 @@ namespace EcheancierDotNet.ViewModels
 
             Totals = new List<Total>();
 
+            // Those computations should go in payments.js code
             foreach (Invoice l_invoice in l_supplier.Invoices.OrderBy(i=> i.DueDate))
             {
                 if (l_toBePaid_filter == true)
                 {
                     if (l_invoice.ToBePaid == true && l_invoice.Paid == false)
                     {
-                        Invoices.Add(new InvoiceWrapper(l_invoice));
+                        this.ToBePaidFlag = true;
+                        l_invoicesDic[l_invoice.Currency].Add(new InvoiceWrapper(l_invoice));
 
                         switch (l_invoice.Currency)
                         {
                             case "EUR":
                                 l_totalEUR += l_invoice.DueAmount;
-                                l_EUR_references = l_EUR_references + ';' + l_invoice.DocumentReference;  
+                                l_EUR_references = l_EUR_references + REF_SEPERATOR + l_invoice.DocumentReference;  
                             break;
 
                             case "USD":
                                 l_totalUSD += l_invoice.DueAmount;
-                                l_USD_references = l_USD_references + ';' + l_invoice.DocumentReference;
+                                l_USD_references = l_USD_references + REF_SEPERATOR + l_invoice.DocumentReference;
                                 break;
 
                             case "GBP":
                                 l_totalGBP += l_invoice.DueAmount;
-                                l_GBP_references = l_GBP_references + ';' + l_invoice.DocumentReference;
+                                l_GBP_references = l_GBP_references + REF_SEPERATOR + l_invoice.DocumentReference;
                                 break;
                         }
                     }
@@ -94,9 +108,15 @@ namespace EcheancierDotNet.ViewModels
                     Invoices.Add(new InvoiceWrapper(l_invoice));
                 }
             }
-            Totals.Add(new Total("EUR", l_totalEUR, l_EUR_references));
-            Totals.Add(new Total("USD", l_totalUSD, l_USD_references));
-            Totals.Add(new Total("GBP", l_totalGBP, l_GBP_references));
+            if (l_totalEUR != 0) {
+                Totals.Add(new Total("EUR", l_totalEUR, l_EUR_references, l_invoicesDic["EUR"]));
+            };
+            if (l_totalUSD != 0) {
+                Totals.Add(new Total("USD", l_totalUSD, l_USD_references, l_invoicesDic["USD"]));
+            };
+            if (l_totalGBP != 0){
+                Totals.Add(new Total("GBP", l_totalGBP, l_GBP_references, l_invoicesDic["GBP"]));
+            }
         }
 
     }

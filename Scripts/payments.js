@@ -1,16 +1,10 @@
 ﻿var ViewModel = function () {
     var self = this;
-    self.invoices = ko.observableArray();
+    self.suppliers = ko.observableArray();
     self.error = ko.observable();
 
-    // Amounts to be paid
-    this.toBePaidEUR = ko.observable(0).money('€');
-    this.toBePaidUSD = ko.observable(0).money('$');
-    this.toBePaidGBP = ko.observable(0).money('£');
-
-
+    var suppliersUri = '/api/suppliers/';
     var invoicesUri = '/api/invoices/';
-
 
     function ajaxHelper(uri, method, data) {
         self.error(''); // Clear error message
@@ -25,61 +19,68 @@
         });
     }
 
-    function getToBePaidInvoices() {
-        ajaxHelper(invoicesUri + '/tobepaids/', 'GET').done(function (data) {
-            self.invoices(data);
-            self.computeAmountsToBePaid(data);
+    function getPaymentsBySupplier() {
+        ajaxHelper(suppliersUri + '/tobepaid/', 'GET').done(function (data) {
+            self.suppliers(data);
         });
     }
 
+    // update a supplier
+    // to be checked should not be usefull here   ----- js to be put in payment.js .....
+    //self.updateSupplier = function (supplier) {
+    //    ajaxHelper(suppliersUri + '/' + supplier.ID, 'PUT', supplier).done(function (data) {
+    //        // code here
+    //    });
+    //}
 
-    // update the users IsConfirmed status
+    // update an invoice
     self.updateInvoice = function (invoice) {
         ajaxHelper(invoicesUri + '/' + invoice.InvoiceID, 'PUT', invoice).done(function (data) {
-            getToBePaidInvoices();
+            getPaymentsBySupplier();
+            // => if set to not to be paid => self.invoices.remove(invoice); ?
         });
-        //$.ajax({ type: "PUT", url: invoicesUri + '/' + invoice.InvoiceId, data: invoice });
     }
 
     // Set invoice to status "paid"
     self.updatePaidInvoice = function (invoice) {
+        invoice.Paid = true;
         invoice.ToBePaid = false;
+        var l_date = new Date(Date.now());
+        invoice.PaymentDate = l_date; 
         ajaxHelper(invoicesUri + '/' + invoice.InvoiceID, 'PUT', invoice).done(function (data) {
-            //getNonPaidInvoices(); 
-            self.invoices.remove(invoice);
-            self.computeAmountsToBePaid(self.invoices());
+            //getPaymentsBySupplier();
         });
     }
 
-    self.computeAmountsToBePaid = function (data) {
+    // Set invoice status to paid for all invoices of this suppliers to be paid
+    self.updatePaidSupplier = function (total) {
 
-        amountEUR = 0;
-        amountUSD = 0;
-        amountGBP = 0;
-
-        data.forEach(function (item) {
-            if (item.Paid === false && item.ToBePaid === true) {
-                switch (item.Currency) {
-                    case "EUR": amountEUR += item.DueAmount;
-                        break;
-
-                    case "USD": amountUSD += item.DueAmount;
-                        break;
-
-                    case "GBP": amountGBP += item.DueAmount;
-                        break;
-                }
-            }
+        total.Invoices.forEach(function (l_invoice) {
+            self.updatePaidInvoice(l_invoice)
+            // or put the loop on the server side if too slow
         });
 
-        this.toBePaidEUR(amountEUR);
-        this.toBePaidUSD(amountUSD);
-        this.toBePaidGBP(amountGBP);
+        total.Paid = true;
+        self.flush();
+    }
+
+    // Remove empty rows
+    self.flush = function () {
+        self.suppliers().forEach(function (supplier) {
+            supplier.Totals.forEach(function (item, index, object) {
+                if (item.Paid === true) {
+                    object.splice(index, 1);
+                }
+            });
+            if (supplier.Totals.length === 0) {
+                self.suppliers.remove(supplier);
+            }
+        });
     }
 
 
     // Fetch the initial data.
-    getToBePaidInvoices();
+    getPaymentsBySupplier();
 };
 
 ko.applyBindings(new ViewModel());

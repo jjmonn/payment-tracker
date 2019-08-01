@@ -44,10 +44,10 @@ namespace EcheancierDotNet.Controllers
             if (l_suppliersList == null)
                 return (null);
 
-            foreach (Supplier c in l_suppliersList)
+            foreach (Supplier l_supp in l_suppliersList)
             {
-                SupplierWrapper l_supplierWrapper = new SupplierWrapper(c, true);
-                if (l_supplierWrapper.Invoices.Count > 0)
+                SupplierWrapper l_supplierWrapper = new SupplierWrapper(l_supp, true);
+                if (l_supplierWrapper.ToBePaidFlag == true)
                 {
                     l_wrappersList.Add(l_supplierWrapper);
                 }
