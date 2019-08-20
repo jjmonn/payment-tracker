@@ -7,13 +7,13 @@ namespace EcheancierDotNet.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class InitialCreate : IMigrationMetadata
+    public sealed partial class TurboSuppliersTable : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(InitialCreate));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(TurboSuppliersTable));
         
         string IMigrationMetadata.Id
         {
-            get { return "201905202035140_InitialCreate"; }
+            get { return "201908201314568_TurboSuppliersTable"; }
         }
         
         string IMigrationMetadata.Source

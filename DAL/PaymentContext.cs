@@ -21,7 +21,7 @@ namespace EcheancierDotNet.DAL
         public DbSet<BankAccount> BankAccount { get; set; }
         public DbSet<Flow> Flow { get; set; }
         public DbSet<Upload> Upload { get; set; }
-
+        public DbSet<TurboSupplier> TurboSupplier { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
