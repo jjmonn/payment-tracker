@@ -8,7 +8,7 @@
 <h2>Index</h2>
 
 
-@using (Html.BeginForm("CreateOrUpdateFromCsv", "TurboSuppliers", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Upload", "TurboSuppliers", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <p>Update or Create Turbo suppliers Database</p>
     <input type="hidden" name="p_paymentArea" value="0"/>

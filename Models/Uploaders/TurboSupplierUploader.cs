@@ -20,7 +20,7 @@ namespace EcheancierDotNet.Models.Uploaders
             m_suppliers_to_update = new List<TurboSupplier>();
         }
 
-        internal bool UpdateOrCreateTurboSupplierFromCSV(string p_path, SupplierPaymentArea p_paymentArea)
+        internal bool CreateOrUpdateFromCsv(string p_path, SupplierPaymentArea p_paymentArea)
         {
             m_suppliers_to_create = new List<TurboSupplier>();
 

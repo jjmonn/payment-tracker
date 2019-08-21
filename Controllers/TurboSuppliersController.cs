@@ -16,22 +16,11 @@ namespace EcheancierDotNet.Controllers
     public class TurboSuppliersController : Controller
     {
         private PaymentContext db = new PaymentContext();
-        private string m_message = "";
-        private string m_alert = "";
-
+     
         // GET: TurboSuppliers
         public ActionResult Index()
         {
-            if (m_message != "")
-            {
-                ViewBag.message = m_message;
-            }
-
-            if (m_alert != "")
-            {
-                ViewBag.Alert = m_alert;
-            }
-
+            
             IEnumerable<TurboSupplier> l_turboSuppliers = db.TurboSupplier.ToList();
 
             return View(l_turboSuppliers);
@@ -55,7 +44,7 @@ namespace EcheancierDotNet.Controllers
 
         // This action handles the form POST and the upload
         [HttpPost]
-        public ActionResult CreateOrUpdateFromCsv(HttpPostedFileBase file, SupplierPaymentArea p_paymentArea)
+        public ActionResult Upload(HttpPostedFileBase file, SupplierPaymentArea p_paymentArea)
         {
             // Verify that the user selected a file
             if (file != null && file.ContentLength > 0)
@@ -71,7 +60,7 @@ namespace EcheancierDotNet.Controllers
                 var l_suppliers = db.TurboSupplier.ToList();
                 TurboSupplierUploader l_uploader = new TurboSupplierUploader(l_suppliers);
 
-                bool upload_result = l_uploader.UpdateOrCreateTurboSupplierFromCSV(p_path, p_paymentArea);
+                bool upload_result = l_uploader.CreateOrUpdateFromCsv(p_path, p_paymentArea);
                 if (upload_result == true)
                 {
                     try
@@ -84,7 +73,7 @@ namespace EcheancierDotNet.Controllers
                                 db.SaveChanges();
                             }
                         }
-                        m_message = "Creation success, number of Turbo suppliers created: " + l_uploader.m_suppliers_to_create.Count.ToString();
+                        ViewBag.message = "Creation success, number of Turbo suppliers created: " + l_uploader.m_suppliers_to_create.Count.ToString();
 
                         foreach (TurboSupplier l_supplier in l_uploader.m_suppliers_to_update)
                         {
@@ -94,22 +83,21 @@ namespace EcheancierDotNet.Controllers
                                 db.SaveChanges();
                             }
                         }
-                        m_message = m_message +  " - Update success, number of Turbo suppliers updated: " + l_uploader.m_suppliers_to_update.Count.ToString();
+                        ViewBag.message = ViewBag.message +  " - Update success, number of Turbo suppliers updated: " + l_uploader.m_suppliers_to_update.Count.ToString();
                     }
                     catch (DataException /* dex */)
                     {
                         //Log the error (uncomment dex variable name and add a line here to write a log.
-                        m_alert = "Unable to save changes. Try again, and if the problem persists see your system administrator.";
+                        ViewBag.Alert = "Unable to save changes. Try again, and if the problem persists see your system administrator.";
                         ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
                     }
                 }
             }
             else
             {
-                m_alert = "No file selected";
+                ViewBag.Alert = "No file selected";
             }
-            // send back to index page with message : success ; error ; ok duplicates 
-            return RedirectToAction("Index");
+            return View();
         }
 
 
