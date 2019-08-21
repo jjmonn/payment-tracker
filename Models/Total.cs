@@ -12,16 +12,18 @@ namespace EcheancierDotNet.Models
         public string References { get; set; }
         public double Amount { get; set; }
         public bool Paid { get; set; }
+        public BankAccount BankAccount { get; set; }
 
         public List<InvoiceWrapper> Invoices { get; }
 
-        public Total(string l_currency, double l_amount, string l_references, List<InvoiceWrapper> p_invoices)
+        public Total(string l_currency, double l_amount, string l_references, List<InvoiceWrapper> p_invoices, BankAccount p_bankAccount)
         {
             this.Paid = false;
             this.Currency = l_currency;
             this.Amount = l_amount;
             this.References = l_references;
             this.Invoices = p_invoices;
+            this.BankAccount = p_bankAccount;
         }
     }
 }

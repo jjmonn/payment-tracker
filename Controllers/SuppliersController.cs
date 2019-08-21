@@ -29,7 +29,7 @@ namespace EcheancierDotNet.Controllers
 
             foreach (Supplier c in l_suppliersList)
             {
-                l_wrappersList.Add(new SupplierWrapper(c));
+                l_wrappersList.Add(new SupplierWrapper(c, db.BankAccount.ToList()));
             }
             return l_wrappersList;
         }
@@ -47,7 +47,7 @@ namespace EcheancierDotNet.Controllers
 
             foreach (Supplier l_supp in l_suppliersList)
             {
-                SupplierWrapper l_supplierWrapper = new SupplierWrapper(l_supp, true);
+                SupplierWrapper l_supplierWrapper = new SupplierWrapper(l_supp, db.BankAccount.ToList(), true);
 
                 if (l_supplierWrapper.ToBePaidFlag == true)
                 {

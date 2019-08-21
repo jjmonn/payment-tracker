@@ -14,7 +14,7 @@
 
     <h2>Payments to be prepared</h2>
 
-    <!-- <div class="container">    -> To add back -> important info
+    @*<div class="container">    -> To add back -> important info
          <div class="row">
              <p>Amount to be paid in EUR: <span data-bind="text: toBePaidEUR.formatted"></span></p>
              <p>Amount to be paid in USD: <span data-bind="text: toBePaidUSD.formatted"></span></p>
@@ -24,8 +24,8 @@
              <button type="button" class="btn btn-success">Pay all</button>
              <hr>
          </div>
-     </div>
-        -->
+     </div>*@
+      
 
     <div class="container">
         <div class="row" data-bind="foreach: suppliers">
@@ -60,6 +60,7 @@
                         <th>Paid</th>
                         <th>Currency</th>
                         <th>Amount</th>
+                        <th>Bank</th>
                         <th>References</th>
                     </tr>
                 </thead>
@@ -70,6 +71,9 @@
                         </td>
                         <td data-bind="text: Currency"></td>
                         <td data-bind="text: Amount"></td>
+                        <td>
+                            <select data-bind="options: $root.BankAccounts, optionsValue:'ID', optionsText:'Name', value:BankAccount.ID,"></select>
+                        </td>
                         <td data-bind="text: References"></td>
                     </tr>
                 </tbody>

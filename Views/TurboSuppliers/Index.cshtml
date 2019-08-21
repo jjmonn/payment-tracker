@@ -11,12 +11,20 @@
 @using (Html.BeginForm("Upload", "TurboSuppliers", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <p>Update or Create Turbo suppliers Database</p>
-    <input type="hidden" name="p_paymentArea" value="0"/>
+    <input type="hidden" name="p_paymentArea" value="0" />
     <input type="file" name="file" />
-    <input type="submit" value="Update DB" class="btn btn-primary" />
+    <input type="submit" value="Upload SEPA suppliers" class="btn btn-primary" />
 }
 <hr />
 
+@using (Html.BeginForm("Upload", "TurboSuppliers", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <p>Update or Create Turbo suppliers Database</p>
+    <input type="hidden" name="p_paymentArea" value="1" />
+    <input type="file" name="file" />
+    <input type="submit" value="Upload International suppliers" class="btn btn-primary" />
+}
+<hr />
 
 
 <table class="table">

@@ -35,7 +35,7 @@ namespace EcheancierDotNet.Models.Uploaders
                         string[] l_str = l_row2.Split(';');
                         int l_SAP_code = Convert.ToInt32(l_str[1]);
 
-                        TurboSupplier l_turbo_supplier = GetSupplierBySAPAccount(l_SAP_code);
+                        TurboSupplier l_turbo_supplier = GetSupplierBySAPAccount(l_SAP_code, p_paymentArea);
 
                         if (l_turbo_supplier == null)
                         {
@@ -118,11 +118,11 @@ namespace EcheancierDotNet.Models.Uploaders
             p_turbo_supplier.DOB_TYPE = p_str[10];
         }
 
-        private TurboSupplier GetSupplierBySAPAccount(int p_sap_account_number)
+        private TurboSupplier GetSupplierBySAPAccount(int p_sap_account_number, SupplierPaymentArea p_paymentArea)
         {
             foreach (TurboSupplier l_supp in m_suppliers)
             {
-                if (l_supp.BENEF_CODE == p_sap_account_number)
+                if (l_supp.BENEF_CODE == p_sap_account_number && l_supp.PaymentArea == (int)p_paymentArea)
                 {
                     return l_supp;
                 }
