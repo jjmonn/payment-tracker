@@ -1,7 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<sitemanifest>
-  <DbDacFx path="C:\Users\Julien\source\repos\EcheancierDotNet\obj\Debug\AutoScripts\PaymentContext_IncrementalSchemaOnly.dacpac" dacpacAction="Deploy" />
-  <IisApp path="C:\Users\Julien\source\repos\EcheancierDotNet\obj\Debug\Package\PackageTmp" />
-  <setAcl path="C:\Users\Julien\source\repos\EcheancierDotNet\obj\Debug\Package\PackageTmp" setAclResourceType="Directory" />
-  <setAcl path="C:\Users\Julien\source\repos\EcheancierDotNet\obj\Debug\Package\PackageTmp" setAclUser="anonymousAuthenticationUser" setAclResourceType="Directory" />
-</sitemanifest>
