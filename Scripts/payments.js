@@ -1,10 +1,16 @@
 ﻿var ViewModel = function () {
     var self = this;
     self.suppliers = ko.observableArray();
+    self.BankAccounts = ko.observableArray();
     self.error = ko.observable();
+
+    //self.BankAccountsDict = new Object();
+    //self.BankAccountsNames = [];
+    self.dict = new Object();
 
     var suppliersUri = '/api/suppliers/';
     var invoicesUri = '/api/invoices/';
+    var banksUri = '/api/BankAccounts/';
 
     function ajaxHelper(uri, method, data) {
         self.error(''); // Clear error message
@@ -21,17 +27,44 @@
 
     function getPaymentsBySupplier() {
         ajaxHelper(suppliersUri + '/tobepaid/', 'GET').done(function (data) {
+
+            // register default bank account because of issues with knockout select binding
+            var i = 0;
+            data.forEach(function (l_supplier) {
+                l_supplier.Totals.forEach(function (total) {
+                    self.dict[i] = total.BankAccount;
+                    i++;
+                });
+            });
+
             self.suppliers(data);
+            SetDefaultBanks();
         });
     }
 
-    // update a supplier
-    // to be checked should not be usefull here   ----- js to be put in payment.js .....
-    //self.updateSupplier = function (supplier) {
-    //    ajaxHelper(suppliersUri + '/' + supplier.ID, 'PUT', supplier).done(function (data) {
-    //        // code here
-    //    });
-    //}
+    function SetDefaultBanks() {
+        // Put back default bank for each total
+        var i = 0;
+        self.suppliers().forEach(function (supplier) {
+            supplier.Totals.forEach(function (total) {
+                total.BankAccount = self.dict[i];
+                i++;
+            });
+        });
+    }
+
+    function getBankAccounts() {
+        ajaxHelper(banksUri, 'GET').done(function (data) {
+            self.BankAccounts(data);
+
+            //data.forEach(function (l_bankAccount) {
+            //    self.BankAccountsDict[l_bankAccount.Name] = l_bankAccount;
+            //    self.BankAccountsNames.push(l_bankAccount.Name);   
+            //});
+        });
+    }
+
+  
 
     // update an invoice
     self.updateInvoice = function (invoice) {
@@ -80,6 +113,7 @@
 
 
     // Fetch the initial data.
+    getBankAccounts();
     getPaymentsBySupplier();
 };
 

@@ -8,10 +8,10 @@ namespace EcheancierDotNet.ViewModels
 {
 
      public class SupplierWrapper
-    {
-        const string REF_SEPERATOR = " ";
+     {
+         const string REF_SEPERATOR = " ";
 
-        public int ID { get; set; }
+         public int ID { get; set; }
          public int SAPAccountNumber { get; set; }
          public int SAPMainAccountNumber { get; set; }
          public string Name { get; set; }
@@ -35,8 +35,8 @@ namespace EcheancierDotNet.ViewModels
          public List<InvoiceWrapper> Invoices { get; }
          public List<Total> Totals { get; set; }
 
-         public SupplierWrapper(Supplier l_supplier, bool l_toBePaid_filter = false)
-        {
+         public SupplierWrapper(Supplier l_supplier, List<BankAccount> p_bankAccounts, bool l_toBePaid_filter = false)
+         {
             this.ID = l_supplier.ID;
             this.SAPAccountNumber = l_supplier.SAPMainAccountNumber;
             this.SAPMainAccountNumber = l_supplier.SAPMainAccountNumber;
@@ -112,15 +112,26 @@ namespace EcheancierDotNet.ViewModels
                 }
             }
             if (l_totalEUR != 0) {
-                Totals.Add(new Total("EUR", l_totalEUR, l_EUR_references, l_invoicesEUR));
-            };
+                Totals.Add(new Total("EUR", l_totalEUR, l_EUR_references, l_invoicesDic["EUR"], GetDefaultBankAccount("EUR", p_bankAccounts)));
+            }
             if (l_totalUSD != 0) {
-                Totals.Add(new Total("USD", l_totalUSD, l_USD_references, l_invoicesUSD));
-            };
+                Totals.Add(new Total("USD", l_totalUSD, l_USD_references, l_invoicesDic["USD"], GetDefaultBankAccount("USD", p_bankAccounts)));
+            }
             if (l_totalGBP != 0){
-                Totals.Add(new Total("GBP", l_totalGBP, l_GBP_references, l_invoicesGBP));
+                Totals.Add(new Total("GBP", l_totalGBP, l_GBP_references, l_invoicesDic["GBP"], GetDefaultBankAccount("GBP", p_bankAccounts)));
             }
         }
 
+        private BankAccount GetDefaultBankAccount(string p_currency, List<BankAccount> p_bankAccounts)
+        {
+            foreach (BankAccount l_bankAccount in p_bankAccounts)
+            {
+                if (l_bankAccount.Currency == p_currency && l_bankAccount.DefaultBank == true)
+                {
+                    return l_bankAccount;
+                }
+            }
+            return null;
+        }
     }
 }

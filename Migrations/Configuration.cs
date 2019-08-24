@@ -9,7 +9,7 @@ namespace EcheancierDotNet.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
         }
 
         protected override void Seed(EcheancierDotNet.DAL.PaymentContext context)

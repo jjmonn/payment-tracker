@@ -19,7 +19,8 @@ namespace EcheancierDotNet.Models
         public string Currency { get; set; }
         public string BankAddress { get; set; }
         public string BankCountry { get; set; }
-        
+        public double Balance { get; set; }
+        public Boolean DefaultBank { get; set; }
 
     }
 }

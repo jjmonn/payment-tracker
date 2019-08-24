@@ -29,7 +29,7 @@ namespace EcheancierDotNet.Controllers
 
             foreach (Supplier c in l_suppliersList)
             {
-                l_wrappersList.Add(new SupplierWrapper(c));
+                l_wrappersList.Add(new SupplierWrapper(c, db.BankAccount.ToList()));
             }
             return l_wrappersList;
         }
@@ -39,14 +39,16 @@ namespace EcheancierDotNet.Controllers
         [HttpGet]
         public IEnumerable<SupplierWrapper> GetSuppliersToBePaid()
         {
-            List<SupplierWrapper> l_wrappersList = new List<SupplierWrapper>();
+            List<SupplierWrapper> l_wrappersList = new List<SupplierWrapper>();            
             List<Supplier> l_suppliersList = db.Suppliers.OrderBy(s => s.Name).ToList();
+
             if (l_suppliersList == null)
                 return (null);
 
             foreach (Supplier l_supp in l_suppliersList)
             {
-                SupplierWrapper l_supplierWrapper = new SupplierWrapper(l_supp, true);
+                SupplierWrapper l_supplierWrapper = new SupplierWrapper(l_supp, db.BankAccount.ToList(), true);
+
                 if (l_supplierWrapper.ToBePaidFlag == true)
                 {
                     l_wrappersList.Add(l_supplierWrapper);

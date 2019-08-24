@@ -2,119 +2,104 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Net;
-using System.Web;
-using System.Web.Mvc;
+using System.Net.Http;
+using System.Web.Http;
+using System.Web.Http.Description;
 using EcheancierDotNet.DAL;
 using EcheancierDotNet.Models;
 
 namespace EcheancierDotNet.Controllers
 {
-    public class BankAccountsController : Controller
+    public class BankAccountsController : ApiController
     {
         private PaymentContext db = new PaymentContext();
 
-        // GET: BankAccounts
-        public async Task<ActionResult> Index()
+        // GET: api/BankAccounts
+        public IQueryable<BankAccount> GetBankAccount()
         {
-            return View(await db.BankAccount.ToListAsync());
+            return db.BankAccount;
         }
 
-        // GET: BankAccounts/Details/5
-        public async Task<ActionResult> Details(int? id)
+        // GET: api/BankAccounts/5
+        [ResponseType(typeof(BankAccount))]
+        public IHttpActionResult GetBankAccount(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            BankAccount bankAccount = await db.BankAccount.FindAsync(id);
+            BankAccount bankAccount = db.BankAccount.Find(id);
             if (bankAccount == null)
             {
-                return HttpNotFound();
+                return NotFound();
             }
-            return View(bankAccount);
+
+            return Ok(bankAccount);
         }
 
-        // GET: BankAccounts/Create
-        public ActionResult Create()
+        // PUT: api/BankAccounts/5
+        [ResponseType(typeof(void))]
+        public IHttpActionResult PutBankAccount(int id, BankAccount bankAccount)
         {
-            return View();
-        }
-
-        // POST: BankAccounts/Create
-        // Afin de déjouer les attaques par sur-validation, activez les propriétés spécifiques que vous voulez lier. Pour 
-        // plus de détails, voir  https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "ID,Name,BankCode,AgencyCode,AccountNumber,RIBKey,BIC,IBAN,Currency,BankAddress,BankCountry")] BankAccount bankAccount)
-        {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                db.BankAccount.Add(bankAccount);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return BadRequest(ModelState);
             }
 
-            return View(bankAccount);
+            if (id != bankAccount.ID)
+            {
+                return BadRequest();
+            }
+
+            db.Entry(bankAccount).State = EntityState.Modified;
+
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!BankAccountExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // GET: BankAccounts/Edit/5
-        public async Task<ActionResult> Edit(int? id)
+        // POST: api/BankAccounts
+        [ResponseType(typeof(BankAccount))]
+        public IHttpActionResult PostBankAccount(BankAccount bankAccount)
         {
-            if (id == null)
+            if (!ModelState.IsValid)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return BadRequest(ModelState);
             }
-            BankAccount bankAccount = await db.BankAccount.FindAsync(id);
+
+            db.BankAccount.Add(bankAccount);
+            db.SaveChanges();
+
+            return CreatedAtRoute("DefaultApi", new { id = bankAccount.ID }, bankAccount);
+        }
+
+        // DELETE: api/BankAccounts/5
+        [ResponseType(typeof(BankAccount))]
+        public IHttpActionResult DeleteBankAccount(int id)
+        {
+            BankAccount bankAccount = db.BankAccount.Find(id);
             if (bankAccount == null)
             {
-                return HttpNotFound();
+                return NotFound();
             }
-            return View(bankAccount);
-        }
 
-        // POST: BankAccounts/Edit/5
-        // Afin de déjouer les attaques par sur-validation, activez les propriétés spécifiques que vous voulez lier. Pour 
-        // plus de détails, voir  https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "ID,Name,BankCode,AgencyCode,AccountNumber,RIBKey,BIC,IBAN,Currency,BankAddress,BankCountry")] BankAccount bankAccount)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(bankAccount).State = EntityState.Modified;
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
-            return View(bankAccount);
-        }
-
-        // GET: BankAccounts/Delete/5
-        public async Task<ActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            BankAccount bankAccount = await db.BankAccount.FindAsync(id);
-            if (bankAccount == null)
-            {
-                return HttpNotFound();
-            }
-            return View(bankAccount);
-        }
-
-        // POST: BankAccounts/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id)
-        {
-            BankAccount bankAccount = await db.BankAccount.FindAsync(id);
             db.BankAccount.Remove(bankAccount);
-            await db.SaveChangesAsync();
-            return RedirectToAction("Index");
+            db.SaveChanges();
+
+            return Ok(bankAccount);
         }
 
         protected override void Dispose(bool disposing)
@@ -124,6 +109,11 @@ namespace EcheancierDotNet.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        private bool BankAccountExists(int id)
+        {
+            return db.BankAccount.Count(e => e.ID == id) > 0;
         }
     }
 }
