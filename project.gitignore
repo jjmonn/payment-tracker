@@ -13,6 +13,9 @@
 bin/
 obj/
 
+**/bin
+**/obj
+
 # User-specific files
 *.suo
 *.user
