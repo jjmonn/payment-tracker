@@ -32,7 +32,7 @@ namespace EcheancierDotNet.ViewModels
 
 
          //public Dictionary<string, List<InvoiceWrapper>> InvoicesDic { get; }
-        public List<InvoiceWrapper> Invoices { get; }
+         public List<InvoiceWrapper> Invoices { get; }
          public List<Total> Totals { get; set; }
 
          public SupplierWrapper(Supplier l_supplier, bool l_toBePaid_filter = false)
@@ -57,12 +57,11 @@ namespace EcheancierDotNet.ViewModels
             this.ToBePaidFlag = false;
 
             this.Invoices = new List<InvoiceWrapper>();
-            Dictionary<string, List<InvoiceWrapper>> l_invoicesDic = new Dictionary<string, List<InvoiceWrapper>>
-            {
-                { "EUR", new List<InvoiceWrapper>() },
-                { "USD", new List<InvoiceWrapper>() },
-                { "GBP", new List<InvoiceWrapper>() }
-            };
+            Dictionary<string, List<InvoiceWrapper>> l_invoicesDic = new Dictionary<string, List<InvoiceWrapper>>();
+        
+            List<InvoiceWrapper> l_invoicesEUR = new List<InvoiceWrapper>();
+            List<InvoiceWrapper> l_invoicesUSD = new List<InvoiceWrapper>();
+            List<InvoiceWrapper> l_invoicesGBP = new List<InvoiceWrapper>();
 
             double l_totalEUR = 0;
             double l_totalUSD = 0;
@@ -82,21 +81,25 @@ namespace EcheancierDotNet.ViewModels
                     if (l_invoice.ToBePaid == true && l_invoice.Paid == false)
                     {
                         this.ToBePaidFlag = true;
-                        l_invoicesDic[l_invoice.Currency].Add(new InvoiceWrapper(l_invoice));
+
+                        //l_invoicesDic[l_invoice.Currency].Add(new InvoiceWrapper(l_invoice));      runtime error on azure
 
                         switch (l_invoice.Currency)
                         {
                             case "EUR":
+                                l_invoicesEUR.Add(new InvoiceWrapper(l_invoice));
                                 l_totalEUR += l_invoice.DueAmount;
                                 l_EUR_references = l_EUR_references + REF_SEPERATOR + l_invoice.DocumentReference;  
                             break;
 
                             case "USD":
+                                l_invoicesUSD.Add(new InvoiceWrapper(l_invoice));
                                 l_totalUSD += l_invoice.DueAmount;
                                 l_USD_references = l_USD_references + REF_SEPERATOR + l_invoice.DocumentReference;
                                 break;
 
                             case "GBP":
+                                l_invoicesGBP.Add(new InvoiceWrapper(l_invoice));
                                 l_totalGBP += l_invoice.DueAmount;
                                 l_GBP_references = l_GBP_references + REF_SEPERATOR + l_invoice.DocumentReference;
                                 break;
@@ -109,13 +112,13 @@ namespace EcheancierDotNet.ViewModels
                 }
             }
             if (l_totalEUR != 0) {
-                Totals.Add(new Total("EUR", l_totalEUR, l_EUR_references, l_invoicesDic["EUR"]));
+                Totals.Add(new Total("EUR", l_totalEUR, l_EUR_references, l_invoicesEUR));
             };
             if (l_totalUSD != 0) {
-                Totals.Add(new Total("USD", l_totalUSD, l_USD_references, l_invoicesDic["USD"]));
+                Totals.Add(new Total("USD", l_totalUSD, l_USD_references, l_invoicesUSD));
             };
             if (l_totalGBP != 0){
-                Totals.Add(new Total("GBP", l_totalGBP, l_GBP_references, l_invoicesDic["GBP"]));
+                Totals.Add(new Total("GBP", l_totalGBP, l_GBP_references, l_invoicesGBP));
             }
         }
 
