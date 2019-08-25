@@ -4,8 +4,6 @@
     self.BankAccounts = ko.observableArray();
     self.error = ko.observable();
 
-    //self.BankAccountsDict = new Object();
-    //self.BankAccountsNames = [];
     self.dict = new Object();
 
     var suppliersUri = '/api/suppliers/';
@@ -85,8 +83,8 @@
         });
     }
 
-    // Set invoice status to paid for all invoices of this suppliers to be paid
-    self.updatePaidSupplier = function (total) {
+    // Set invoice status to paid for all invoices of this supplier's total to be paid
+    self.MarkTotalAsPaid = function (total) {
 
         total.Invoices.forEach(function (l_invoice) {
             self.updatePaidInvoice(l_invoice)
@@ -96,6 +94,14 @@
         total.Paid = true;
         self.flush();
     }
+
+    self.DownloadTotalWire = function (total) {
+        // Does total has all info ? references, supplier, bank ?
+        // to which controller should it go ?
+        // Do we need a wire model ?
+        
+    }
+
 
     // Remove empty rows
     self.flush = function () {
