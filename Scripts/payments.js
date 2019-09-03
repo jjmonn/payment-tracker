@@ -1,10 +1,60 @@
-﻿var ViewModel = function () {
+﻿var BankAccount = function (bank) {
+    var self = this;
+
+    self.ID = bank.ID;
+    self.Name = bank.Name;
+    self.Currency = bank.Currency;
+    self.DefaultBank = bank.DefaultBank;
+    self.Balance = ko.observable(bank.Balance);
+    self.MaxOverdraft = ko.observable(bank.MaxOverdraft);
+    self.AvailableCash = ko.observable();
+    self.Payments = ko.observable();
+    self.CashAfterPayment = ko.observable();
+
+    // Init computed 
+    self.AvailableCash = getAvailableCash();
+    self.Payments = getPayments();
+    self.CashAfterPayment = getCashAfterPayment();
+
+    function getAvailableCash() {
+        return ko.pureComputed(function () {
+            return (self.Balance() - self.MaxOverdraft());
+        }, self);
+    }
+
+    function getPayments() {
+        return ko.pureComputed(function () {
+            return (-6666);
+        }, self);
+    }
+
+    function getCashAfterPayment() {
+        return ko.pureComputed(function () {
+            return (self.AvailableCash() - self.Payments());
+        }, self);
+    }
+
+    function setPayments(data) {
+
+    }
+
+}
+
+
+
+var ViewModel = function () {
     var self = this;
     self.suppliers = ko.observableArray();
     self.BankAccounts = ko.observableArray();
     self.error = ko.observable();
 
     self.dict = new Object();
+
+    // Computed
+    self.AvailableCash = ko.observable();
+    self.Payments = ko.observable();
+    self.CashAfterPayment = ko.observable();
+    
 
     var suppliersUri = '/api/suppliers/';
     var invoicesUri = '/api/invoices/';
@@ -53,16 +103,13 @@
 
     function getBankAccounts() {
         ajaxHelper(banksUri, 'GET').done(function (data) {
-            self.BankAccounts(data);
+        
+            data.forEach(function (bank) {
+                self.BankAccounts.push(new BankAccount(bank));
+            });
 
-            //data.forEach(function (l_bankAccount) {
-            //    self.BankAccountsDict[l_bankAccount.Name] = l_bankAccount;
-            //    self.BankAccountsNames.push(l_bankAccount.Name);   
-            //});
         });
     }
-
-  
 
     // update an invoice
     self.updateInvoice = function (invoice) {
@@ -102,7 +149,6 @@
         
     }
 
-
     // Remove empty rows
     self.flush = function () {
         self.suppliers().forEach(function (supplier) {
@@ -117,10 +163,16 @@
         });
     }
 
-
     // Fetch the initial data.
     getBankAccounts();
     getPaymentsBySupplier();
 };
 
-ko.applyBindings(new ViewModel());
+
+
+//doc ready function
+$(document).ready(function () {
+
+    ko.applyBindings(new ViewModel());
+
+});

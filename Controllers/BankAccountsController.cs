@@ -10,6 +10,8 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using EcheancierDotNet.DAL;
 using EcheancierDotNet.Models;
+using EcheancierDotNet.ViewModels;
+
 
 namespace EcheancierDotNet.Controllers
 {
@@ -18,9 +20,18 @@ namespace EcheancierDotNet.Controllers
         private PaymentContext db = new PaymentContext();
 
         // GET: api/BankAccounts
-        public IQueryable<BankAccount> GetBankAccount()
+        public IEnumerable<BankAccountWrapper> GetBankAccount()
         {
-            return db.BankAccount;
+            List<BankAccountWrapper> l_wrappersList = new List<BankAccountWrapper>();
+            List<BankAccount> l_BankAccountsList = db.BankAccount.ToList();
+            if (l_BankAccountsList == null)
+                return (null);
+
+            foreach (BankAccount c in l_BankAccountsList)
+            {
+                l_wrappersList.Add(new BankAccountWrapper(c));
+            }
+            return l_wrappersList;
         }
 
         // GET: api/BankAccounts/5
