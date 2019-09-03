@@ -15,38 +15,13 @@
     <h2>Payments to be prepared</h2>
     <br />
 
-    <div class="container">
-        <div class="row">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Bank</th>
-                        <th>Current balance</th>
-                        <th>Max overdraft</th>
-                        <th>Available cash</th>
-                        <th>Payments</th>
-                        <th>Available after payment</th>
-                    </tr>
-                </thead>
-                <tbody data-bind="foreach: BankAccounts">
-                    <tr>
-                        <td data-bind="text: Name"></td>
-                        <td data-bind="text: Balance"></td>
-                        <td>To be added to DB</td>
-                        <td>To be caclulated</td>
-                        <td>Link to payments param</td>
-                        <td>To be calculated</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
 
-        @Html.Partial("_PaymentBAPartial")
+    @Html.Partial("_PaymentBAPartial")
 
-        <div class="row">
-            <button type="button" class="btn btn-success">Download all wires</button>
-            <hr>
-        </div>
+    <div class="row">
+        <button type="button" class="btn btn-success">Download all wires</button>
+        <hr>
+    </div>
     </div>
 
     @*<div class="container">    -> To add back -> important info
