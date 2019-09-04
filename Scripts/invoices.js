@@ -65,10 +65,13 @@
         ajaxHelper(invoicesUri + '/' + invoice.InvoiceID, 'PUT', invoice).done(function (data) {
             self.computeAmountsToBePaid(self.invoices());
             // getNonPaidInvoices();
+            successNotice('Invoice edition', 'Invoice successfuly updated', 3, 'glyphicon glyphicon-trash');
         });
-        self.computeAmountsToBePaid(self.invoices());
-        //$.ajax({ type: "PUT", url: invoicesUri + '/' + invoice.InvoiceId, data: invoice });
-        //getNonPaidInvoices();
+
+        // below: why second compute ?
+        //self.computeAmountsToBePaid(self.invoices());
+
+        // Issue: when to be paid is changed invoice page not updated
     }
 
     // Set invoice to status "paid"
@@ -267,28 +270,24 @@
 
 
     self.remove = function (l_invoice) {
-        // First remove from the server, then from the view-model.
         ajaxHelper(invoicesUri + l_invoice.InvoiceID, 'DELETE', l_invoice.InvoiceID).done(function (data) {
             successNotice('Invoice edition', 'Invoice successfuly deleted', 3, 'glyphicon glyphicon-trash');
             self.invoices.remove(l_invoice);
-            // self => recompute amounts to be paid
-            // self.unselect();
+            self.computeAmountsToBePaid(self.invoices());
         });
     }
 
-    self.showInvoice = function (l_invoice) {
-        self.currentInvoice(l_invoice);
-        $('#myModal').modal('show');
+    self.saveAndCloseModal = function (invoice)
+    {
+        $('#mymodal').modal('hide');
+        self.updateInvoice(invoice);
+        self.currentInvoice(null);
     };
 
-
-
-    // Fetch the initial data.
+    // Fetch initial data.
     self.intercoFilter(true);
     self.currencyFilter = ko.observable('All');
     getNonPaidInvoices();
-    
-
 };
 
 ko.applyBindings(new ViewModel());

@@ -13,6 +13,13 @@ namespace EcheancierDotNet.Models
         Check
     }
 
+    public enum Currency
+    {
+        EUR,
+        USD,
+        GBP
+    }
+
     public class Invoice
     {
         public int InvoiceID { get; set; }

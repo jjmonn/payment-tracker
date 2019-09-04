@@ -54,6 +54,11 @@ namespace EcheancierDotNet.Controllers
             //}
 
             //return View(invoices.ToList());
+            if (TempData.Count > 0)
+            {
+                ViewBag.Message = TempData["shortMessage"].ToString();
+            }
+            
             return View();
         }
 
@@ -311,7 +316,7 @@ namespace EcheancierDotNet.Controllers
         // plus de détails, voir  https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "InvoiceID,SupplierID,DocumentNumber,DocumentReference,DocumentDate,DueDate,GoodsReceptionDate,RawAmount,VAT,DueAmount,ToBePaid,Paid,ProForma,Comment")] Invoice invoice)
+        public ActionResult Create([Bind(Include = "InvoiceID,SupplierID,Currency,DocumentNumber,DocumentReference,DocumentDate,DueDate,GoodsReceptionDate,RawAmount,VAT,DueAmount,ToBePaid,Paid,ProForma,Comment")] Invoice invoice)
         {
             if (invoice.UploadID == 0)
             {
@@ -322,9 +327,11 @@ namespace EcheancierDotNet.Controllers
             {
                 db.Invoices.Add(invoice);
                 db.SaveChanges();
+                TempData["shortMessage"] = "Invoice created successfully";
                 return RedirectToAction("Index");
             }
 
+            ViewBag.Alert = "Invoice not created, supplier ID:";
             ViewBag.SupplierID = new SelectList(db.Suppliers, "ID", "Name", invoice.SupplierID);
             return View(invoice);
         }
