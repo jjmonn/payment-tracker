@@ -145,7 +145,9 @@ namespace EcheancierDotNet.Controllers
         }
 
         // DELETE: api/Invoices/5
+        [Route("api/invoices/{id}")]
         [ResponseType(typeof(Invoice))]
+        [HttpDelete]
         public async Task<IHttpActionResult> DeleteInvoice(int id)
         {
             Invoice invoice = await db.Invoices.FindAsync(id);

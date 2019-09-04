@@ -73,10 +73,10 @@
         <tbody data-bind="foreach: overdueInvoices">
             <tr>
                 <td>
-                    <input type="checkbox" data-bind="checked: ToBePaid, event: { change: $parent.updateInvoice}"/>
+                    <input type="checkbox" data-bind="checked: ToBePaid, event: { change: $parent.updateInvoice}" />
                 </td>
                 <td>
-                    <input type="checkbox" data-bind="checked: Paid, event: { change: $parent.updatePaidInvoice}"/>
+                    <input type="checkbox" data-bind="checked: Paid, event: { change: $parent.updatePaidInvoice}" />
                 </td>
                 <td data-bind="text: SupplierName"></td>
                 <td data-bind="text: moment(DueDate).format('MMM Do YYYY')"></td>

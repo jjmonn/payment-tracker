@@ -268,11 +268,11 @@
 
     self.remove = function (l_invoice) {
         // First remove from the server, then from the view-model.
-        ajaxHelper(invoicesUri + l_invoice.InvoiceID, 'DELETE').done(function (data) {
-            successNotice('Invoice edition', 'Invoice successfuly deleted', '', 'glyphicon glyphicon-trash');
+        ajaxHelper(invoicesUri + l_invoice.InvoiceID, 'DELETE', l_invoice.InvoiceID).done(function (data) {
+            successNotice('Invoice edition', 'Invoice successfuly deleted', 3, 'glyphicon glyphicon-trash');
             self.invoices.remove(l_invoice);
             // self => recompute amounts to be paid
-            //self.unselect();
+            // self.unselect();
         });
     }
 

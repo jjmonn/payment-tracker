@@ -103,7 +103,7 @@ function successNotice(p_title, p_text, p_time, p_icon) {
         // (string) specify font-face icon class for big icon in left. if are specify image this will not show up.
         icon: p_icon,
         // (string | optional) the class name you want to apply to that specific message
-        class_name: 'success-notice'
+        class_name: 'gritter-light'
     });
 }
 

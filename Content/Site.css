@@ -38,3 +38,11 @@ textarea {
     background-color: #343a40 !important;
 }
 
+.gritter-item-wrapper.gritter-light {
+    background-color: rgba(015, 160, 20, 0.9);
+    border: 1px solid #ddd
+}
+
+    .gritter-item-wrapper.gritter-light .gritter-close:after {
+        color: #555
+    }
