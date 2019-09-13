@@ -18,10 +18,11 @@
 
     @Html.Partial("_PaymentBAPartial")
 
-    <div class="row">
-        <button type="button" class="btn btn-success">Download all wires</button>
-        <hr>
-    </div>
+<div class="row">
+    <button type="button" class="btn btn-success">Download all wires</button>
+    <button type="button" class="btn btn-primary">Pay all</button>
+    <hr>
+</div>
     </div>
 
     @*<div class="container">    -> To add back -> important info
@@ -84,8 +85,8 @@
                         <td>
                             <select data-bind="options: $root.BankAccounts, optionsValue:'ID', optionsText:'Name', value:BankAccount.ID,"></select>
                         </td>
-                        <td><button type="button" data-bind="event: { change: $root.DownloadTotalWire}" class="btn btn-success">Download wire</button></td>
-                        <td><button type="button" data-bind="event: { change: $root.MarkTotalAsPaid}" class="btn btn-primary">Mark as paid</button></td>
+                        <td><button type="button" data-bind="click: $root.DownloadTotalWire" class="btn btn-success">Download wire</button></td>
+                        <td><button type="button" data-bind="click: $root.MarkTotalAsPaid" class="btn btn-primary">Mark as paid</button></td>
                         @*<td data-bind="text: References"></td>*@
                     </tr>
                 </tbody>

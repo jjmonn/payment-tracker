@@ -57,6 +57,33 @@ namespace EcheancierDotNet.Controllers
             return l_wrappersList;
         }
 
+        [Route("api/suppliers/markpayment/{supplier_id}/{bankaccount_id}/{currency}")]   
+        [HttpPut]
+        public async Task<IHttpActionResult> MarkSupplierInvoicesAsPaid(int supplier_id,int bankaccount_id, string currency)
+        {
+            // alternatively pass Total as paramater as it includes all the invoices to mark as paid
+            List<Invoice> l_invoicesList = db.Invoices.Where(i => i.Paid == false && i.ToBePaid == true && i.SupplierID == supplier_id && i.Currency == currency).ToList();
+            foreach (Invoice l_invoice in l_invoicesList)
+            {
+                l_invoice.Paid = true;
+                l_invoice.ToBePaid = false;
+                l_invoice.PaymentDate = DateTime.Today;
+                l_invoice.BankID = bankaccount_id;
+            }
+
+            try
+            {
+                await db.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return StatusCode(HttpStatusCode.ExpectationFailed);
+            }
+
+            return Ok("success");
+            // return StatusCode(HttpStatusCode.NoContent);
+        }
+
 
         // GET: api/Suppliers/5
         [ResponseType(typeof(Supplier))]

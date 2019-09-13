@@ -9,6 +9,7 @@ namespace EcheancierDotNet.Models
     public class Total
     {
         public string Currency { get; set; }
+        public int SupplierID { get; set; }
         public string References { get; set; }
         public double Amount { get; set; }
         public bool Paid { get; set; }
@@ -16,10 +17,11 @@ namespace EcheancierDotNet.Models
 
         public List<InvoiceWrapper> Invoices { get; }
 
-        public Total(string l_currency, double l_amount, string l_references, List<InvoiceWrapper> p_invoices, BankAccount p_bankAccount)
+        public Total(string l_currency, double l_amount, string l_references, List<InvoiceWrapper> p_invoices, BankAccount p_bankAccount, int p_supplierID)
         {
             this.Paid = false;
             this.Currency = l_currency;
+            this.SupplierID = p_supplierID;
             this.Amount = l_amount;
             this.References = l_references;
             this.Invoices = p_invoices;

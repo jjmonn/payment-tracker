@@ -107,6 +107,24 @@ function successNotice(p_title, p_text, p_time, p_icon) {
     });
 }
 
+//success notice
+function errorNotice(p_title, p_text, p_time, p_icon) {
+    $.gritter.add({
+        // (string | mandatory) the heading of the notification
+        title: p_title,
+        // (string | mandatory) the text inside the notification
+        text: p_text,
+        // (int | optional) the time you want it to be alive for before fading out
+        time: p_time,
+        // (string) specify font-face icon  class for close message
+        close_icon: 'l-arrows-remove s16',
+        // (string) specify font-face icon class for big icon in left. if are specify image this will not show up.
+        icon: p_icon,
+        // (string | optional) the class name you want to apply to that specific message
+        //class_name: 'gritter-light'
+    });
+}
+
 
 function endOfWeek() {
 

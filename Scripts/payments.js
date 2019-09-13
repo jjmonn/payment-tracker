@@ -57,7 +57,7 @@ var ViewModel = function () {
     
 
     var suppliersUri = '/api/suppliers/';
-    var invoicesUri = '/api/invoices/';
+    //var invoicesUri = '/api/invoices/';
     var banksUri = '/api/BankAccounts/';
 
     function ajaxHelper(uri, method, data) {
@@ -112,41 +112,35 @@ var ViewModel = function () {
     }
 
     // update an invoice
-    self.updateInvoice = function (invoice) {
-        ajaxHelper(invoicesUri + '/' + invoice.InvoiceID, 'PUT', invoice).done(function (data) {
-            getPaymentsBySupplier();
-            // => if set to not to be paid => self.invoices.remove(invoice); ?
-        });
-    }
+    //self.updateInvoice = function (invoice) {
+    //    ajaxHelper(invoicesUri + '/' + invoice.InvoiceID, 'PUT', invoice).done(function (data) {
+    //        getPaymentsBySupplier();
+    //        // => if set to not to be paid => self.invoices.remove(invoice); ?
+    //    });
+    //}
 
-    // Set invoice to status "paid"
-    self.updatePaidInvoice = function (invoice) {
-        invoice.Paid = true;
-        invoice.ToBePaid = false;
-        var l_date = new Date(Date.now());
-        invoice.PaymentDate = l_date; 
-        ajaxHelper(invoicesUri + '/' + invoice.InvoiceID, 'PUT', invoice).done(function (data) {
-            //getPaymentsBySupplier();
-        });
-    }
 
     // Set invoice status to paid for all invoices of this supplier's total to be paid
     self.MarkTotalAsPaid = function (total) {
 
-        total.Invoices.forEach(function (l_invoice) {
-            self.updatePaidInvoice(l_invoice)
-            // or put the loop on the server side if too slow
+        // Server supplier's to be paid invoices marked as paid
+        ajaxHelper(suppliersUri + 'markpayment/' + total.SupplierID + '/' + total.BankAccount.ID + '/' + total.Currency, 'PUT').done(function (response) {
+            if (response == "success") {
+                total.Paid = true;
+                self.flush();  // remove empty rows (in case several currencies to be paid)
+                successNotice('Invoices payment', 'Supplier successfully paid', 3, 'glyphicon glyphicon-trash'); 
+            }
+            else {
+                errorNotice('Invoices payment', 'Server error during payment registration: please try again.', 200, 'glyphicon glyphicon-trash');
+            }
         });
-
-        total.Paid = true;
-        self.flush();
     }
+
 
     self.DownloadTotalWire = function (total) {
         // Does total has all info ? references, supplier, bank ?
         // to which controller should it go ?
         // Do we need a wire model ?
-        
     }
 
     // Remove empty rows
