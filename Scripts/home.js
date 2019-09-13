@@ -43,6 +43,8 @@ var ViewModel = function () {
         ajaxHelper(invoicesUri + '/nonpaids/All', 'GET').done(function (data) {
             self.invoices(data);
             self.computeAmountsToBePaid(data);
+
+            self.loadCharts()
         });
     }
 
@@ -92,7 +94,6 @@ var ViewModel = function () {
         this.OverdueUSD(totalUSD);
         this.OverdueGBP(totalGBP);
     }
-
 
     function drawAnnotations() {
  
@@ -222,13 +223,13 @@ var ViewModel = function () {
         chart_gbp.draw(result_gbp, options_gbp);
     }
 
+    self.loadCharts = function () {
+        google.charts.load('current', { packages: ['corechart', 'bar'] });
+        google.charts.setOnLoadCallback(drawAnnotations);
+    }
+
     // Fetch the initial data.
     getNonPaidInvoices();
-    //drawAnnotations();
-
-    //wait(2500);
-    google.charts.load('current', { packages: ['corechart', 'bar'] });
-    google.charts.setOnLoadCallback(drawAnnotations);
 
 };
 
