@@ -226,7 +226,7 @@ var ViewModel = function () {
     getNonPaidInvoices();
     //drawAnnotations();
 
-    wait(2500);
+    //wait(2500);
     google.charts.load('current', { packages: ['corechart', 'bar'] });
     google.charts.setOnLoadCallback(drawAnnotations);
 
@@ -234,7 +234,13 @@ var ViewModel = function () {
 
 
 
-ko.applyBindings(new ViewModel());
+//doc ready function
+$(document).ready(function () {
+
+    ko.applyBindings(new ViewModel());
+
+});
+
 
 
 
