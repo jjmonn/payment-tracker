@@ -5,15 +5,17 @@
     self.Name = bank.Name;
     self.Currency = bank.Currency;
     self.DefaultBank = bank.DefaultBank;
-    self.Balance = ko.observable(bank.Balance);
-    self.MaxOverdraft = ko.observable(bank.MaxOverdraft);
-    self.AvailableCash = ko.observable();
-    self.Payments = ko.observable();
-    self.CashAfterPayment = ko.observable();
+    self.Balance = ko.observable(bank.Balance);//.money('');
+    self.MaxOverdraft = ko.observable(bank.MaxOverdraft);//.money('');
+    //self.Balance = ko.observable(bank.Balance).extend({numeric : 0});
+    //self.MaxOverdraft = ko.observable(bank.MaxOverdraft).extend({ numeric: 0 });
+    //self.AvailableCash = ko.observable();
+    self.Payments = ko.observable(0).money('');
+    self.CashAfterPayment = ko.observable();//.extend({ numeric: 0 });
 
     // Init computed 
-    self.AvailableCash = getAvailableCash();
-    self.Payments = getPayments();
+    //self.AvailableCash = getAvailableCash();
+    //self.Payments = getPayments();
     self.CashAfterPayment = getCashAfterPayment();
 
     function getAvailableCash() {
@@ -22,24 +24,21 @@
         }, self);
     }
 
-    function getPayments() {
-        return ko.pureComputed(function () {
-            return (-6666);
-        }, self);
-    }
-
     function getCashAfterPayment() {
         return ko.pureComputed(function () {
-            return (self.AvailableCash() - self.Payments());
+            return (self.Balance() - self.Payments());
         }, self);
     }
 
-    function setPayments(data) {
-
+    self.SetPayment = function (amount) {
+        self.Payments(amount);
     }
 
+    self.SetIncrementPayment = function (amount) {
+        var current = self.Payments();
+        self.Payments(current + amount);
+    }
 }
-
 
 
 var ViewModel = function () {
@@ -51,13 +50,12 @@ var ViewModel = function () {
     self.dict = new Object();
 
     // Computed
-    self.AvailableCash = ko.observable();
-    self.Payments = ko.observable();
-    self.CashAfterPayment = ko.observable();
+    //self.AvailableCash = ko.observable();
+    //self.Payments = ko.observable();
+   // self.CashAfterPayment = ko.observable();
     
 
     var suppliersUri = '/api/suppliers/';
-    //var invoicesUri = '/api/invoices/';
     var banksUri = '/api/BankAccounts/';
 
     function ajaxHelper(uri, method, data) {
@@ -77,6 +75,7 @@ var ViewModel = function () {
         ajaxHelper(suppliersUri + '/tobepaid/', 'GET').done(function (data) {
 
             // register default bank account because of issues with knockout select binding
+            // still needed ?!
             var i = 0;
             data.forEach(function (l_supplier) {
                 l_supplier.Totals.forEach(function (total) {
@@ -87,6 +86,7 @@ var ViewModel = function () {
 
             self.suppliers(data);
             SetDefaultBanks();
+            self.ComputeBankPayments();
         });
     }
 
@@ -99,6 +99,33 @@ var ViewModel = function () {
                 i++;
             });
         });
+    }
+
+    self.ComputeBankPayments = function() {
+
+        // init all banks payments
+        self.BankAccounts().forEach(function (bank) {
+            bank.SetPayment(0);
+        });
+
+        // go through totals and increment banks' payments
+        self.suppliers().forEach(function (l_supplier) {
+            l_supplier.Totals.forEach(function(total) {
+                var bank = getBankByID(total.BankAccount.ID);
+                bank.SetIncrementPayment(total.Amount);
+                // Additional currency check ?
+            });
+        });
+    }
+
+    function getBankByID(id) {
+        var result = null;
+        self.BankAccounts().forEach(function (bank) {
+            if (bank.ID === id) {
+                result = bank;
+            }
+        });
+        return (result);
     }
 
     function getBankAccounts() {
@@ -156,6 +183,7 @@ var ViewModel = function () {
             }
         });
     }
+
 
     // Fetch the initial data.
     getBankAccounts();
