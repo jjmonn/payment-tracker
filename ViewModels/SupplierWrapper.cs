@@ -112,13 +112,13 @@ namespace EcheancierDotNet.ViewModels
                 }
             }
             if (l_totalEUR != 0) {
-                Totals.Add(new Total("EUR", l_totalEUR, l_EUR_references, l_invoicesEUR, GetDefaultBankAccount("EUR", p_bankAccounts),l_supplier.ID));
+                Totals.Add(new Total("EUR", Math.Round(l_totalEUR,2), l_EUR_references, l_invoicesEUR, GetDefaultBankAccount("EUR", p_bankAccounts),l_supplier.ID));
             }
             if (l_totalUSD != 0) {
-                Totals.Add(new Total("USD", l_totalUSD, l_USD_references, l_invoicesUSD, GetDefaultBankAccount("USD", p_bankAccounts), l_supplier.ID));
+                Totals.Add(new Total("USD", Math.Round(l_totalUSD,2), l_USD_references, l_invoicesUSD, GetDefaultBankAccount("USD", p_bankAccounts), l_supplier.ID));
             }
             if (l_totalGBP != 0){
-                Totals.Add(new Total("GBP", l_totalGBP, l_GBP_references, l_invoicesGBP, GetDefaultBankAccount("GBP", p_bankAccounts), l_supplier.ID));
+                Totals.Add(new Total("GBP", Math.Round(l_totalGBP,2), l_GBP_references, l_invoicesGBP, GetDefaultBankAccount("GBP", p_bankAccounts), l_supplier.ID));
             }
         }
 
