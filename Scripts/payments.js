@@ -26,7 +26,7 @@
 
     function getCashAfterPayment() {
         return ko.pureComputed(function () {
-            return (self.Balance() - self.Payments());
+            return (self.Balance() - self.MaxOverdraft() - self.Payments());
         }, self);
     }
 
