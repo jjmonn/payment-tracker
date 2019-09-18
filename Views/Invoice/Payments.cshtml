@@ -14,87 +14,40 @@
 <div class="panel-body">
 
     <h2>Payments to be prepared</h2>
-    <p>The Payables Tracker creates automatically your wires so you just have to sign them digitally on your bank interface. 
+    <p>
+        The Payables Tracker creates automatically your wires so you just have to sign them digitally on your bank interface.
     </p>
     <br />
 
 
     @Html.Partial("_PaymentBAPartial")
 
-<div class="row">
-    <button type="button" class="btn btn-success">Download all wires</button>
-    <button type="button" class="btn btn-primary">Pay all</button>
-    <hr>
-</div>
+    <div class="row">
+        <button type="button" class="btn btn-default">Download all wires</button>
+        <button type="button" class="btn btn-success">Pay all</button>
+        <hr>
     </div>
 
-    @*<div class="container">    -> To add back -> important info
-            <div class="row">
-                <p>Amount to be paid in EUR: <span data-bind="text: toBePaidEUR.formatted"></span></p>
-                <p>Amount to be paid in USD: <span data-bind="text: toBePaidUSD.formatted"></span></p>
-                <p>Amount to be paid in GBP: <span data-bind="text: toBePaidGBP.formatted"></span></p>
-            </div>
-            <div class="row">
-                <button type="button" class="btn btn-success">Pay all</button>
-                <hr>
-            </div>
-        </div>*@
 
-
-    <div class="container">
-        <div class="row" data-bind="foreach: suppliers">
-            <p class="text-primary" data-bind="text: Name"></p>
-            @*<table class="table table-striped">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th>Prepare</th>
-                            <th>Paid</th>
-                            <th data-bind="sort: { arr: Records, prop: 'DueDate' }">Due date</th>
-                            <th data-bind="sort: { arr: Records, prop: 'DueAmount' }">Amount</th>
-                            <th data-bind="sort: { arr: Records, prop: 'Currency' }">Currency</th>
-                        </tr>
-                    </thead>
-                    <tbody data-bind="foreach: Invoices">
-                        <tr>
-                            <td>
-                                <input type="checkbox" data-bind="checked: ToBePaid, event: { change: $root.updateInvoice}" />
-                            </td>
-                            <td>
-                                <input type="checkbox" data-bind="checked: Paid, event: { change: $root.updatePaidInvoice}" />
-                            </td>
-                            <td data-bind="text: moment(DueDate).format('MMM Do YYYY')"></td>
-                            <td data-bind="text: DueAmount"></td>
-                            <td data-bind="text: Currency"></td>
-                        </tr>
-                    </tbody>
-                </table>*@
-            <table class="table table-sm">
-                <thead>
-                    <tr>
-                        <th>Currency</th>
-                        <th>Amount</th>
-                        <th>Bank</th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody data-bind="foreach: Totals">
-                    <tr>
-                        @*<td>
-                                <input type="checkbox" data-bind="event: { change: $root.updatePaidSupplier}" />
-                            </td>*@
-                        <td data-bind="text: Currency"></td>
-                        <td data-bind="number: Amount, precision: 0"></td>
-                        <td>
-                            <select data-bind="options: $root.BankAccounts, optionsValue:'ID', optionsText:'Name', value:BankAccount.ID, event:{ change: $root.ComputeBankPayments}"></select>
-                        </td>
-                        <td><button type="button" data-bind="click: $root.DownloadTotalWire" class="btn btn-success">Download wire</button></td>
-                        <td><button type="button" data-bind="click: $root.MarkTotalAsPaid" class="btn btn-primary">Mark as paid</button></td>
-                        @*<td data-bind="text: References"></td>*@
-                    </tr>
-                </tbody>
-            </table>
+    <div class="col-md-12" data-bind="foreach: suppliers">
+        <div class="panel panel-default plain toggle">
+            <!-- Start .panel -->
+            <div class="panel-heading">
+                <h4 class="panel-title" data-bind="text: Name"><i class="fa fa-table"></i> </h4>
+            </div>
+            <div class="panel-body" data-bind="foreach: Totals">
+                <div class="row">
+                    <div class="col-md-2"><p data-bind="text: Currency"></p></div>
+                    <div class="col-md-2"><p data-bind="number: Amount, precision: 0"></p></div>
+                    <div class="col-md-2"><select data-bind="options: $root.BankAccounts, optionsValue:'ID', optionsText:'Name', value:BankAccount.ID, event:{ change: $root.ComputeBankPayments}"></select></div>
+                    <div class="col-md-2"><button type="button" data-bind="click: $root.DownloadTotalWire" class="btn btn-primary">Download wire</button></div>
+                    <div class="col-md-2"><button type="button" data-bind="click: $root.MarkTotalAsPaid" class="btn btn-success">Mark as paid</button></div>
+                    <hr>
+                </div>
+                </div>
+            <!-- End .panel body-->
         </div>
+        <!-- End .panel-->
     </div>
 
 
