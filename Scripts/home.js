@@ -192,7 +192,7 @@ var ViewModel = function () {
         };
 
         var options_usd = {
-            colors: ['#D11D29', '#1F5AA6', "#00FFCC"],
+            colors: ['#FF0066', '#0033FF', "#00FFCC"],
             title: 'Due Invoices USD',
             'height': 400,
             annotations: {
@@ -204,7 +204,7 @@ var ViewModel = function () {
         };
 
         var options_gbp = {
-            colors: ['#D11D29', '#1F5AA6', "#00FFCC"],
+            colors: ['#FF0066', '#0033FF', "#00FFCC"],
             title: 'Due Invoices GBP',
             'height': 400,
             annotations: {
