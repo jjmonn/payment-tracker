@@ -8,11 +8,14 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<br />
+@*<h2>Index</h2>*@
 
 <div class="panel-body">
 
     <h2>Payments to be prepared</h2>
+    <p>The Payables Tracker creates automatically your wires so you just have to sign them digitally on your bank interface. 
+    </p>
     <br />
 
 
@@ -81,9 +84,9 @@
                                 <input type="checkbox" data-bind="event: { change: $root.updatePaidSupplier}" />
                             </td>*@
                         <td data-bind="text: Currency"></td>
-                        <td data-bind="text: Amount"></td>
+                        <td data-bind="number: Amount, precision: 0"></td>
                         <td>
-                            <select data-bind="options: $root.BankAccounts, optionsValue:'ID', optionsText:'Name', value:BankAccount.ID,"></select>
+                            <select data-bind="options: $root.BankAccounts, optionsValue:'ID', optionsText:'Name', value:BankAccount.ID, event:{ change: $root.ComputeBankPayments}"></select>
                         </td>
                         <td><button type="button" data-bind="click: $root.DownloadTotalWire" class="btn btn-success">Download wire</button></td>
                         <td><button type="button" data-bind="click: $root.MarkTotalAsPaid" class="btn btn-primary">Mark as paid</button></td>

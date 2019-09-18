@@ -22,7 +22,7 @@ namespace EcheancierDotNet
 
             bundles.Add(new ScriptBundle("~/bundles/payments").Include(
                         "~/Scripts/payments.js",
-                        "~/Scripts/editableCell.min.js"));
+                        "~/Scripts/editableCell.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/supplierDetails").Include(
                     "~/Scripts/supplierDetails.js"));

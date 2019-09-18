@@ -23,8 +23,8 @@
                 <tbody data-bind="foreach: BankAccounts">
                     <tr>
                         <td data-bind="text: Name"></td>
-                        <td data-bind="value: Balance"></td>
-                        <td data-bind="value: MaxOverdraft"></td>
+                        <td data-bind="editableCell: Balance"></td>
+                        <td data-bind="editableCell: MaxOverdraft"></td>
                         <td data-bind="text: Payments.formatted"></td>
                         <td data-bind="number: CashAfterPayment, precision: 0"></td>
                         
