@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="PaymentContext-Web.config Connection String" description="PaymentContext Chaîne de connexion utilisée dans web.config par l’application pour accéder à la base de données." defaultValue="Data Source=(LocalDb)\MSSQLLocalDB;Initial Catalog=EcheancierDotNet2;Integrated Security=SSPI;" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\Megaport\\source\\repos\\payment-tracker\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='PaymentContext']/@connectionString" />
+  </parameter>
+</parameters>

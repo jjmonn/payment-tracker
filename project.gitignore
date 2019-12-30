@@ -27,6 +27,7 @@ bin/
 obj/
 **/bin
 **/obj
+.vs/
 
 # NuGet Packages
 *.nupkg

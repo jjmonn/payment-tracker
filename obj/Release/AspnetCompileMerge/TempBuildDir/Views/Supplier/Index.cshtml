@@ -1,0 +1,133 @@
+﻿@model IEnumerable<EcheancierDotNet.Models.Supplier>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>ALA France Suppliers</h2>
+<hr />
+
+
+<div class="text-danger">
+    @ViewBag.Alert
+</div>
+<div class="text-success">
+    @ViewBag.Message
+</div>
+
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+@using (Html.BeginForm("CreateFromCsv", "Supplier", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <p>Add suppliers</p>
+    <input type="file" name="file" />
+    <input type="submit" value="Add" class="btn btn-primary" />
+}
+<hr />
+
+@using (Html.BeginForm("UpdateFromCsv", "Supplier", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <p>Update suppliers</p>
+    <input type="file" name="file" />
+    <input type="submit" value="Update" class="btn btn-primary" />
+}
+<hr />
+
+<table class="table">
+    <tr>
+        <th>SAP Account</th>
+        <th>
+            @Html.ActionLink("Name", "Index", new { sortOrder = ViewBag.NameSortParm })
+        </th>
+        <th>Interco</th>
+        <th>Pro Forma</th>
+        <th>
+            @Html.DisplayNameFor(model => model.Bank)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BankCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Guichet)
+        </th>
+        <th>
+            @Html.ActionLink("Account Number", "Index", new { sortOrder = ViewBag.AccountNumberSortParm })
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BankKey)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BankAddress)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BIC)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IBAN)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BankCountry)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PaymentDelay)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SAPAccountNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsInterco)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsProForma)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Bank)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BankCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Guichet)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AccountNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BankKey)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BankAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BIC)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IBAN)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BankCountry)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PaymentDelay)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+            </td>
+        </tr>
+    }
+
+</table>

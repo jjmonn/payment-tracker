@@ -1,0 +1,93 @@
+﻿@model IEnumerable<EcheancierDotNet.Models.TurboSupplier>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+
+@using (Html.BeginForm("Upload", "TurboSuppliers", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <p>Update or Create Turbo suppliers Database</p>
+    <input type="hidden" name="p_paymentArea" value="0" />
+    <input type="file" name="file" />
+    <input type="submit" value="Upload SEPA suppliers" class="btn btn-primary" />
+}
+<hr />
+
+@using (Html.BeginForm("Upload", "TurboSuppliers", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <p>Update or Create Turbo suppliers Database</p>
+    <input type="hidden" name="p_paymentArea" value="1" />
+    <input type="file" name="file" />
+    <input type="submit" value="Upload International suppliers" class="btn btn-primary" />
+}
+<hr />
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.PaymentArea)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BENEF_CODE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NOM)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BENEF_CODEPAYS)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DOB_IBAN)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BQE_BIC)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BQE_NOM)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BQE_CODEPAYS)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PaymentArea)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BENEF_CODE)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NOM)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BENEF_CODEPAYS)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DOB_IBAN)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BQE_BIC)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BQE_NOM)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BQE_CODEPAYS)
+            </td>
+
+        </tr>
+    }
+
+</table>
+
+
+

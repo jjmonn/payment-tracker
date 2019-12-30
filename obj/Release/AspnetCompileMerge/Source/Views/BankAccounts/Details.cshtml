@@ -1,0 +1,99 @@
+﻿@model EcheancierDotNet.Models.BankAccount
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>BankAccount</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BankCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BankCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AgencyCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AgencyCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AccountNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AccountNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RIBKey)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RIBKey)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BIC)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BIC)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IBAN)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IBAN)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Currency)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Currency)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BankAddress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BankAddress)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BankCountry)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BankCountry)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -369,6 +369,31 @@ namespace EcheancierDotNet.Controllers
             return View(invoice);
         }
 
+
+        // GET: Invoice/Unpay/5
+        //[HttpPost]
+        public ActionResult Unpay(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Invoice invoice = db.Invoices.Find(id);
+            if (invoice == null)
+            {
+                return HttpNotFound();
+            }
+          
+            invoice.Paid = false;
+            if (ModelState.IsValid)
+            {
+                db.Entry(invoice).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+            return RedirectToAction("Details", "Supplier", new { id = invoice.SupplierID });
+        }
+
+
         // GET: Invoice/Delete/5
         public ActionResult Delete(int? id)
         {

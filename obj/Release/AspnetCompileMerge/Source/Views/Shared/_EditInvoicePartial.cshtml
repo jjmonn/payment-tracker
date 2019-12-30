@@ -1,0 +1,95 @@
+﻿<div class="modal fade" id="myModal" data-bind="with: currentInvoice" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Invoice edition</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Invoice Edition-->
+                <form>
+                    <div class="form-group row">
+                        <label for="example-date-input" class="col-lg-4 col-lg-offset-4">To be paid</label>
+                        <div class="col-lg-4 col-lg-offset-4">
+                            <input type="checkbox" data-bind="checked: ToBePaid" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="example-date-input" class="col-lg-4 col-lg-offset-4">Paid</label>
+                        <div class="col-lg-4 col-lg-offset-4">
+                            <input type="checkbox" data-bind="checked: Paid" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="example-date-input" class="col-lg-4 col-lg-offset-4">Currency</label>
+                        <div class="col-lg-4 col-lg-offset-4">
+                            <input class="form-control" data-bind="value: Currency" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="example-date-input" class="col-lg-4 col-lg-offset-4">Document Number</label>
+                        <div class="col-lg-4 col-lg-offset-4">
+                            <input class="form-control" data-bind="value: DocumentNumber" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="example-date-input" class="col-lg-4 col-lg-offset-4">Document Reference</label>
+                        <div class="col-lg-4 col-lg-offset-4">
+                            <input class="form-control" data-bind="value: DocumentReference" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="example-date-input" class="col-lg-4 col-lg-offset-4">Document Date</label>
+                        <div class="col-lg-4 col-lg-offset-4">
+                            <input class="form-control" type="date" data-bind="value: moment(DocumentDate).format('YYYY-MM-DD')" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="example-date-input" class="col-lg-4 col-lg-offset-4">Due Date</label>
+                        <div class="col-lg-4 col-lg-offset-4">
+                            <input class="form-control" type="date" data-bind="value: moment(DueDate).format('YYYY-MM-DD')" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="example-date-input" class="col-lg-4 col-lg-offset-4">Goods Reception Date</label>
+                        <div class="col-lg-4 col-lg-offset-4">
+                            <input class="form-control" type="date" data-bind="value: moment(GoodsReceptionDate).format('YYYY-MM-DD')" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="example-number-input" class="col-lg-4 col-lg-offset-4">Raw Amount</label>
+                        <div class="col-lg-4 col-lg-offset-4">
+                            <input data-bind="value: RawAmount" class="form-control" type="number" value="42" id="example-number-input">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="example-number-input" class="col-lg-4 col-lg-offset-4">VAT</label>
+                        <div class="col-lg-4 col-lg-offset-4">
+                            <input data-bind="value: VAT" class="form-control" type="number" value="42" id="example-number-input">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="example-number-input" class="col-lg-4 col-lg-offset-4">Due Amount</label>
+                        <div class="col-lg-4 col-lg-offset-4">
+                            <input data-bind="value: DueAmount" class="form-control" type="number" value="42" id="example-number-input">
+                        </div>
+                    </div>
+                    <!--ProForma <input data-bind="value: ProForma" />-->
+                    <div class="form-group row">
+                        <label for="example-text-input" class="col-lg-4 col-lg-offset-4">Comment</label>
+                        <div class="col-lg-4 col-lg-offset-4">
+                            <input data-bind="value: Comment" class="form-control" type="text" id="example-text-input">
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button data-bind="click: $parent.saveAndCloseModal" type="button" class="btn btn-success">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>

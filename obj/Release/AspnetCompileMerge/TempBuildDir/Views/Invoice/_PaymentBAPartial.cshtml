@@ -1,0 +1,49 @@
+﻿<div class="col-md-12">
+    <div class="panel panel-default plain toggle">
+        <!-- Start .panel -->
+        <div class="panel-heading">
+            <h4 class="panel-title"><i class="fa fa-table"></i>Bank Accounts</h4>
+            <div class="panel-controls panel-controls-right">
+                <a href="#" data-bind="click: $root.unselect" class="panel-close">
+                    <i class="fa fa-times"></i>
+                </a>
+            </div>
+        </div>
+        <div class="panel-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Bank</th>
+                        <th>Current balance</th>
+                        <th>Max overdraft</th>
+                        <th>Available cash</th>
+                        <th>Payments</th>
+                        <th>Available after payment</th>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach: BankAccounts">
+                    <tr>
+                        <td data-bind="text: Name"></td>
+                        <td data-bind="editableCell: Balance"></td>
+                        <td data-bind="editableCell: MaxOverdraft"></td>
+
+                        <td data-bind="text: AvailableCash"></td>
+                        
+                        <td data-bind="text: Payments"></td>
+                        
+                        <td data-bind="text: CashAfterPayment"></td>
+                        
+                    </tr>
+                </tbody>
+            </table>
+            <br />
+            <div class="form-group">
+              
+            </div>
+            <div class="alert alert-danger" data-bind="visible: error"><p data-bind="text: error"></p></div>
+        </div>
+        <!-- End .panel body-->
+    </div>
+    <!-- End .panel-->
+</div>
+

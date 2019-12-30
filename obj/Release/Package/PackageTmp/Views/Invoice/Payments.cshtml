@@ -1,0 +1,104 @@
+﻿@section scripts {
+    @Scripts.Render("~/bundles/app")
+    @Scripts.Render("~/bundles/payments")
+}
+
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<div class="panel-body">
+
+    <h2>Payments to be prepared</h2>
+    <br />
+
+
+    @Html.Partial("_PaymentBAPartial")
+
+<div class="row">
+    <button type="button" class="btn btn-success">Download all wires</button>
+    <button type="button" class="btn btn-primary">Pay all</button>
+    <hr>
+</div>
+    </div>
+
+    @*<div class="container">    -> To add back -> important info
+            <div class="row">
+                <p>Amount to be paid in EUR: <span data-bind="text: toBePaidEUR.formatted"></span></p>
+                <p>Amount to be paid in USD: <span data-bind="text: toBePaidUSD.formatted"></span></p>
+                <p>Amount to be paid in GBP: <span data-bind="text: toBePaidGBP.formatted"></span></p>
+            </div>
+            <div class="row">
+                <button type="button" class="btn btn-success">Pay all</button>
+                <hr>
+            </div>
+        </div>*@
+
+
+    <div class="container">
+        <div class="row" data-bind="foreach: suppliers">
+            <p class="text-primary" data-bind="text: Name"></p>
+            @*<table class="table table-striped">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Prepare</th>
+                            <th>Paid</th>
+                            <th data-bind="sort: { arr: Records, prop: 'DueDate' }">Due date</th>
+                            <th data-bind="sort: { arr: Records, prop: 'DueAmount' }">Amount</th>
+                            <th data-bind="sort: { arr: Records, prop: 'Currency' }">Currency</th>
+                        </tr>
+                    </thead>
+                    <tbody data-bind="foreach: Invoices">
+                        <tr>
+                            <td>
+                                <input type="checkbox" data-bind="checked: ToBePaid, event: { change: $root.updateInvoice}" />
+                            </td>
+                            <td>
+                                <input type="checkbox" data-bind="checked: Paid, event: { change: $root.updatePaidInvoice}" />
+                            </td>
+                            <td data-bind="text: moment(DueDate).format('MMM Do YYYY')"></td>
+                            <td data-bind="text: DueAmount"></td>
+                            <td data-bind="text: Currency"></td>
+                        </tr>
+                    </tbody>
+                </table>*@
+            <table class="table table-sm">
+                <thead>
+                    <tr>
+                        <th>Currency</th>
+                        <th>Amount</th>
+                        <th>Bank</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach: Totals">
+                    <tr>
+                        @*<td>
+                                <input type="checkbox" data-bind="event: { change: $root.updatePaidSupplier}" />
+                            </td>*@
+                        <td data-bind="text: Currency"></td>
+                        <td data-bind="text: Amount"></td>
+                        <td>
+                            <select data-bind="options: $root.BankAccounts, optionsValue:'ID', optionsText:'Name', value:BankAccount.ID,"></select>
+                        </td>
+                        <td><button type="button" data-bind="click: $root.DownloadTotalWire" class="btn btn-success">Download wire</button></td>
+                        <td><button type="button" data-bind="click: $root.MarkTotalAsPaid" class="btn btn-primary">Mark as paid</button></td>
+                        @*<td data-bind="text: References"></td>*@
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <!--<button class="btn btn-primary" data-bind="click: $root.showForm">New</button>-->
+    <div class="alert alert-danger" data-bind="visible: error"><p data-bind="text: error"></p></div>
+</div>
+
+
+
+

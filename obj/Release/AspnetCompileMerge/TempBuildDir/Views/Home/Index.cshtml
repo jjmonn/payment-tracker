@@ -1,0 +1,54 @@
+﻿@section scripts {
+    @Scripts.Render("~/bundles/app")
+    @Scripts.Render("~/bundles/home")
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+}
+
+
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<h2>ALA France Invoices Tracker</h2>
+
+
+<div class="text-danger">
+    @ViewBag.Alert
+</div>
+<div class="text-success">
+    @ViewBag.Message
+</div>
+
+<div>
+    <h3>Invoices marked to be Paid</h3>
+    <p>Amount to be paid in EUR: <span data-bind="text: toBePaidEUR.formatted"></span></p>
+    <p>Amount to be paid in USD: <span data-bind="text: toBePaidUSD.formatted"></span></p>
+    <p>Amount to be paid in GBP: <span data-bind="text: toBePaidGBP.formatted"></span></p>
+</div>
+<hr />
+
+<div>
+    <h3>Total Payable invoices excluding interco</h3>
+    <p>EUR: <span data-bind="text: OverdueEUR.formatted"></span></p>
+    <p>USD: <span data-bind="text: OverdueUSD.formatted"></span></p>
+    <p>GBP: <span data-bind="text: OverdueGBP.formatted"></span></p>
+</div>
+<hr />
+
+<div id="chart_div"></div>
+<hr />
+
+<div id="chart_div_usd"></div>
+<hr />
+
+<div id="chart_div_gbp"></div>
+
+
+
+
+
+
+
+
+
