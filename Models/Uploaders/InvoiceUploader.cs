@@ -150,7 +150,7 @@ namespace EcheancierDotNet.Models
                 {
                     if (l_supplier.IsProForma == false)
                     {
-                        if (p_str[10].Contains("PROF") == false)
+                        if (p_str[10].Contains("PROF") == false && p_str[10].Contains("prof") == false)
                         {
                             Invoice l_newInvoice = GetNewInvoice(l_supplier, p_str, p_uploadID, p_line_index);
                             if (l_newInvoice != null)
