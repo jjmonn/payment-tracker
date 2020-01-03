@@ -31,94 +31,105 @@
             @Html.DisplayFor(model => model.SAPAccountNumber)
         </dd>
 
-        <dt>
-            Invoices already paid
-        </dt>
-        <dd>
-            <table class="table" id="paidInvoicesTable">
-                <tr>
-                    <th>Paid</th>
-                    <th>Currency</th>
-                    <th>Invoice Reference</th>
-                    <th>Due Date</th>
-                    <th>Payment Date</th>
-                    <th>Amount</th>
-                    <th>Document Number</th>
-                    <th>Document Header</th>
-                </tr>
-                @foreach (var item in Model.Invoices.Where(i => i.Paid == true).OrderBy(i => i.DueDate))
-                {
+        @if(Model.Invoices.Count > 0)
+        {
+            <dt>
+                Invoices already paid
+            </dt>
+            <dd>
+                <table class="table" id="paidInvoicesTable">
                     <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Paid)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Currency)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.DocumentReference)
-                        </td>
-                        <td>
-                            @item.DueDate.ToString("yyyy/MM/dd")
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.PaymentDate)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.DueAmount)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.DocumentNumber)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.DocumentHeader)
-                        </td>
+                        <th>Paid</th>
+                        <th>Currency</th>
+                        <th>Invoice Reference</th>
+                        <th>Due Date</th>
+                        <th>Payment Date</th>
+                        <th>Amount</th>
+                        <th>Document Number</th>
+                        <th>Document Header</th>
+                        <th></th>
                     </tr>
-                }
-            </table>
-        </dd>
-        <dt>
-            Invoices to be paid
-        </dt>
-        <dd>
-            <table class="table" id="invoicesTable">
-                <tr>
-                    <th>Paid</th>
-                    <th>Currency</th>
-                    <th>Invoice Reference</th>
-                    <th>Due Date</th>
-                    <th>Amount</th>
-                    <th>Document Number</th>
-                    <th>Document Header</th>
-                </tr>
-                @foreach (var item in Model.Invoices.Where(i => i.Paid == false).OrderBy(i => i.DueDate))
-                {
+                    @foreach (var item in Model.Invoices.Where(i => i.Paid == true).OrderBy(i => i.DueDate))
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Paid)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Currency)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DocumentReference)
+                                @*@Html.ActionLink(item.DocumentReference, "Edit", "Invoice", new { id=item.InvoiceID}, null)*@
+                            </td>
+                            <td>
+                                @item.DueDate.ToString("yyyy/MM/dd")
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PaymentDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DueAmount)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DocumentNumber)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DocumentHeader)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Mark as unpaid", "Unpay", "Invoice", new { id = item.InvoiceID }, null)
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </dd>
+        }
+        @if (Model.Invoices.Count > 0)
+        {
+            <dt>
+                Invoices to be paid
+            </dt>
+            <dd>
+                <table class="table" id="invoicesTable">
                     <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Paid)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Currency)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.DocumentReference)
-                        </td>
-                        <td>
-                            @item.DueDate.ToString("yyyy/MM/dd")
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.DueAmount)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.DocumentNumber)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.DocumentHeader)
-                        </td>
+                        <th>Paid</th>
+                        <th>Currency</th>
+                        <th>Invoice Reference</th>
+                        <th>Due Date</th>
+                        <th>Amount</th>
+                        <th>Document Number</th>
+                        <th>Document Header</th>
                     </tr>
-                }
-            </table>
-        </dd>
+                    @foreach (var item in Model.Invoices.Where(i => i.Paid == false).OrderBy(i => i.DueDate))
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Paid)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Currency)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DocumentReference)
+                            </td>
+                            <td>
+                                @item.DueDate.ToString("yyyy/MM/dd")
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DueAmount)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DocumentNumber)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DocumentHeader)
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </dd>
+        }
 
         <dt>Total EUR invoices: </dt>
         <dd>Overdue: <span id="overdueEUR"></span> €</dd>
@@ -230,7 +241,7 @@
             @Html.DisplayFor(model => model.PaymentDelay)
         </dd>
 
-    </dl>
+     </dl>
 </div>
 
 

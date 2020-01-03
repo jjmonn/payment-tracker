@@ -1,33 +1,4 @@
-﻿var Invoice = function (p_invoice) {
-    var self = this;
-
-    self.ID = p_invoice.InvoiceID;
-    self.SuplierID = p_invoice.SuplierID;
-    self.Currency = p_invoice.Currency;
-    self.DocumentNumber = p_invoice.DocumentNumber;
-    self.DocumentReference = p_invoice.DocumentReference;
-    self.DocumentHeader = p_invoice.DocumentHeader;
-    self.DocumentDate = p_invoice.DocumentDate;
-    self.DueDate = ko.observable(p_invoice.DueDate);
-    self.GoodsReceptionDate = p_invoice.GoodsReceptionDate;
-    self.RawAmount = ko.observable(p_invoice.RawAmount);
-    self.VAT = ko.observable(p_invoice.VAT);
-    self.DueAmount = ko.observable(p_invoice.DueAmount);
-    self.ToBePaid = ko.observable(p_invoice.ToBePaid);
-    self.Paid = ko.observable(p_invoice.Paid);
-    self.ProForma = ko.observable(p_invoice.ProForma);
-    self.Comment = ko.observable(p_invoice.Comment);
-    self.BankID = p_invoice.BankID;
-    self.PaymentDate = p_invoice.PaymentDate;
-    self.UploadID = p_invoice.UploadID;
-    self.PaymentMethod = p_invoice.PaymentMethod;
-
-}
-
-
-
-
-var ViewModel = function () {
+﻿var ViewModel = function () {
     var self = this;
     self.invoices = ko.observableArray();
     self.currentInvoice = ko.observable(null);

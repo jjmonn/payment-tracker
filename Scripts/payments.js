@@ -7,15 +7,18 @@
     self.DefaultBank = bank.DefaultBank;
     self.Balance = ko.observable(bank.Balance);//.money('');
     self.MaxOverdraft = ko.observable(bank.MaxOverdraft);//.money('');
+
     //self.Balance = ko.observable(bank.Balance).extend({numeric : 0});
     //self.MaxOverdraft = ko.observable(bank.MaxOverdraft).extend({ numeric: 0 });
     //self.AvailableCash = ko.observable();
+
     self.Payments = ko.observable(0).money('');
     self.CashAfterPayment = ko.observable();//.extend({ numeric: 0 });
 
     // Init computed 
     //self.AvailableCash = getAvailableCash();
     //self.Payments = getPayments();
+
     self.CashAfterPayment = getCashAfterPayment();
 
     function getAvailableCash() {

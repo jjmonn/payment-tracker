@@ -180,7 +180,7 @@ var ViewModel = function () {
         );
 
         var options = {
-            colors: ['#DC143C', '#00BFFF', "#008000"],
+            colors: ['#FF0066', '#0033FF', "#00FFCC"],
             title: 'Due Invoices EUR',
             'height': 400,
             annotations: {
@@ -192,7 +192,7 @@ var ViewModel = function () {
         };
 
         var options_usd = {
-            colors: ['#DC143C', '#00BFFF', "#008000"],
+            colors: ['#FF0066', '#0033FF', "#00FFCC"],
             title: 'Due Invoices USD',
             'height': 400,
             annotations: {
@@ -204,7 +204,7 @@ var ViewModel = function () {
         };
 
         var options_gbp = {
-            colors: ['#DC143C', '#00BFFF', "#008000"],
+            colors: ['#FF0066', '#0033FF', "#00FFCC"],
             title: 'Due Invoices GBP',
             'height': 400,
             annotations: {
